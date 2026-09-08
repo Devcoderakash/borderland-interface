@@ -144,6 +144,7 @@ function RegisterPage() {
 
   const size = Number(form.watch("team_size"));
   const suit = form.watch("suit");
+  const terms = form.watch("terms");
 
   return (
     <>
