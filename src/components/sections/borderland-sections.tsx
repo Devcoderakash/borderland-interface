@@ -95,6 +95,7 @@ export function Hero() {
 
       <div className="relative mx-auto w-full max-w-6xl">
         <motion.div
+          className="reveal-safe"
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
