@@ -241,28 +241,27 @@ function RegisterPage() {
                 </div>
               </div>
 
-              <FormField
-                control={form.control}
-                name="terms"
-                render={({ field }) => (
-                  <FormItem className="flex items-start gap-3">
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={(v) => field.onChange(v === true)}
-                        aria-label="Accept terms and conditions"
-                      />
-                    </FormControl>
-                    <div>
-                      <FormLabel className="text-sm font-normal text-muted-foreground">
-                        I accept the Borderland protocols, the rules of fair play and the judging
-                        terms.
-                      </FormLabel>
-                      <FormMessage />
-                    </div>
-                  </FormItem>
-                )}
-              />
+              <div className="flex items-start gap-3">
+                <Checkbox
+                  id="terms"
+                  checked={terms === true}
+                  onCheckedChange={(v) =>
+                    form.setValue("terms", (v === true) as true, { shouldValidate: true })
+                  }
+                  aria-label="Accept terms and conditions"
+                />
+                <div>
+                  <label htmlFor="terms" className="text-sm text-muted-foreground">
+                    I accept the Borderland protocols, the rules of fair play and the judging terms.
+                  </label>
+                  {form.formState.errors.terms ? (
+                    <p className="mt-1 font-mono text-[0.7rem] text-destructive">
+                      {form.formState.errors.terms.message}
+                    </p>
+                  ) : null}
+                </div>
+              </div>
+
 
               <Button
                 type="submit"
