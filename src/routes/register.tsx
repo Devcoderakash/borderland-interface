@@ -96,24 +96,22 @@ function RegisterPage() {
   const onSubmit = async (values: FormValues) => {
     setSubmitting(true);
     const playerId = `BL-${Math.floor(1000 + Math.random() * 9000)}`;
+    const teamId = crypto.randomUUID();
     try {
-      const { data, error } = await supabase
-        .from("teams")
-        .insert({
-          player_id: playerId,
-          team_name: values.team_name,
-          leader_name: values.leader_name,
-          email: values.email,
-          phone: values.phone,
-          college: values.college,
-          team_size: Number(values.team_size),
-          suit: values.suit,
-          preferred_domain: values.preferred_domain || null,
-          github_url: values.github_url || null,
-          linkedin_url: values.linkedin_url || null,
-        })
-        .select("id")
-        .maybeSingle();
+      const { error } = await supabase.from("teams").insert({
+        id: teamId,
+        player_id: playerId,
+        team_name: values.team_name,
+        leader_name: values.leader_name,
+        email: values.email,
+        phone: values.phone,
+        college: values.college,
+        team_size: Number(values.team_size),
+        suit: values.suit,
+        preferred_domain: values.preferred_domain || null,
+        github_url: values.github_url || null,
+        linkedin_url: values.linkedin_url || null,
+      });
 
       if (error) throw error;
 
@@ -121,11 +119,12 @@ function RegisterPage() {
         .map((m, i) => ({ full_name: (m ?? "").trim(), position: i + 1 }))
         .filter((m) => m.full_name.length > 1);
 
-      if (data?.id && members.length) {
+      if (members.length) {
         await supabase
           .from("team_members")
-          .insert(members.map((m) => ({ ...m, team_id: data.id })));
+          .insert(members.map((m) => ({ ...m, team_id: teamId })));
       }
+
 
       toast.success("REGISTRATION COMPLETE", { description: `PLAYER ID ${playerId}` });
       navigate({
