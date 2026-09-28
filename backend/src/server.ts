@@ -54,8 +54,8 @@ app.use("/api", apiRouter);
 app.use(errorHandler);
 
 // Start server
-app.listen(config.port, () => {
-  console.log(`[APEX Backend] Server running on http://localhost:${config.port}`);
+app.listen(config.port, "0.0.0.0", () => {
+  console.log(`[APEX Backend] Server running on port ${config.port}`);
   console.log(`[APEX Backend] Mode: ${config.nodeEnv}`);
 });
 
