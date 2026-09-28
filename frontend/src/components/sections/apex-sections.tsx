@@ -1,0 +1,884 @@
+import { Link } from "@tanstack/react-router";
+import { motion } from "framer-motion";
+import { ArrowRight, MapPin, Terminal } from "lucide-react";
+import { useEffect, useState } from "react";
+
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Counter,
+  Reveal,
+  Section,
+  SectionHeading,
+  SystemLabel,
+} from "@/components/site/bits";
+import {
+  EVALUATION_CRITERIA,
+  FAQS,
+  ROADMAP,
+  ORGANIZERS,
+  PRIZES,
+  RULES,
+  SPECIAL_AWARDS,
+  SPONSOR_TIERS,
+} from "@/lib/apex";
+import { cn } from "@/lib/utils";
+
+/* ------------------------------- HERO ------------------------------- */
+
+function useCountdown(targetIso: string) {
+  const [left, setLeft] = useState("--:--:--");
+  useEffect(() => {
+    const target = new Date(targetIso).getTime();
+    const tick = () => {
+      const diff = Math.max(target - Date.now(), 0);
+      const h = Math.floor(diff / 3_600_000);
+      const m = Math.floor((diff % 3_600_000) / 60_000);
+      const s = Math.floor((diff % 60_000) / 1000);
+      setLeft(
+        [h, m, s].map((n) => n.toString().padStart(2, "0")).join(":"),
+      );
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, [targetIso]);
+  return left;
+}
+
+export function Hero() {
+  const remaining = useCountdown(
+    new Date(Date.now() + 4 * 3600_000 + 32 * 60_000).toISOString(),
+  );
+
+  return (
+    <section className="relative flex min-h-[100svh] items-center overflow-hidden bg-background px-5 pt-28 pb-16 sm:px-8">
+      {/* Background Image and Overlays */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="/hero-bg-apex.jpg"
+          alt="Cinematic Peak"
+          className="h-full w-full object-cover"
+        />
+        {/* Dark Gradients for readability and transition */}
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
+        {/* Red Atmospheric Glow */}
+        <div className="absolute inset-0 bg-primary/10 mix-blend-overlay" />
+        {/* Subtle Grid */}
+        <div className="absolute inset-0 grid-veil" aria-hidden />
+        <div className="absolute inset-0 grain" aria-hidden />
+      </div>
+
+      <div className="relative z-10 mx-auto w-full max-w-7xl">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left Content */}
+          <motion.div
+            className="reveal-safe flex flex-col justify-center"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/60 bg-primary/10 px-3 py-1 w-fit">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" aria-hidden />
+              <SystemLabel className="text-primary text-[0.65rem] tracking-[0.2em] font-bold">REGISTRATIONS OPEN</SystemLabel>
+            </div>
+
+            <h1 className="mt-8 font-display text-5xl font-black leading-[0.9] tracking-tighter text-white sm:text-7xl md:text-[5.5rem] lg:text-8xl">
+              APEX<span className="text-primary">//</span>1.0
+            </h1>
+
+            <p className="mt-6 font-display text-3xl font-black uppercase leading-[1.05] tracking-tight text-white sm:text-4xl md:text-5xl">
+              ONE IDEA.<br />
+              24 HOURS.<br />
+              <span className="text-primary text-glow">NO LIMITS.</span>
+            </p>
+
+            <p className="mt-7 max-w-lg text-base text-white/70 sm:text-lg leading-relaxed font-light">
+              A premier open-innovation hackathon where students build, innovate, pitch, and compete to create impactful solutions.
+            </p>
+
+            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+              <Button asChild size="lg" className="h-14 px-8 bg-primary text-primary-foreground hover:bg-primary/90 glow-primary font-mono text-xs tracking-[0.2em] rounded-md transition-all">
+                <Link to="/register">
+                  ENTER THE HACKATHON &rarr;
+                </Link>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="h-14 px-8 border-border bg-transparent hover:bg-secondary/50 font-mono text-xs tracking-[0.2em] rounded-md transition-all text-white hover:text-white"
+              >
+                <a href="#roadmap">EXPLORE THE ROADMAP &rarr;</a>
+              </Button>
+            </div>
+
+            <div className="mt-10 border-l-2 border-primary/50 pl-4 py-1">
+              <p className="font-serif italic text-white/50 text-base sm:text-lg tracking-wide">
+                “Ideas don’t wait. Neither should you.”
+              </p>
+              <p className="mt-1.5 font-mono text-[0.65rem] tracking-[0.2em] text-white/30 uppercase">
+                — APEX 1.0
+              </p>
+            </div>
+            
+            <div className="mt-16 sm:mt-24">
+              <p className="font-display font-black text-xl tracking-widest text-white/90">
+                ▲ APEX<span className="text-primary">//</span>1.0
+              </p>
+              <p className="mt-1 font-mono text-xs tracking-[0.2em] text-white/50 uppercase">
+                BIGGER IDEAS.<br />
+                BRIGHTER PEOPLE.
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Right Side Micro Message */}
+          <motion.div
+            className="hidden lg:flex flex-col items-end justify-start h-full pt-10"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <div className="text-right">
+              <p className="font-mono text-xs tracking-[0.3em] text-white/40 uppercase leading-loose border-b border-primary/40 pb-2">
+                BUILD<br />
+                SOLVE<br />
+                INNOVATE<br />
+                <span className="text-white/80">TOGETHER.</span>
+              </p>
+            </div>
+            
+            {/* Social Tag */}
+            <div className="mt-auto pb-10">
+               <p className="font-mono text-xs tracking-[0.2em] text-white/50 hover:text-primary transition-colors cursor-pointer">
+                 #APEX1.0
+               </p>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Bottom Information Bar */}
+      <div className="absolute bottom-0 left-0 right-0 z-20 border-t border-border/40 bg-background/60 backdrop-blur-md">
+        <div className="mx-auto flex max-w-7xl items-center overflow-x-auto px-5 py-4 scrollbar-none sm:px-8">
+          <div className="flex w-full items-center justify-between gap-6 min-w-max">
+            {[
+              ["TEAM SIZE", "2–4 MEMBERS"],
+              ["FORMAT", "OPEN INNOVATION"],
+              ["DURATION", "24 HOURS"],
+              ["PRIZE POOL", "₹90,000+"],
+              ["ROUND 1", "ONLINE"],
+              ["ROUND 2", "OFFLINE"],
+              ["LOCATION", "BHOPAL"],
+            ].map(([k, v], i) => (
+              <div key={k} className="flex items-center">
+                {i > 0 && <div className="h-8 w-px bg-border/40 mr-6" aria-hidden />}
+                <div>
+                  <dt className="font-mono text-[0.6rem] tracking-[0.2em] text-muted-foreground">{k}</dt>
+                  <dd className="mt-1 font-display text-sm font-bold tracking-widest text-foreground">
+                    {v}
+                  </dd>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-[4.5rem] left-1/2 -translate-x-1/2 z-20 hidden lg:flex flex-col items-center">
+        <p className="font-mono text-[0.65rem] tracking-[0.2em] text-white/40 mb-2">SCROLL TO EXPLORE</p>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <ArrowRight className="h-4 w-4 text-white/40 rotate-90" />
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------ WELCOME ------------------------------ */
+
+export function WelcomeSection() {
+  return (
+    <Section id="welcome" className="grain">
+      <div className="grid gap-12 md:grid-cols-[1.15fr_1fr] md:items-center">
+        <Reveal>
+          <SectionHeading code="SYSTEM 01 / ABOUT APEX" title="About APEX 1.0" />
+          <div className="mt-6 space-y-4 text-muted-foreground">
+            <p>You have entered APEX 1.0 — a premier open-innovation hackathon for student builders and problem solvers.</p>
+            <p>APEX 1.0 brings together student innovators across domains to design, prototype, and pitch impactful solutions for real-world challenges.</p>
+            <p className="text-foreground">The journey is split into two distinct rounds:</p>
+            <ul className="space-y-2 font-mono text-sm">
+              {[
+                "Round 1: Idea Submission & PPT Pitch (Online)",
+                "Round 2: 24-Hour Build & Demo (Offline, Bhopal)",
+              ].map((q) => (
+                <li key={q} className="flex gap-3">
+                  <span className="text-primary">›</span>
+                  {q}
+                </li>
+              ))}
+            </ul>
+            <p className="font-display uppercase tracking-widest text-foreground">
+              Bring your best ideas.
+            </p>
+          </div>
+          <Button asChild variant="outline" className="mt-8 bg-transparent font-mono text-xs tracking-[0.18em]">
+            <Link to="/rules">
+              EXPLORE EVENT RULES <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <div className="glass-panel scanlines relative grid aspect-square place-items-center overflow-hidden rounded-xl">
+            <div className="absolute inset-0 grid-veil" aria-hidden />
+            {[0, 1, 2].map((i) => (
+              <span
+                key={i}
+                aria-hidden
+                className="absolute rounded-full border border-primary/40"
+                style={{
+                  width: `${40 + i * 22}%`,
+                  height: `${40 + i * 22}%`,
+                  animation: `pulse-ring 3.4s ${i * 1.1}s ease-out infinite`,
+                }}
+              />
+            ))}
+            <div className="relative grid h-28 w-28 place-items-center rounded-xl border border-primary/50 bg-card text-center font-display glow-primary float-card p-4">
+              <Terminal className="h-8 w-8 text-primary" />
+              <div className="mt-1 font-display text-sm font-black tracking-widest text-foreground">
+                APEX<span className="text-primary">//</span>1.0
+              </div>
+            </div>
+            {/* Corner micro-labels */}
+            <span className="absolute left-4 top-4 font-mono text-[0.5rem] tracking-[0.2em] text-muted-foreground/40" aria-hidden>
+              STATUS: ACTIVE
+            </span>
+            <span className="absolute right-4 top-4 font-mono text-[0.5rem] tracking-[0.2em] text-muted-foreground/40" aria-hidden>
+              APX//01
+            </span>
+            <p className="absolute bottom-5 system-label">PORTAL: ACTIVE · REGISTRATIONS: OPEN</p>
+          </div>
+        </Reveal>
+      </div>
+    </Section>
+  );
+}
+
+/* ----------------------------- EVALUATION ----------------------------- */
+
+export function JudgingSection() {
+  return (
+    <Section id="judging">
+      <Reveal>
+        <SectionHeading
+          code="SYSTEM 02 / JUDGING CRITERIA"
+          title="Judging Criteria"
+          subtitle="Every project is evaluated across four core dimensions."
+        />
+      </Reveal>
+
+      <div className="mt-12 grid gap-5 sm:grid-cols-2">
+        {EVALUATION_CRITERIA.map((criterion, i) => (
+          <Reveal key={criterion.id} delay={i * 0.07}>
+            <Dialog>
+              <DialogTrigger asChild>
+                <button
+                  type="button"
+                  className={cn(
+                    "group glass-panel relative w-full overflow-hidden rounded-xl p-6 text-left transition-all duration-300 hover:-translate-y-1 focus-visible:-translate-y-1 sm:p-8",
+                    criterion.borderClass,
+                    "hover:shadow-[0_0_40px_-8px_currentColor]",
+                    criterion.colorClass,
+                  )}
+                >
+                  {/* Faint giant number background */}
+                  <span
+                    className="pointer-events-none absolute -right-4 -top-6 select-none font-display text-[10rem] font-black leading-none text-foreground/[0.03]"
+                    aria-hidden
+                  >
+                    {criterion.id}
+                  </span>
+
+                  <div className={cn("absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100", criterion.bgClass)} aria-hidden />
+
+                  <div className="relative">
+                    {/* Top: code label */}
+                    <SystemLabel>{criterion.code}</SystemLabel>
+
+                    {/* Title + weightage row */}
+                    <div className="mt-3 flex items-start justify-between gap-4">
+                      <div className="min-w-0">
+                        <h3 className={cn("font-display text-2xl font-black", criterion.colorClass)}>
+                          {criterion.id}. {criterion.name}
+                        </h3>
+                        <p className="mt-1 font-display text-sm tracking-[0.22em] text-foreground">
+                          {criterion.role}
+                        </p>
+                      </div>
+                      <span
+                        className={cn(
+                          "shrink-0 font-display text-3xl font-black tracking-tight transition-transform duration-300 group-hover:scale-105",
+                          criterion.colorClass,
+                        )}
+                        aria-hidden
+                      >
+                        {criterion.weightage}
+                      </span>
+                    </div>
+
+                    {/* Subtitle */}
+                    <p className="mt-3 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted-foreground">
+                      {criterion.focus}
+                    </p>
+
+                    {/* Description */}
+                    <p className="mt-3 text-sm text-muted-foreground">{criterion.description}</p>
+
+                    {/* Progress bar representing weightage */}
+                    <div className="mt-5 h-1 w-full overflow-hidden rounded-full bg-border/40">
+                      <motion.div
+                        className={cn("h-full rounded-full", criterion.bgClass.replace("/10", "/60"))}
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${criterion.pct}%` }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1, delay: 0.3 + i * 0.1, ease: "easeOut" }}
+                      />
+                    </div>
+
+                    {/* Footer CTA */}
+                    <p className="mt-5 font-mono text-[0.65rem] tracking-[0.2em] text-foreground/70">
+                      PREPARE YOUR SUBMISSION →
+                    </p>
+                  </div>
+
+                  {/* Decorative corner brackets on hover */}
+                  <span className="pointer-events-none absolute left-3 top-3 font-mono text-[0.6rem] text-foreground/10 transition-colors duration-300 group-hover:text-foreground/30" aria-hidden>⌐</span>
+                  <span className="pointer-events-none absolute right-3 bottom-3 font-mono text-[0.6rem] text-foreground/10 transition-colors duration-300 group-hover:text-foreground/30" aria-hidden>¬</span>
+                </button>
+              </DialogTrigger>
+              <DialogContent className="max-w-lg">
+                <DialogHeader>
+                  <DialogTitle className={cn("font-display text-2xl", criterion.colorClass)}>
+                    {criterion.id}. {criterion.name} — {criterion.role} ({criterion.weightage})
+                  </DialogTitle>
+                  <DialogDescription className="font-mono text-[0.7rem] uppercase tracking-[0.16em]">
+                    {criterion.focus}
+                  </DialogDescription>
+                </DialogHeader>
+                <p className="text-sm text-muted-foreground">{criterion.description}</p>
+                <Button asChild className="mt-6 font-mono text-xs tracking-[0.18em]">
+                  <Link to="/register">REGISTER YOUR TEAM</Link>
+                </Button>
+              </DialogContent>
+            </Dialog>
+          </Reveal>
+        ))}
+      </div>
+    </Section>
+  );
+}
+
+/* ------------------------------ ROADMAP ------------------------------ */
+
+export function RoadmapSection() {
+  return (
+    <Section id="roadmap">
+      <Reveal>
+        <SectionHeading
+          code="SYSTEM 03 / ROADMAP"
+          title="The Roadmap"
+          subtitle="Two rounds. Seven phases. One champion."
+        />
+      </Reveal>
+
+      {/* ── Desktop: connected node diagram ── */}
+      <div className="mt-14 hidden md:block">
+        {/* Row 1: Phases 1-4 */}
+        <RoadmapRow items={ROADMAP.slice(0, 4)} />
+        {/* Vertical connector between rows */}
+        <div className="ml-[calc(75%+0.5rem)] flex h-10 justify-center">
+          <div className="w-px border-l border-dashed border-primary/30" />
+        </div>
+        {/* Row 2: Phases 5-7 */}
+        <RoadmapRow items={ROADMAP.slice(4)} />
+      </div>
+
+      {/* ── Mobile: vertical list ── */}
+      <ol className="mt-12 space-y-4 md:hidden">
+        {ROADMAP.map((g, i) => (
+          <Reveal key={g.id} delay={i * 0.06}>
+            <li className={cn(
+              "glass-panel relative overflow-hidden rounded-xl p-6 sm:p-7",
+              g.active && "border-primary/50",
+            )}>
+              <span className="absolute left-0 top-0 h-full w-[3px] bg-primary/70" aria-hidden />
+              <div className="flex items-center gap-3">
+                <div className={cn(
+                  "grid h-8 w-8 shrink-0 place-items-center rounded-full border font-mono text-xs font-bold",
+                  g.active
+                    ? "border-primary bg-primary/20 text-primary"
+                    : "border-border bg-card text-muted-foreground",
+                )}>
+                  {g.n.toString().padStart(2, "0")}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h3 className="font-display text-base font-black uppercase">
+                    {g.title}
+                  </h3>
+                </div>
+                <span className="inline-flex items-center rounded-md border border-primary/40 bg-primary/10 px-2 py-0.5 font-mono text-[0.6rem] font-bold tracking-widest text-primary">
+                  {g.window}
+                </span>
+              </div>
+              <p className="mt-3 pl-11 text-sm text-muted-foreground">{g.text}</p>
+            </li>
+          </Reveal>
+        ))}
+      </ol>
+    </Section>
+  );
+}
+
+function RoadmapRow({ items }: { items: typeof ROADMAP }) {
+  return (
+    <div className="relative grid" style={{ gridTemplateColumns: `repeat(${items.length}, 1fr)` }}>
+      {/* Connecting line */}
+      <div className="pointer-events-none absolute left-[1.25rem] right-[1.25rem] top-5 z-0">
+        <div className="h-px w-full border-t border-dashed border-primary/30" />
+        {/* Animated pulse along the line */}
+        <motion.div
+          className="absolute -top-px left-0 h-[3px] w-8 rounded-full bg-primary/60"
+          animate={{ left: ["0%", "95%", "0%"] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          aria-hidden
+        />
+      </div>
+
+      {items.map((g) => (
+        <Reveal key={g.id} delay={g.n * 0.06}>
+          <div className="relative flex flex-col items-center text-center px-2">
+            {/* Node circle */}
+            <div className={cn(
+              "relative z-10 grid h-10 w-10 place-items-center rounded-full border-2 font-mono text-xs font-bold",
+              g.active
+                ? "border-primary bg-primary/20 text-primary shadow-[0_0_20px_-4px] shadow-primary"
+                : "border-border bg-card text-muted-foreground",
+            )}>
+              {g.n.toString().padStart(2, "0")}
+              {g.active && (
+                <span className="absolute h-10 w-10 animate-ping rounded-full border border-primary/40" aria-hidden />
+              )}
+            </div>
+
+            {/* Title */}
+            <h3 className="mt-3 font-display text-xs font-black uppercase tracking-widest">
+              {g.title}
+            </h3>
+
+            {/* Window badge */}
+            <span className="mt-2 inline-flex items-center rounded-md border border-primary/40 bg-primary/10 px-2 py-0.5 font-mono text-[0.55rem] font-bold tracking-widest text-primary">
+              {g.window}
+            </span>
+
+            {/* Description */}
+            <p className="mt-2 text-[0.7rem] leading-relaxed text-muted-foreground">
+              {g.text}
+            </p>
+          </div>
+        </Reveal>
+      ))}
+    </div>
+  );
+}
+
+/* ------------------------------- RULES ------------------------------- */
+
+export function RulesSection() {
+  return (
+    <Section id="rules">
+      <Reveal>
+        <SectionHeading
+          code="SYSTEM 04 / RULES"
+          title="The Rules"
+          subtitle="Key guidelines governing APEX 1.0. Ensure compliance before submission."
+        />
+      </Reveal>
+      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {RULES.map((r) => (
+          <Reveal key={r.n} delay={0.05}>
+            <article className="glass-panel group relative h-full overflow-hidden rounded-xl p-6 transition-all duration-300 hover:border-primary/40">
+              {/* Faint background number */}
+              <span
+                className="pointer-events-none absolute -right-2 -top-4 select-none font-display text-[6rem] font-black leading-none text-foreground/[0.03]"
+                aria-hidden
+              >
+                {r.n}
+              </span>
+              <div className="relative">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="font-display text-3xl font-black text-primary/70">{r.n}</p>
+                  <span className="inline-flex items-center gap-1 rounded-full border border-accent-3/30 bg-accent-3/5 px-2 py-0.5 font-mono text-[0.5rem] tracking-[0.18em] text-accent-3/70">
+                    <span className="h-1 w-1 rounded-full bg-accent-3/60" aria-hidden />
+                    ACTIVE
+                  </span>
+                </div>
+                <h3 className="mt-3 font-display text-base font-bold tracking-[0.18em]">{r.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{r.text}</p>
+              </div>
+            </article>
+          </Reveal>
+        ))}
+      </div>
+      <Reveal>
+        <Button asChild variant="outline" className="mt-8 bg-transparent font-mono text-xs tracking-[0.18em]">
+          <Link to="/rules">
+            READ COMPLETE GUIDELINES <ArrowRight className="ml-2 h-4 w-4" />
+          </Link>
+        </Button>
+      </Reveal>
+    </Section>
+  );
+}
+
+/* ------------------------------- PRIZES ------------------------------- */
+
+export function PrizesSection() {
+  return (
+    <Section id="prizes">
+      <Reveal>
+        <SectionHeading
+          code="SYSTEM 05 / PRIZES"
+          title="Prizes"
+          subtitle="₹90,000+ total prize pool, plus six special awards."
+        />
+      </Reveal>
+
+      {/* Grand champion – prominently featured */}
+      <Reveal>
+        <div className="mt-12 glass-panel relative overflow-hidden rounded-xl border-primary/50 glow-primary p-8 text-center sm:p-12">
+          <span className="pointer-events-none absolute inset-0 bg-primary/[0.03]" aria-hidden />
+          <span className="pointer-events-none absolute -right-10 -top-10 select-none font-display text-[12rem] font-black leading-none text-foreground/[0.02]" aria-hidden>01</span>
+          <SystemLabel className="text-primary">FIRST PLACE</SystemLabel>
+          <p className="mt-4 font-display text-5xl font-black text-foreground sm:text-6xl">
+            <Counter to={50000} prefix="₹" />
+          </p>
+          <h3 className="mt-3 font-display text-lg font-bold tracking-[0.3em] text-primary">
+            GRAND CHAMPION
+          </h3>
+          <p className="mt-3 text-sm text-muted-foreground">
+            The team demonstrating the highest combined score across all four judging criteria.
+          </p>
+        </div>
+      </Reveal>
+
+      {/* Runner up + Second runner up */}
+      <div className="mt-5 grid gap-5 sm:grid-cols-2">
+        {PRIZES.slice(1).map((p, i) => (
+          <Reveal key={p.title} delay={(i + 1) * 0.08}>
+            <article className="glass-panel relative h-full overflow-hidden rounded-xl p-7 text-center">
+              <span className="pointer-events-none absolute -right-4 -top-4 select-none font-display text-[8rem] font-black leading-none text-foreground/[0.02]" aria-hidden>
+                {String(i + 2).padStart(2, "0")}
+              </span>
+              <SystemLabel>{p.sub}</SystemLabel>
+              <p className="mt-3 font-display text-4xl font-black text-foreground">
+                <Counter to={p.amount} prefix="₹" />
+              </p>
+              <h3 className="mt-3 font-display text-sm font-bold tracking-[0.24em] text-primary">
+                {p.title}
+              </h3>
+            </article>
+          </Reveal>
+        ))}
+      </div>
+
+      {/* Special awards */}
+      <Reveal>
+        <div className="mt-6">
+          <SystemLabel className="text-primary">SPECIAL AWARDS</SystemLabel>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {SPECIAL_AWARDS.map((a, i) => (
+              <div
+                key={a}
+                className="group rounded-lg border border-border bg-card/40 px-5 py-4 transition-all duration-300 hover:border-primary/30"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="font-mono text-[0.6rem] text-muted-foreground/50">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="font-mono text-[0.7rem] tracking-[0.18em] text-muted-foreground group-hover:text-foreground transition-colors">
+                    {a}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Reveal>
+    </Section>
+  );
+}
+
+/* ------------------------------ SPONSORS ------------------------------ */
+
+export function SponsorsSection() {
+  return (
+    <Section id="sponsors">
+      <Reveal>
+        <SectionHeading
+          code="SYSTEM 06 / SPONSORS"
+          title="Partners & Supporters"
+          subtitle="Collaborating with leading organizations to empower student innovation."
+        />
+      </Reveal>
+      <div className="mt-12 space-y-8">
+        {SPONSOR_TIERS.map((t, ti) => (
+          <Reveal key={t.tier} delay={ti * 0.05}>
+            <div>
+              <p className="system-label text-primary">{t.tier}</p>
+              <div className="mt-3 flex flex-wrap gap-3">
+                {Array.from({ length: t.slots }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="group grid h-24 w-44 place-items-center rounded-lg border border-dashed border-border bg-card/20 font-mono text-[0.6rem] tracking-[0.18em] text-muted-foreground/50 transition-all duration-300 hover:border-primary/40 hover:text-muted-foreground"
+                  >
+                    <div className="text-center">
+                      <p className="text-[0.55rem] tracking-[0.2em] text-muted-foreground/30">{t.tier}</p>
+                      <p className="mt-1 text-[0.65rem] font-semibold tracking-[0.2em] text-muted-foreground/50 group-hover:text-primary/60 transition-colors">
+                        OPEN
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+      <Reveal>
+        <div className="mt-10">
+          <Button asChild variant="outline" className="bg-transparent font-mono text-xs tracking-[0.18em]">
+            <a href="mailto:apex@hackathon.com">
+              BECOME A PARTNER <ArrowRight className="ml-2 h-4 w-4" />
+            </a>
+          </Button>
+        </div>
+      </Reveal>
+    </Section>
+  );
+}
+
+/* ----------------------------- ORGANIZERS ----------------------------- */
+
+export function OrganizersSection() {
+  return (
+    <Section id="organizers">
+      <Reveal>
+        <SectionHeading code="SYSTEM 08 / ORGANIZERS" title="The team behind APEX 1.0" />
+      </Reveal>
+      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {ORGANIZERS.map((o, i) => (
+          <Reveal key={o.name} delay={i * 0.05}>
+            <article className="glass-panel flex h-full items-center gap-4 rounded-xl p-5">
+              <div className="grid h-14 w-14 shrink-0 place-items-center rounded-full border border-primary/40 bg-primary/10 font-display text-sm font-black text-primary">
+                {o.initials}
+              </div>
+              <div className="min-w-0">
+                <h3 className="truncate font-display text-base font-bold tracking-[0.14em]">
+                  {o.name}
+                </h3>
+                <p className="text-sm text-muted-foreground">{o.role}</p>
+                <div className="mt-1.5 flex gap-3">
+                  <a href="#" className="font-mono text-[0.65rem] tracking-[0.16em] text-muted-foreground hover:text-primary">
+                    LINKEDIN
+                  </a>
+                  <a href="#" className="font-mono text-[0.65rem] tracking-[0.16em] text-muted-foreground hover:text-primary">
+                    GITHUB
+                  </a>
+                </div>
+              </div>
+            </article>
+          </Reveal>
+        ))}
+      </div>
+    </Section>
+  );
+}
+
+/* -------------------------------- VENUE -------------------------------- */
+
+export function VenueSection() {
+  return (
+    <Section id="venue">
+      <div className="grid gap-8 md:grid-cols-2 md:items-center">
+        <Reveal>
+          <SectionHeading code="SYSTEM 07 / VENUE" title="APEX 1.0 HQ" />
+          <dl className="mt-8 space-y-5">
+            {[
+              ["VENUE", "TECH CONVENTION CENTRE"],
+              ["CITY", "BHOPAL, MADHYA PRADESH"],
+              ["DATE", "14–15 MARCH 2026"],
+              ["EVENT TIME", "10:00 AM — 04:00 PM"],
+              ["ROUND", "ROUND 02 · OFFLINE"],
+            ].map(([k, v]) => (
+              <div key={k}>
+                <dt className="system-label">{k}</dt>
+                <dd className="mt-1 font-display text-base font-bold tracking-[0.14em]">{v}</dd>
+              </div>
+            ))}
+          </dl>
+          <Button asChild variant="outline" className="mt-8 bg-transparent font-mono text-xs tracking-[0.18em]">
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Bhopal+Madhya+Pradesh"
+              target="_blank"
+              rel="noreferrer"
+            >
+              GET DIRECTIONS <ArrowRight className="ml-2 h-4 w-4" />
+            </a>
+          </Button>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <div className="glass-panel scanlines relative grid aspect-[4/3] place-items-center overflow-hidden rounded-xl">
+            <div className="absolute inset-0 grid-veil" aria-hidden />
+
+            {/* Animated ping dot */}
+            <div className="relative">
+              <span className="absolute -left-1 -top-1 h-8 w-8 animate-ping rounded-full bg-primary/20" aria-hidden />
+              <MapPin className="relative h-8 w-8 text-primary" />
+            </div>
+
+            {/* Central info block */}
+            <div className="absolute bottom-0 left-0 right-0 bg-card/60 backdrop-blur-sm p-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <p className="font-mono text-[0.5rem] tracking-[0.2em] text-muted-foreground/60">COORDINATES</p>
+                  <p className="mt-0.5 font-mono text-[0.65rem] font-semibold text-foreground/80">23.2599° N, 77.4126° E</p>
+                </div>
+                <div>
+                  <p className="font-mono text-[0.5rem] tracking-[0.2em] text-muted-foreground/60">REGION</p>
+                  <p className="mt-0.5 font-mono text-[0.65rem] font-semibold text-foreground/80">BHOPAL // MP // INDIA</p>
+                </div>
+              </div>
+              <div className="mt-2 flex items-center gap-2">
+                <span className="inline-flex items-center gap-1 rounded-full border border-primary/40 bg-primary/10 px-2 py-0.5 font-mono text-[0.5rem] tracking-widest text-primary">
+                  <span className="h-1 w-1 rounded-full bg-primary" aria-hidden /> ROUND 02 · OFFLINE
+                </span>
+                <span className="font-mono text-[0.5rem] tracking-[0.18em] text-muted-foreground/50">
+                  14–15 MAR 2026
+                </span>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </Section>
+  );
+}
+
+/* --------------------------------- FAQ --------------------------------- */
+
+export function FaqSection() {
+  // Split into two columns for desktop
+  const mid = Math.ceil(FAQS.length / 2);
+  const col1 = FAQS.slice(0, mid);
+  const col2 = FAQS.slice(mid);
+
+  return (
+    <Section id="faq">
+      <Reveal>
+        <SectionHeading code="SYSTEM 09 / FAQ" title="Frequently Asked Questions" subtitle="Everything you need to know about APEX 1.0." />
+      </Reveal>
+      <Reveal>
+        <div className="mt-10 grid gap-6 md:grid-cols-2">
+          <Accordion type="single" collapsible>
+            {col1.map((f, i) => (
+              <AccordionItem key={f.q} value={`q-${i}`} className="border-border/70">
+                <AccordionTrigger className="text-left font-display text-sm font-bold uppercase tracking-[0.12em] hover:text-primary">
+                  <span className="mr-3 font-mono text-[0.6rem] text-muted-foreground/50">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  {f.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-sm text-muted-foreground">{f.a}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+          <Accordion type="single" collapsible>
+            {col2.map((f, i) => (
+              <AccordionItem key={f.q} value={`q-${mid + i}`} className="border-border/70">
+                <AccordionTrigger className="text-left font-display text-sm font-bold uppercase tracking-[0.12em] hover:text-primary">
+                  <span className="mr-3 font-mono text-[0.6rem] text-muted-foreground/50">
+                    {String(mid + i + 1).padStart(2, "0")}
+                  </span>
+                  {f.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-sm text-muted-foreground">{f.a}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </Reveal>
+    </Section>
+  );
+}
+
+/* --------------------------------- CTA --------------------------------- */
+
+export function FinalCta() {
+  return (
+    <section className="relative overflow-hidden void-bg px-5 py-24 text-center sm:px-8">
+      <div className="grain absolute inset-0" aria-hidden />
+      <div className="relative mx-auto max-w-2xl">
+        <SystemLabel className="text-primary">ROUND: 01 · STATUS: OPEN</SystemLabel>
+        <h2 className="mt-4 font-display text-3xl font-black uppercase sm:text-4xl">
+          The stage is set.
+        </h2>
+        <p className="mt-4 text-muted-foreground">
+          Bring a team. Bring an idea. Build the future.
+        </p>
+
+        {/* Stat badges */}
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+          {[
+            "₹90,000+ POOL",
+            "24H BUILD",
+            "OPEN INNOVATION",
+          ].map((s) => (
+            <span
+              key={s}
+              className="rounded-full border border-border bg-card/40 px-3 py-1 font-mono text-[0.6rem] tracking-[0.18em] text-muted-foreground"
+            >
+              {s}
+            </span>
+          ))}
+        </div>
+
+        <Button asChild size="lg" className="mt-8 glow-primary font-mono text-xs tracking-[0.2em]">
+          <Link to="/register">
+            ENTER THE HACKATHON <ArrowRight className="ml-2 h-4 w-4" />
+          </Link>
+        </Button>
+      </div>
+    </section>
+  );
+}
