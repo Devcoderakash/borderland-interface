@@ -49,15 +49,15 @@ export function SectionHeading({
 }) {
   return (
     <div className={cn("max-w-3xl", className)}>
-      <div className="flex items-center gap-3">
-        <span className="h-2 w-2 rotate-45 bg-primary shadow-[0_0_10px_rgba(225,29,72,0.6)]" aria-hidden />
-        <SystemLabel>{code}</SystemLabel>
+      <div className="flex items-center gap-2.5 sm:gap-3">
+        <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rotate-45 bg-primary shadow-[0_0_10px_rgba(225,29,72,0.6)]" aria-hidden />
+        <SystemLabel className="text-[0.65rem] sm:text-xs tracking-[0.18em]">{code}</SystemLabel>
       </div>
-      <h2 className="mt-4 text-2xl font-black uppercase tracking-tight sm:text-4xl md:text-5xl break-words text-transparent bg-clip-text bg-gradient-to-b from-white via-white/95 to-white/80">
+      <h2 className="mt-3 sm:mt-4 text-2xl font-black uppercase tracking-tight sm:text-4xl md:text-5xl break-words text-transparent bg-clip-text bg-gradient-to-b from-white via-white/95 to-white/80">
         {title}
       </h2>
       {subtitle ? (
-        <p className="mt-4 text-base text-muted-foreground sm:text-lg">{subtitle}</p>
+        <p className="mt-2.5 sm:mt-4 text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">{subtitle}</p>
       ) : null}
     </div>
   );
@@ -73,7 +73,7 @@ export function Section({
   className?: string;
 }) {
   return (
-    <section id={id} className={cn("relative px-4 py-14 sm:px-8 sm:py-20 md:py-28 overflow-hidden", className)}>
+    <section id={id} className={cn("relative px-4 py-12 sm:px-8 sm:py-20 md:py-28 overflow-x-clip", className)}>
       <div className="mx-auto w-full max-w-6xl">{children}</div>
     </section>
   );

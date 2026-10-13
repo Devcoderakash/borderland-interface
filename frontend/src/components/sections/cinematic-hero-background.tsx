@@ -249,7 +249,7 @@ export function CinematicHeroBackground() {
         <img
           src="/hero-bg-apex.jpg"
           alt="Cinematic Peak"
-          className="h-full w-full object-cover object-center"
+          className="h-full w-full object-cover object-[62%_center] sm:object-center"
           loading="eager"
         />
       </div>
@@ -375,7 +375,7 @@ export function CinematicHeroBackground() {
 
       {/* ---------------- 8. PRESERVED ORIGINAL READABILITY OVERLAYS & TECHNICAL GRID ---------------- */}
       {/* Dark Gradients for typography sharpness & contrast (Left text remains 100% crisp) */}
-      <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background/50 sm:via-background/90 sm:to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/30 sm:via-background/90 sm:to-transparent" />
       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent sm:via-transparent" />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
 

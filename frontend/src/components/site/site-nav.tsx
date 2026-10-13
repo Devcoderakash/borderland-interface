@@ -125,51 +125,59 @@ export function SiteNav() {
           </Button>
           <button
             type="button"
-            aria-label={open ? "Close menu" : "Open menu"}
+            aria-label={open ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className="grid h-10 w-10 shrink-0 place-items-center rounded border border-border text-foreground lg:hidden hover:border-primary/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            className="grid h-11 w-11 min-h-[44px] min-w-[44px] shrink-0 place-items-center rounded-lg border border-border/80 text-foreground bg-card/40 lg:hidden hover:border-primary/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {open ? <X className="h-5 w-5 text-primary" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </nav>
 
       {open ? (
-        <div className="mx-auto mt-2 max-w-6xl px-1 lg:hidden">
-          <ul className="glass-panel grid gap-1 rounded-xl p-3 shadow-2xl border-primary/25 backdrop-blur-2xl max-h-[calc(100svh-5.5rem)] overflow-y-auto">
-            {NAV_ITEMS.map((item) => (
-              <li key={item.label}>
-                {item.isHash ? (
-                  <a
-                    href={item.href}
-                    onClick={(e) => handleHashClick(e, item.href)}
-                    className="block rounded-lg px-3.5 py-3 font-mono text-xs tracking-[0.18em] text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
-                  >
-                    {item.label}
-                  </a>
-                ) : (
-                  <Link
-                    to={item.href}
-                    onClick={() => setOpen(false)}
-                    className="block rounded-lg px-3.5 py-3 font-mono text-xs tracking-[0.18em] text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
-                    activeProps={{ className: "text-primary font-bold bg-primary/10" }}
-                    activeOptions={{ exact: item.href === "/" }}
-                  >
-                    {item.label}
+        <>
+          {/* Mobile backdrop */}
+          <div
+            className="fixed inset-0 top-[3.8rem] bg-black/70 backdrop-blur-sm lg:hidden z-40 transition-opacity"
+            onClick={() => setOpen(false)}
+            aria-hidden="true"
+          />
+          <div className="relative z-50 mx-auto mt-2 max-w-6xl px-3 lg:hidden">
+            <ul className="glass-panel grid gap-1 rounded-xl p-3 shadow-2xl border-primary/30 bg-background/95 backdrop-blur-2xl max-h-[calc(100svh-5rem)] overflow-y-auto">
+              {NAV_ITEMS.map((item) => (
+                <li key={item.label}>
+                  {item.isHash ? (
+                    <a
+                      href={item.href}
+                      onClick={(e) => handleHashClick(e, item.href)}
+                      className="flex items-center min-h-[44px] rounded-lg px-4 py-2.5 font-mono text-xs tracking-[0.18em] text-muted-foreground hover:bg-white/[0.06] hover:text-foreground transition-colors"
+                    >
+                      {item.label}
+                    </a>
+                  ) : (
+                    <Link
+                      to={item.href}
+                      onClick={() => setOpen(false)}
+                      className="flex items-center min-h-[44px] rounded-lg px-4 py-2.5 font-mono text-xs tracking-[0.18em] text-muted-foreground hover:bg-white/[0.06] hover:text-foreground transition-colors"
+                      activeProps={{ className: "text-primary font-bold bg-primary/10" }}
+                      activeOptions={{ exact: item.href === "/" }}
+                    >
+                      {item.label}
+                    </Link>
+                  )}
+                </li>
+              ))}
+              <li className="pt-2">
+                <Button asChild className="w-full min-h-[44px] font-mono text-xs tracking-[0.18em] bg-primary text-primary-foreground glow-primary">
+                  <Link to="/register" onClick={() => setOpen(false)}>
+                    REGISTER NOW &rarr;
                   </Link>
-                )}
+                </Button>
               </li>
-            ))}
-            <li className="pt-2">
-              <Button asChild className="w-full min-h-[44px] font-mono text-xs tracking-[0.18em] bg-primary text-primary-foreground glow-primary">
-                <Link to="/register" onClick={() => setOpen(false)}>
-                  REGISTER NOW &rarr;
-                </Link>
-              </Button>
-            </li>
-          </ul>
-        </div>
+            </ul>
+          </div>
+        </>
       ) : null}
     </header>
   );

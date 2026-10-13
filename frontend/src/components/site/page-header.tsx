@@ -14,7 +14,7 @@ export function PageHeader({
   children?: ReactNode;
 }) {
   return (
-    <section className="scanlines relative overflow-hidden void-bg px-4 pt-24 pb-8 sm:px-8 sm:pt-32 md:pt-36">
+    <section className="scanlines relative overflow-x-clip void-bg px-4 pt-20 pb-6 sm:px-8 sm:pt-32 md:pt-36">
       <div className="grid-veil pointer-events-none absolute inset-0" aria-hidden />
       <div className="grain pointer-events-none absolute inset-0" aria-hidden />
 
@@ -52,12 +52,12 @@ export function PageHeader({
       </div>
 
       <div className="relative mx-auto max-w-6xl">
-        <SystemLabel className="text-primary text-[0.65rem] sm:text-xs">{code}</SystemLabel>
-        <h1 className="mt-2.5 sm:mt-3 font-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase leading-[1.08] break-words text-transparent bg-clip-text bg-gradient-to-b from-white via-white/95 to-white/75">
+        <SystemLabel className="text-primary text-[0.6rem] sm:text-xs tracking-[0.18em]">{code}</SystemLabel>
+        <h1 className="mt-2 sm:mt-3 font-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase leading-[1.1] break-words text-transparent bg-clip-text bg-gradient-to-b from-white via-white/95 to-white/75">
           {title}
         </h1>
         {subtitle ? (
-          <p className="mt-3 sm:mt-5 max-w-2xl text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
+          <p className="mt-2 sm:mt-5 max-w-2xl text-xs sm:text-base md:text-lg text-muted-foreground leading-relaxed">
             {subtitle}
           </p>
         ) : null}

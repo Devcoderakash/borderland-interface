@@ -65,12 +65,12 @@ export function Hero() {
   );
 
   return (
-    <section className="relative flex min-h-[100svh] flex-col justify-between overflow-hidden bg-background px-4 pt-24 pb-6 sm:px-8 sm:pt-28 md:pb-12 lg:min-h-screen lg:justify-center lg:pb-24">
+    <section className="relative flex min-h-[100svh] flex-col justify-between overflow-x-clip bg-background px-4 pt-20 pb-4 sm:px-8 sm:pt-28 md:pb-12 lg:min-h-screen lg:justify-center lg:pb-24">
       {/* Cinematic Animated Background */}
       <CinematicHeroBackground />
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl my-auto py-4 sm:py-8 lg:py-12">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+      <div className="relative z-10 mx-auto w-full max-w-7xl my-auto py-2.5 sm:py-8 lg:py-12">
+        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
           {/* Left Content */}
           <motion.div
             className="reveal-safe flex flex-col justify-center"
@@ -78,30 +78,30 @@ export function Hero() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/60 bg-primary/10 px-3 py-1 w-fit shadow-[0_0_16px_-2px_rgba(225,29,72,0.35)] backdrop-blur-sm">
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-primary/50 bg-primary/10 px-2.5 py-0.5 sm:px-3 sm:py-1 w-fit shadow-[0_0_12px_rgba(225,29,72,0.3)] backdrop-blur-sm">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" aria-hidden />
-              <SystemLabel className="text-primary text-[0.65rem] tracking-[0.2em] font-bold">REGISTRATIONS OPEN</SystemLabel>
+              <SystemLabel className="text-primary text-[0.6rem] sm:text-[0.65rem] tracking-[0.16em] sm:tracking-[0.2em] font-bold">REGISTRATIONS OPEN</SystemLabel>
             </div>
 
-            <h1 className="mt-5 sm:mt-8 font-display text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[0.95] tracking-tight text-white break-words">
+            <h1 className="mt-3.5 sm:mt-8 font-display text-[2.2rem] xs:text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[0.98] sm:leading-[0.95] tracking-tight text-white break-words">
               APEX<span className="text-primary text-glow">//</span>1.0
             </h1>
 
-            <div className="mt-4 sm:mt-6 flex flex-col font-display font-black uppercase tracking-tight">
-              <span className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] text-transparent bg-clip-text bg-gradient-to-b from-white via-white/95 to-white/70">
+            <div className="mt-2.5 sm:mt-5 flex flex-col font-display font-black uppercase tracking-tight">
+              <span className="text-xl xs:text-2xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.08] sm:leading-[1.05] text-transparent bg-clip-text bg-gradient-to-b from-white via-white/95 to-white/70">
                 ONE IDEA.
               </span>
-              <span className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] text-primary text-glow">
+              <span className="text-xl xs:text-2xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.08] sm:leading-[1.05] text-primary text-glow">
                 NO LIMITS.
               </span>
             </div>
 
-            <p className="mt-4 sm:mt-7 max-w-lg text-sm sm:text-lg text-white/70 leading-relaxed font-light">
+            <p className="mt-3 sm:mt-6 max-w-lg text-[0.875rem] sm:text-base md:text-lg text-white/75 leading-relaxed font-normal">
               A premier open-innovation hackathon where students build, innovate, pitch, and compete to create impactful solutions.
             </p>
 
-            <div className="mt-6 sm:mt-10 flex flex-col gap-3 sm:flex-row sm:gap-4">
-              <Button asChild size="lg" className="group h-12 sm:h-14 px-6 sm:px-8 bg-primary text-primary-foreground hover:bg-primary/90 glow-primary font-mono text-xs tracking-[0.2em] rounded-md transition-all duration-200 w-full sm:w-auto">
+            <div className="mt-4.5 sm:mt-8 flex flex-col gap-2.5 sm:flex-row sm:gap-4 w-full sm:w-auto">
+              <Button asChild size="lg" className="group h-11 sm:h-13 px-5 sm:px-8 bg-primary text-primary-foreground hover:bg-primary/90 glow-primary font-mono text-xs tracking-[0.16em] sm:tracking-[0.2em] rounded-md transition-all duration-200 w-full sm:w-auto min-h-[44px]">
                 <Link to="/register">
                   ENTER THE HACKATHON <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">&rarr;</span>
                 </Link>
@@ -110,7 +110,7 @@ export function Hero() {
                 asChild
                 size="lg"
                 variant="outline"
-                className="group h-12 sm:h-14 px-6 sm:px-8 border-border/80 bg-background/40 hover:bg-primary/10 hover:border-primary/50 font-mono text-xs tracking-[0.2em] rounded-md transition-all duration-200 text-white/90 hover:text-white w-full sm:w-auto"
+                className="group h-11 sm:h-13 px-5 sm:px-8 border-border/80 bg-background/50 hover:bg-primary/10 hover:border-primary/50 font-mono text-xs tracking-[0.16em] sm:tracking-[0.2em] rounded-md transition-all duration-200 text-white/90 hover:text-white w-full sm:w-auto min-h-[44px]"
               >
                 <a href="#roadmap">
                   EXPLORE THE ROADMAP <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">&rarr;</span>
@@ -118,20 +118,20 @@ export function Hero() {
               </Button>
             </div>
 
-            <div className="mt-6 sm:mt-10 border-l-2 border-primary/50 pl-4 py-1">
-              <p className="font-serif italic text-white/50 text-sm sm:text-lg tracking-wide">
+            <div className="mt-3.5 sm:mt-7 border-l-2 border-primary/50 pl-3 sm:pl-4 py-0.5 sm:py-1">
+              <p className="font-serif italic text-white/60 text-xs sm:text-base tracking-wide">
                 “Ideas don’t wait. Neither should you.”
               </p>
-              <p className="mt-1 font-mono text-[0.65rem] tracking-[0.2em] text-white/30 uppercase">
+              <p className="mt-0.5 font-mono text-[0.6rem] sm:text-[0.65rem] tracking-[0.18em] text-white/35 uppercase">
                 — APEX 1.0
               </p>
             </div>
 
-            <div className="mt-8 sm:mt-16 lg:mt-24">
-              <p className="font-display font-black text-lg sm:text-xl tracking-widest text-white/90">
+            <div className="mt-4 sm:mt-10 lg:mt-16">
+              <p className="font-display font-black text-sm sm:text-xl tracking-widest text-white/90">
                 ▲ APEX<span className="text-primary">//</span>1.0
               </p>
-              <p className="mt-1 font-mono text-[0.7rem] sm:text-xs tracking-[0.2em] text-white/50 uppercase leading-relaxed">
+              <p className="mt-0.5 font-mono text-[0.65rem] sm:text-xs tracking-[0.18em] text-white/50 uppercase leading-relaxed">
                 BIGGER IDEAS.<br />
                 BRIGHTER PEOPLE.
               </p>
@@ -189,10 +189,10 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Bottom Information Bar - Fully responsive, no horizontal scroll needed! */}
-      <div className="relative z-20 mt-6 w-full border-t border-white/[0.08] bg-background/85 backdrop-blur-md lg:absolute lg:bottom-0 lg:left-0 lg:right-0 lg:mt-0 lg:bg-background/70 shadow-[0_-10px_30px_-10px_rgba(0,0,0,0.5)]">
+      {/* Bottom Information Bar - Fully accessible responsive grid */}
+      <div className="relative z-20 mt-4 sm:mt-6 w-full border-t border-white/[0.08] bg-background/90 backdrop-blur-md lg:absolute lg:bottom-0 lg:left-0 lg:right-0 lg:mt-0 lg:bg-background/70 shadow-[0_-10px_30px_-10px_rgba(0,0,0,0.5)]">
         <div className="mx-auto max-w-7xl px-3 py-3 sm:px-8 sm:py-4">
-          <div className="grid grid-cols-2 gap-x-2.5 gap-y-3 sm:grid-cols-3 md:grid-cols-4 lg:flex lg:w-full lg:items-center lg:justify-between lg:gap-4 xl:gap-6">
+          <div className="grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-4 lg:flex lg:w-full lg:items-center lg:justify-between lg:gap-4 xl:gap-6">
             {[
               ["TEAM SIZE", "1–4 MEMBERS"],
               ["FORMAT", "OPEN INNOVATION"],
@@ -202,13 +202,23 @@ export function Hero() {
               ["ROUND 2", "OFFLINE"],
               ["LOCATION", "BHOPAL"],
             ].map(([k, v], i) => (
-              <div key={k} className="group flex items-center min-w-0 transition-all duration-200 hover:-translate-y-0.5">
-                {i > 0 && <div className="hidden h-8 w-px bg-border/40 mr-6 lg:block" aria-hidden />}
-                <div className="min-w-0">
-                  <dt className="font-mono text-[0.55rem] sm:text-[0.6rem] tracking-[0.18em] text-muted-foreground truncate group-hover:text-foreground/70 transition-colors">{k}</dt>
-                  <dd className="mt-0.5 font-display text-xs sm:text-sm font-bold tracking-wider text-foreground whitespace-nowrap truncate group-hover:text-primary transition-colors">
-                    {v}
-                  </dd>
+              <div
+                key={k}
+                className={cn(
+                  "group flex flex-col justify-center rounded-lg border border-border/40 bg-card/30 p-2 sm:p-2.5 lg:border-0 lg:bg-transparent lg:p-0 min-w-0 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40",
+                  i === 6 ? "col-span-2 sm:col-span-1" : ""
+                )}
+              >
+                <div className="flex items-center min-w-0">
+                  {i > 0 && <div className="hidden h-8 w-px bg-border/40 mr-6 lg:block" aria-hidden />}
+                  <div className="min-w-0 flex-1">
+                    <dt className="font-mono text-[0.55rem] sm:text-[0.6rem] tracking-[0.16em] text-muted-foreground truncate uppercase group-hover:text-foreground/70 transition-colors">
+                      {k}
+                    </dt>
+                    <dd className="mt-0.5 font-display text-xs sm:text-sm font-bold tracking-wider text-foreground whitespace-normal break-words group-hover:text-primary transition-colors">
+                      {v}
+                    </dd>
+                  </div>
                 </div>
               </div>
             ))}
@@ -257,7 +267,7 @@ export function WelcomeSection() {
               Bring your best ideas.
             </p>
           </div>
-          <Button asChild variant="outline" className="group mt-8 border-border/80 bg-card/30 hover:border-primary/50 hover:bg-primary/10 font-mono text-xs tracking-[0.18em]">
+          <Button asChild variant="outline" className="group mt-6 sm:mt-8 border-border/80 bg-card/30 hover:border-primary/50 hover:bg-primary/10 font-mono text-xs tracking-[0.18em] w-full sm:w-auto min-h-[44px]">
             <Link to="/rules">
               EXPLORE EVENT RULES <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
             </Link>
@@ -566,7 +576,7 @@ export function RulesSection() {
         ))}
       </div>
       <Reveal>
-        <Button asChild variant="outline" className="mt-8 bg-transparent font-mono text-xs tracking-[0.18em]">
+        <Button asChild variant="outline" className="mt-6 sm:mt-8 bg-transparent font-mono text-xs tracking-[0.18em] w-full sm:w-auto min-h-[44px]">
           <Link to="/rules">
             READ COMPLETE GUIDELINES <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
@@ -724,7 +734,7 @@ export function VenueSection() {
               </div>
             ))}
           </dl>
-          <Button asChild variant="outline" className="mt-8 bg-transparent font-mono text-xs tracking-[0.18em]">
+          <Button asChild variant="outline" className="mt-6 sm:mt-8 bg-transparent font-mono text-xs tracking-[0.18em] w-full sm:w-auto min-h-[44px]">
             <a
               href="https://www.google.com/maps/search/?api=1&query=Bhopal+Madhya+Pradesh"
               target="_blank"
