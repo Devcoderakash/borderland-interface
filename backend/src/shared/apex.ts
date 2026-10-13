@@ -113,8 +113,8 @@ export const ROADMAP = [
     id: "PHASE 05",
     n: 5,
     title: "BUILD",
-    window: "24 HOURS",
-    text: "Teams get a fixed 24-hour development window to build and refine their solution.",
+    window: "HACKATHON BUILD",
+    text: "Teams build, refine, and polish their prototypes under the mentorship of industry experts.",
     active: false,
   },
   {
@@ -136,10 +136,10 @@ export const ROADMAP = [
 ];
 
 export const RULES = [
-  { n: "01", title: "TEAM SIZE", text: "Teams must consist of 2–4 members." },
+  { n: "01", title: "TEAM SIZE", text: "Teams must consist of 1–4 members." },
   { n: "02", title: "OPEN INNOVATION", text: "Participants may build solutions across any domain or problem statement." },
   { n: "03", title: "ROUND 1 SUBMISSION", text: "Teams submit their idea presentation (PPT) online before the deadline." },
-  { n: "04", title: "REGISTRATION FEE", text: "Round 1 registration fee is ₹150 per team." },
+  { n: "04", title: "REGISTRATION FEE", text: "Round 1 registration fee is ₹199 per team." },
   { n: "05", title: "SHORTLISTING", text: "Only shortlisted teams from Round 1 qualify for the offline Round 2." },
   { n: "06", title: "ROUND 2 OFFLINE", text: "Round 2 is conducted offline at Tech Convention Centre in Bhopal." },
   { n: "07", title: "TECHNOLOGY & AI", text: "Teams may use any programming language, framework, or platform. AI tools are allowed provided participants understand and explain their solution." },
@@ -147,9 +147,9 @@ export const RULES = [
 ];
 
 export const PRIZES = [
-  { amount: 50000, title: "GRAND CHAMPION", sub: "First place" },
-  { amount: 25000, title: "RUNNER UP", sub: "Second place" },
-  { amount: 15000, title: "SECOND RUNNER UP", sub: "Third place" },
+  { amount: 18000, title: "1ST PRIZE — CHAMPION", sub: "First place winner" },
+  { amount: 8000, title: "2ND PRIZE — RUNNER UP", sub: "Second place winner" },
+  { amount: 4000, title: "3RD PRIZE — 2ND RUNNER UP", sub: "Third place winner" },
 ];
 
 export const SPECIAL_AWARDS = [
@@ -168,15 +168,15 @@ export const FAQS = [
   },
   {
     q: "Who can participate?",
-    a: "Students from any college or university can participate. Form a team of 2–4 members and register your solution.",
+    a: "Students from any college or university can participate. Form a team of 1–4 members and register your solution.",
   },
   {
     q: "What is the team size?",
-    a: "Teams must have 2–4 members. Solo entries are not permitted.",
+    a: "Teams must have 1–4 members. Solo entries are not permitted.",
   },
   {
     q: "How does the two-round format work?",
-    a: "Round 1 is online (PPT Idea Submission, ₹150 fee). Shortlisted teams proceed to Round 2 (Offline 24-hour Build & Pitch in Bhopal).",
+    a: "Round 1 is online (PPT Idea Submission, ₹199 fee). Shortlisted teams proceed to Round 2 (Offline Grand Finale & Pitch in Bhopal).",
   },
   {
     q: "Can beginners participate?",
@@ -200,7 +200,7 @@ export const FAQS = [
   },
   {
     q: "What is the Round 1 fee?",
-    a: "Round 1 requires a ₹150 registration fee per team. The fee for Round 2 will be announced to shortlisted teams.",
+    a: "Round 1 requires a ₹199 registration fee per team. The fee for Round 2 will be announced to shortlisted teams.",
   },
   {
     q: "Is Round 2 offline?",
@@ -224,7 +224,7 @@ export const ORGANIZERS = [
 ];
 
 export const MICROCOPY = [
-  "One Idea. 24 Hours. No Limits.",
+  "One Idea. No Limits.",
   "Build. Innovate. Pitch. Win.",
   "Your best ideas belong here.",
 ];

@@ -1,5 +1,5 @@
 /**
- * Frontend API client for communicating with the backend server.
+ * Frontend API client for APEX registration and Razorpay payments.
  * Never stores or requests backend secrets in the client.
  */
 
@@ -21,19 +21,22 @@ export interface CreateOrderPayload {
 
 export interface PaymentOrderResponse {
   orderId: string;
-  cfOrderId?: string;
-  paymentSessionId: string | null;
   amount: number;
+  amountInRupees: number;
   currency: string;
-  referenceId: string;
+  keyId: string;
+  teamId: string;
   playerId: string;
-  environment: "sandbox" | "production";
+  teamName: string;
+  leaderName: string;
+  email: string;
+  phone: string;
 }
 
 export async function createOrder(
   data: CreateOrderPayload,
 ): Promise<PaymentOrderResponse> {
-  const response = await fetch(`${API_BASE_URL}/api/payment/create-order`, {
+  const response = await fetch(`${API_BASE_URL}/api/payments/create-order`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -47,14 +50,24 @@ export async function createOrder(
     throw new Error(responseData?.error || "Failed to create registration order");
   }
 
-  return responseData;
+  return responseData.data || responseData;
 }
 
-export async function verifyPayment(params: {
+export interface VerifyPaymentPayload {
+  razorpay_order_id: string;
+  razorpay_payment_id: string;
+  razorpay_signature: string;
+  teamId?: string;
+}
+
+export async function verifyPayment(params: VerifyPaymentPayload): Promise<{
+  success: boolean;
+  status: string;
+  playerId: string;
+  teamName: string;
   orderId: string;
-  referenceId?: string;
-}): Promise<{ success: boolean; status: string; orderId: string }> {
-  const response = await fetch(`${API_BASE_URL}/api/payment/verify`, {
+}> {
+  const response = await fetch(`${API_BASE_URL}/api/payments/verify`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -68,14 +81,14 @@ export async function verifyPayment(params: {
     throw new Error(responseData?.error || "Failed to verify payment");
   }
 
-  return responseData;
+  return responseData.data || responseData;
 }
 
 export async function getTeamByOrderId(
   orderId: string,
 ): Promise<{ player_id: string; team_name: string; payment_status: string } | null> {
   const response = await fetch(
-    `${API_BASE_URL}/api/payment/order/${encodeURIComponent(orderId)}`,
+    `${API_BASE_URL}/api/payments/order/${encodeURIComponent(orderId)}`,
     {
       method: "GET",
       headers: {
@@ -88,5 +101,27 @@ export async function getTeamByOrderId(
     return null;
   }
 
-  return await response.json();
+  const json = await response.json();
+  return json.data || json;
+}
+
+export async function getRegistrationStatus(
+  id: string,
+): Promise<{ id: string; player_id: string; team_name: string; payment_status: string } | null> {
+  const response = await fetch(
+    `${API_BASE_URL}/api/registrations/${encodeURIComponent(id)}/status`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
+
+  if (!response.ok) {
+    return null;
+  }
+
+  const json = await response.json();
+  return json.data || json;
 }

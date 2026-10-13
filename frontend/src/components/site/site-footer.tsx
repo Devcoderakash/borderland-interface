@@ -3,8 +3,10 @@ import { Github, Instagram, Linkedin, MessageCircle } from "lucide-react";
 
 const LINKS = [
   { to: "/", label: "Home" },
+  { to: "/#roadmap", label: "Roadmap", isHash: true },
   { to: "/rules", label: "Rules" },
   { to: "/prizes", label: "Prizes" },
+  { to: "/#sponsors", label: "Sponsors", isHash: true },
   { to: "/faq", label: "FAQ" },
   { to: "/register", label: "Register" },
 ] as const;
@@ -18,8 +20,8 @@ const SOCIALS = [
 
 export function SiteFooter() {
   return (
-    <footer className="relative border-t border-border/70 bg-background px-5 py-14 sm:px-8">
-      <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[1.2fr_1fr_1fr]">
+    <footer className="relative border-t border-border/70 bg-background px-4 py-10 sm:px-8 sm:py-14">
+      <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-[1.2fr_1fr_1fr]">
         <div>
           <div className="flex items-center gap-2.5">
             <img
@@ -34,9 +36,7 @@ export function SiteFooter() {
           <p className="mt-4 font-display text-sm leading-7 tracking-[0.3em] text-muted-foreground">
             ONE IDEA.
             <br />
-            24 HOURS.
-            <br />
-            NO LIMITS.
+            <span className="text-primary font-bold">NO LIMITS.</span>
           </p>
         </div>
 
@@ -45,22 +45,23 @@ export function SiteFooter() {
           <ul className="mt-4 grid grid-cols-2 gap-2">
             {LINKS.map((l) => (
               <li key={l.label}>
-                <Link
-                  to={l.to}
-                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  {l.label}
-                </Link>
+                {"isHash" in l && l.isHash ? (
+                  <a
+                    href={l.to}
+                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {l.label}
+                  </a>
+                ) : (
+                  <Link
+                    to={l.to}
+                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {l.label}
+                  </Link>
+                )}
               </li>
             ))}
-            <li>
-              <a
-                href="/#roadmap"
-                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-              >
-                Roadmap
-              </a>
-            </li>
           </ul>
         </nav>
 

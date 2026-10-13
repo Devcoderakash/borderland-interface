@@ -30,3 +30,6 @@ npm-debug.log*
 
 # TanStack
 .tanstack/
+
+# Supabase
+supabase/.temp/

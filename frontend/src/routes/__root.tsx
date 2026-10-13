@@ -91,7 +91,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       {isAdmin ? null : <SiteNav />}
-      <main id="main">
+      <main id="main" className="w-full max-w-full overflow-x-hidden">
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
       </main>

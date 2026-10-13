@@ -33,9 +33,9 @@ import {
   PRIZES,
   RULES,
   SPECIAL_AWARDS,
-  SPONSOR_TIERS,
 } from "@/lib/apex";
 import { cn } from "@/lib/utils";
+import { CinematicHeroBackground } from "./cinematic-hero-background";
 
 /* ------------------------------- HERO ------------------------------- */
 
@@ -65,27 +65,12 @@ export function Hero() {
   );
 
   return (
-    <section className="relative flex min-h-[100svh] items-center overflow-hidden bg-background px-5 pt-28 pb-16 sm:px-8">
-      {/* Background Image and Overlays */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src="/hero-bg-apex.jpg"
-          alt="Cinematic Peak"
-          className="h-full w-full object-cover"
-        />
-        {/* Dark Gradients for readability and transition */}
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
-        {/* Red Atmospheric Glow */}
-        <div className="absolute inset-0 bg-primary/10 mix-blend-overlay" />
-        {/* Subtle Grid */}
-        <div className="absolute inset-0 grid-veil" aria-hidden />
-        <div className="absolute inset-0 grain" aria-hidden />
-      </div>
+    <section className="relative flex min-h-[100svh] flex-col justify-between overflow-hidden bg-background px-4 pt-24 pb-6 sm:px-8 sm:pt-28 md:pb-12 lg:min-h-screen lg:justify-center lg:pb-24">
+      {/* Cinematic Animated Background */}
+      <CinematicHeroBackground />
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="relative z-10 mx-auto w-full max-w-7xl my-auto py-4 sm:py-8 lg:py-12">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Content */}
           <motion.div
             className="reveal-safe flex flex-col justify-center"
@@ -98,22 +83,25 @@ export function Hero() {
               <SystemLabel className="text-primary text-[0.65rem] tracking-[0.2em] font-bold">REGISTRATIONS OPEN</SystemLabel>
             </div>
 
-            <h1 className="mt-8 font-display text-5xl font-black leading-[0.9] tracking-tighter text-white sm:text-7xl md:text-[5.5rem] lg:text-8xl">
+            <h1 className="mt-5 sm:mt-8 font-display text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[0.95] tracking-tight text-white break-words">
               APEX<span className="text-primary">//</span>1.0
             </h1>
 
-            <p className="mt-6 font-display text-3xl font-black uppercase leading-[1.05] tracking-tight text-white sm:text-4xl md:text-5xl">
-              ONE IDEA.<br />
-              24 HOURS.<br />
-              <span className="text-primary text-glow">NO LIMITS.</span>
-            </p>
+            <div className="mt-4 sm:mt-6 flex flex-col font-display font-black uppercase tracking-tight">
+              <span className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] text-white">
+                ONE IDEA.
+              </span>
+              <span className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] text-primary text-glow">
+                NO LIMITS.
+              </span>
+            </div>
 
-            <p className="mt-7 max-w-lg text-base text-white/70 sm:text-lg leading-relaxed font-light">
+            <p className="mt-4 sm:mt-7 max-w-lg text-sm sm:text-lg text-white/70 leading-relaxed font-light">
               A premier open-innovation hackathon where students build, innovate, pitch, and compete to create impactful solutions.
             </p>
 
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <Button asChild size="lg" className="h-14 px-8 bg-primary text-primary-foreground hover:bg-primary/90 glow-primary font-mono text-xs tracking-[0.2em] rounded-md transition-all">
+            <div className="mt-6 sm:mt-10 flex flex-col gap-3 sm:flex-row sm:gap-4">
+              <Button asChild size="lg" className="h-12 sm:h-14 px-6 sm:px-8 bg-primary text-primary-foreground hover:bg-primary/90 glow-primary font-mono text-xs tracking-[0.2em] rounded-md transition-all w-full sm:w-auto">
                 <Link to="/register">
                   ENTER THE HACKATHON &rarr;
                 </Link>
@@ -122,26 +110,26 @@ export function Hero() {
                 asChild
                 size="lg"
                 variant="outline"
-                className="h-14 px-8 border-border bg-transparent hover:bg-secondary/50 font-mono text-xs tracking-[0.2em] rounded-md transition-all text-white hover:text-white"
+                className="h-12 sm:h-14 px-6 sm:px-8 border-border bg-background/30 hover:bg-secondary/50 font-mono text-xs tracking-[0.2em] rounded-md transition-all text-white hover:text-white w-full sm:w-auto"
               >
                 <a href="#roadmap">EXPLORE THE ROADMAP &rarr;</a>
               </Button>
             </div>
 
-            <div className="mt-10 border-l-2 border-primary/50 pl-4 py-1">
-              <p className="font-serif italic text-white/50 text-base sm:text-lg tracking-wide">
+            <div className="mt-6 sm:mt-10 border-l-2 border-primary/50 pl-4 py-1">
+              <p className="font-serif italic text-white/50 text-sm sm:text-lg tracking-wide">
                 “Ideas don’t wait. Neither should you.”
               </p>
-              <p className="mt-1.5 font-mono text-[0.65rem] tracking-[0.2em] text-white/30 uppercase">
+              <p className="mt-1 font-mono text-[0.65rem] tracking-[0.2em] text-white/30 uppercase">
                 — APEX 1.0
               </p>
             </div>
-            
-            <div className="mt-16 sm:mt-24">
-              <p className="font-display font-black text-xl tracking-widest text-white/90">
+
+            <div className="mt-8 sm:mt-16 lg:mt-24">
+              <p className="font-display font-black text-lg sm:text-xl tracking-widest text-white/90">
                 ▲ APEX<span className="text-primary">//</span>1.0
               </p>
-              <p className="mt-1 font-mono text-xs tracking-[0.2em] text-white/50 uppercase">
+              <p className="mt-1 font-mono text-[0.7rem] sm:text-xs tracking-[0.2em] text-white/50 uppercase leading-relaxed">
                 BIGGER IDEAS.<br />
                 BRIGHTER PEOPLE.
               </p>
@@ -163,35 +151,35 @@ export function Hero() {
                 <span className="text-white/80">TOGETHER.</span>
               </p>
             </div>
-            
+
             {/* Social Tag */}
             <div className="mt-auto pb-10">
-               <p className="font-mono text-xs tracking-[0.2em] text-white/50 hover:text-primary transition-colors cursor-pointer">
-                 #APEX1.0
-               </p>
+              <p className="font-mono text-xs tracking-[0.2em] text-white/50 hover:text-primary transition-colors cursor-pointer">
+                #APEX1.0
+              </p>
             </div>
           </motion.div>
         </div>
       </div>
 
-      {/* Bottom Information Bar */}
-      <div className="absolute bottom-0 left-0 right-0 z-20 border-t border-border/40 bg-background/60 backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl items-center overflow-x-auto px-5 py-4 scrollbar-none sm:px-8">
-          <div className="flex w-full items-center justify-between gap-6 min-w-max">
+      {/* Bottom Information Bar - Fully responsive, no horizontal scroll needed! */}
+      <div className="relative z-20 mt-6 w-full border-t border-border/40 bg-background/85 backdrop-blur-md lg:absolute lg:bottom-0 lg:left-0 lg:right-0 lg:mt-0 lg:bg-background/60">
+        <div className="mx-auto max-w-7xl px-3 py-3 sm:px-8 sm:py-4">
+          <div className="grid grid-cols-2 gap-x-2.5 gap-y-3 sm:grid-cols-3 md:grid-cols-4 lg:flex lg:w-full lg:items-center lg:justify-between lg:gap-4 xl:gap-6">
             {[
-              ["TEAM SIZE", "2–4 MEMBERS"],
+              ["TEAM SIZE", "1–4 MEMBERS"],
               ["FORMAT", "OPEN INNOVATION"],
-              ["DURATION", "24 HOURS"],
-              ["PRIZE POOL", "₹90,000+"],
+              ["STRUCTURE", "2 ROUNDS"],
+              ["PRIZE POOL", "₹30,000"],
               ["ROUND 1", "ONLINE"],
               ["ROUND 2", "OFFLINE"],
               ["LOCATION", "BHOPAL"],
             ].map(([k, v], i) => (
-              <div key={k} className="flex items-center">
-                {i > 0 && <div className="h-8 w-px bg-border/40 mr-6" aria-hidden />}
-                <div>
-                  <dt className="font-mono text-[0.6rem] tracking-[0.2em] text-muted-foreground">{k}</dt>
-                  <dd className="mt-1 font-display text-sm font-bold tracking-widest text-foreground">
+              <div key={k} className="flex items-center min-w-0">
+                {i > 0 && <div className="hidden h-8 w-px bg-border/40 mr-6 lg:block" aria-hidden />}
+                <div className="min-w-0">
+                  <dt className="font-mono text-[0.55rem] sm:text-[0.6rem] tracking-[0.18em] text-muted-foreground truncate">{k}</dt>
+                  <dd className="mt-0.5 font-display text-xs sm:text-sm font-bold tracking-wider text-foreground whitespace-nowrap truncate">
                     {v}
                   </dd>
                 </div>
@@ -220,7 +208,7 @@ export function Hero() {
 export function WelcomeSection() {
   return (
     <Section id="welcome" className="grain">
-      <div className="grid gap-12 md:grid-cols-[1.15fr_1fr] md:items-center">
+      <div className="grid gap-8 md:gap-12 md:grid-cols-[1.15fr_1fr] md:items-center">
         <Reveal>
           <SectionHeading code="SYSTEM 01 / ABOUT APEX" title="About APEX 1.0" />
           <div className="mt-6 space-y-4 text-muted-foreground">
@@ -230,7 +218,7 @@ export function WelcomeSection() {
             <ul className="space-y-2 font-mono text-sm">
               {[
                 "Round 1: Idea Submission & PPT Pitch (Online)",
-                "Round 2: 24-Hour Build & Demo (Offline, Bhopal)",
+                "Round 2: Grand Finale Build & Demo (Offline, Bhopal)",
               ].map((q) => (
                 <li key={q} className="flex gap-3">
                   <span className="text-primary">›</span>
@@ -250,7 +238,7 @@ export function WelcomeSection() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <div className="glass-panel scanlines relative grid aspect-square place-items-center overflow-hidden rounded-xl">
+          <div className="glass-panel scanlines relative grid aspect-square max-h-72 place-items-center overflow-hidden rounded-xl sm:max-h-80 md:max-h-none">
             <div className="absolute inset-0 grid-veil" aria-hidden />
             {[0, 1, 2].map((i) => (
               <span
@@ -264,9 +252,9 @@ export function WelcomeSection() {
                 }}
               />
             ))}
-            <div className="relative grid h-28 w-28 place-items-center rounded-xl border border-primary/50 bg-card text-center font-display glow-primary float-card p-4">
+            <div className="relative grid h-24 w-24 sm:h-28 sm:w-28 place-items-center rounded-xl border border-primary/50 bg-card text-center font-display glow-primary float-card p-4">
               <Terminal className="h-8 w-8 text-primary" />
-              <div className="mt-1 font-display text-sm font-black tracking-widest text-foreground">
+              <div className="mt-1 font-display text-xs sm:text-sm font-black tracking-widest text-foreground">
                 APEX<span className="text-primary">//</span>1.0
               </div>
             </div>
@@ -277,7 +265,7 @@ export function WelcomeSection() {
             <span className="absolute right-4 top-4 font-mono text-[0.5rem] tracking-[0.2em] text-muted-foreground/40" aria-hidden>
               APX//01
             </span>
-            <p className="absolute bottom-5 system-label">PORTAL: ACTIVE · REGISTRATIONS: OPEN</p>
+            <p className="absolute bottom-3 sm:bottom-5 system-label text-[0.5rem] sm:text-[0.6875rem] text-center px-2">PORTAL: ACTIVE · REGISTRATIONS: OPEN</p>
           </div>
         </Reveal>
       </div>
@@ -298,7 +286,7 @@ export function JudgingSection() {
         />
       </Reveal>
 
-      <div className="mt-12 grid gap-5 sm:grid-cols-2">
+      <div className="mt-10 grid gap-4 grid-cols-1 sm:grid-cols-2">
         {EVALUATION_CRITERIA.map((criterion, i) => (
           <Reveal key={criterion.id} delay={i * 0.07}>
             <Dialog>
@@ -306,7 +294,7 @@ export function JudgingSection() {
                 <button
                   type="button"
                   className={cn(
-                    "group glass-panel relative w-full overflow-hidden rounded-xl p-6 text-left transition-all duration-300 hover:-translate-y-1 focus-visible:-translate-y-1 sm:p-8",
+                    "group glass-panel relative w-full overflow-hidden rounded-xl p-4 sm:p-6 md:p-8 text-left transition-all duration-300 hover:-translate-y-1 focus-visible:-translate-y-1",
                     criterion.borderClass,
                     "hover:shadow-[0_0_40px_-8px_currentColor]",
                     criterion.colorClass,
@@ -314,7 +302,7 @@ export function JudgingSection() {
                 >
                   {/* Faint giant number background */}
                   <span
-                    className="pointer-events-none absolute -right-4 -top-6 select-none font-display text-[10rem] font-black leading-none text-foreground/[0.03]"
+                    className="pointer-events-none absolute -right-3 -top-5 select-none font-display text-[6rem] sm:text-[8rem] md:text-[10rem] font-black leading-none text-foreground/[0.03]"
                     aria-hidden
                   >
                     {criterion.id}
@@ -429,29 +417,29 @@ export function RoadmapSection() {
         {ROADMAP.map((g, i) => (
           <Reveal key={g.id} delay={i * 0.06}>
             <li className={cn(
-              "glass-panel relative overflow-hidden rounded-xl p-6 sm:p-7",
+              "glass-panel relative overflow-hidden rounded-xl p-5 sm:p-7",
               g.active && "border-primary/50",
             )}>
               <span className="absolute left-0 top-0 h-full w-[3px] bg-primary/70" aria-hidden />
-              <div className="flex items-center gap-3">
-                <div className={cn(
-                  "grid h-8 w-8 shrink-0 place-items-center rounded-full border font-mono text-xs font-bold",
-                  g.active
-                    ? "border-primary bg-primary/20 text-primary"
-                    : "border-border bg-card text-muted-foreground",
-                )}>
-                  {g.n.toString().padStart(2, "0")}
-                </div>
-                <div className="min-w-0 flex-1">
-                  <h3 className="font-display text-base font-black uppercase">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className={cn(
+                    "grid h-8 w-8 shrink-0 place-items-center rounded-full border font-mono text-xs font-bold",
+                    g.active
+                      ? "border-primary bg-primary/20 text-primary"
+                      : "border-border bg-card text-muted-foreground",
+                  )}>
+                    {g.n.toString().padStart(2, "0")}
+                  </div>
+                  <h3 className="font-display text-sm sm:text-base font-black uppercase truncate">
                     {g.title}
                   </h3>
                 </div>
-                <span className="inline-flex items-center rounded-md border border-primary/40 bg-primary/10 px-2 py-0.5 font-mono text-[0.6rem] font-bold tracking-widest text-primary">
+                <span className="inline-flex items-center rounded-md border border-primary/40 bg-primary/10 px-2 py-0.5 font-mono text-[0.6rem] font-bold tracking-widest text-primary shrink-0 ml-auto sm:ml-0">
                   {g.window}
                 </span>
               </div>
-              <p className="mt-3 pl-11 text-sm text-muted-foreground">{g.text}</p>
+              <p className="mt-3 text-xs sm:text-sm text-muted-foreground leading-relaxed">{g.text}</p>
             </li>
           </Reveal>
         ))}
@@ -524,27 +512,27 @@ export function RulesSection() {
           subtitle="Key guidelines governing APEX 1.0. Ensure compliance before submission."
         />
       </Reveal>
-      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-12 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {RULES.map((r) => (
           <Reveal key={r.n} delay={0.05}>
-            <article className="glass-panel group relative h-full overflow-hidden rounded-xl p-6 transition-all duration-300 hover:border-primary/40">
+            <article className="glass-panel group relative h-full overflow-hidden rounded-xl p-5 sm:p-6 transition-all duration-300 hover:border-primary/40">
               {/* Faint background number */}
               <span
-                className="pointer-events-none absolute -right-2 -top-4 select-none font-display text-[6rem] font-black leading-none text-foreground/[0.03]"
+                className="pointer-events-none absolute -right-2 -top-4 select-none font-display text-[5rem] sm:text-[6rem] font-black leading-none text-foreground/[0.03]"
                 aria-hidden
               >
                 {r.n}
               </span>
               <div className="relative">
                 <div className="flex items-center justify-between gap-3">
-                  <p className="font-display text-3xl font-black text-primary/70">{r.n}</p>
+                  <p className="font-display text-2xl sm:text-3xl font-black text-primary/70">{r.n}</p>
                   <span className="inline-flex items-center gap-1 rounded-full border border-accent-3/30 bg-accent-3/5 px-2 py-0.5 font-mono text-[0.5rem] tracking-[0.18em] text-accent-3/70">
                     <span className="h-1 w-1 rounded-full bg-accent-3/60" aria-hidden />
                     ACTIVE
                   </span>
                 </div>
-                <h3 className="mt-3 font-display text-base font-bold tracking-[0.18em]">{r.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{r.text}</p>
+                <h3 className="mt-3 font-display text-sm sm:text-base font-bold tracking-[0.18em]">{r.title}</h3>
+                <p className="mt-2 text-xs sm:text-sm text-muted-foreground leading-relaxed">{r.text}</p>
               </div>
             </article>
           </Reveal>
@@ -570,41 +558,41 @@ export function PrizesSection() {
         <SectionHeading
           code="SYSTEM 05 / PRIZES"
           title="Prizes"
-          subtitle="₹90,000+ total prize pool, plus six special awards."
+          subtitle="₹30,000 total prize pool, plus six special awards."
         />
       </Reveal>
 
       {/* Grand champion – prominently featured */}
       <Reveal>
-        <div className="mt-12 glass-panel relative overflow-hidden rounded-xl border-primary/50 glow-primary p-8 text-center sm:p-12">
+        <div className="mt-12 glass-panel relative overflow-hidden rounded-xl border-primary/50 glow-primary p-6 text-center sm:p-12">
           <span className="pointer-events-none absolute inset-0 bg-primary/[0.03]" aria-hidden />
-          <span className="pointer-events-none absolute -right-10 -top-10 select-none font-display text-[12rem] font-black leading-none text-foreground/[0.02]" aria-hidden>01</span>
+          <span className="pointer-events-none absolute -right-10 -top-10 select-none font-display text-[8rem] sm:text-[12rem] font-black leading-none text-foreground/[0.02]" aria-hidden>01</span>
           <SystemLabel className="text-primary">FIRST PLACE</SystemLabel>
-          <p className="mt-4 font-display text-5xl font-black text-foreground sm:text-6xl">
-            <Counter to={50000} prefix="₹" />
+          <p className="mt-4 font-display text-4xl sm:text-5xl md:text-6xl font-black text-foreground">
+            <Counter to={18000} prefix="₹" />
           </p>
-          <h3 className="mt-3 font-display text-lg font-bold tracking-[0.3em] text-primary">
-            GRAND CHAMPION
+          <h3 className="mt-3 font-display text-base sm:text-lg font-bold tracking-[0.2em] sm:tracking-[0.3em] text-primary">
+            1ST PRIZE — GRAND CHAMPION
           </h3>
-          <p className="mt-3 text-sm text-muted-foreground">
+          <p className="mt-3 text-xs sm:text-sm text-muted-foreground max-w-lg mx-auto leading-relaxed">
             The team demonstrating the highest combined score across all four judging criteria.
           </p>
         </div>
       </Reveal>
 
       {/* Runner up + Second runner up */}
-      <div className="mt-5 grid gap-5 sm:grid-cols-2">
+      <div className="mt-5 grid gap-5 grid-cols-1 sm:grid-cols-2">
         {PRIZES.slice(1).map((p, i) => (
           <Reveal key={p.title} delay={(i + 1) * 0.08}>
-            <article className="glass-panel relative h-full overflow-hidden rounded-xl p-7 text-center">
-              <span className="pointer-events-none absolute -right-4 -top-4 select-none font-display text-[8rem] font-black leading-none text-foreground/[0.02]" aria-hidden>
+            <article className="glass-panel relative h-full overflow-hidden rounded-xl p-5 sm:p-7 text-center">
+              <span className="pointer-events-none absolute -right-4 -top-4 select-none font-display text-[6rem] sm:text-[8rem] font-black leading-none text-foreground/[0.02]" aria-hidden>
                 {String(i + 2).padStart(2, "0")}
               </span>
               <SystemLabel>{p.sub}</SystemLabel>
-              <p className="mt-3 font-display text-4xl font-black text-foreground">
+              <p className="mt-3 font-display text-3xl sm:text-4xl font-black text-foreground">
                 <Counter to={p.amount} prefix="₹" />
               </p>
-              <h3 className="mt-3 font-display text-sm font-bold tracking-[0.24em] text-primary">
+              <h3 className="mt-3 font-display text-xs sm:text-sm font-bold tracking-[0.2em] sm:tracking-[0.24em] text-primary">
                 {p.title}
               </h3>
             </article>
@@ -616,17 +604,17 @@ export function PrizesSection() {
       <Reveal>
         <div className="mt-6">
           <SystemLabel className="text-primary">SPECIAL AWARDS</SystemLabel>
-          <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-3 grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {SPECIAL_AWARDS.map((a, i) => (
               <div
                 key={a}
-                className="group rounded-lg border border-border bg-card/40 px-5 py-4 transition-all duration-300 hover:border-primary/30"
+                className="group rounded-lg border border-border bg-card/40 px-4 py-3 sm:px-5 sm:py-4 transition-all duration-300 hover:border-primary/30"
               >
                 <div className="flex items-center gap-3">
                   <span className="font-mono text-[0.6rem] text-muted-foreground/50">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className="font-mono text-[0.7rem] tracking-[0.18em] text-muted-foreground group-hover:text-foreground transition-colors">
+                  <span className="font-mono text-[0.65rem] sm:text-[0.7rem] tracking-[0.16em] sm:tracking-[0.18em] text-muted-foreground group-hover:text-foreground transition-colors">
                     {a}
                   </span>
                 </div>
@@ -641,52 +629,8 @@ export function PrizesSection() {
 
 /* ------------------------------ SPONSORS ------------------------------ */
 
-export function SponsorsSection() {
-  return (
-    <Section id="sponsors">
-      <Reveal>
-        <SectionHeading
-          code="SYSTEM 06 / SPONSORS"
-          title="Partners & Supporters"
-          subtitle="Collaborating with leading organizations to empower student innovation."
-        />
-      </Reveal>
-      <div className="mt-12 space-y-8">
-        {SPONSOR_TIERS.map((t, ti) => (
-          <Reveal key={t.tier} delay={ti * 0.05}>
-            <div>
-              <p className="system-label text-primary">{t.tier}</p>
-              <div className="mt-3 flex flex-wrap gap-3">
-                {Array.from({ length: t.slots }).map((_, i) => (
-                  <div
-                    key={i}
-                    className="group grid h-24 w-44 place-items-center rounded-lg border border-dashed border-border bg-card/20 font-mono text-[0.6rem] tracking-[0.18em] text-muted-foreground/50 transition-all duration-300 hover:border-primary/40 hover:text-muted-foreground"
-                  >
-                    <div className="text-center">
-                      <p className="text-[0.55rem] tracking-[0.2em] text-muted-foreground/30">{t.tier}</p>
-                      <p className="mt-1 text-[0.65rem] font-semibold tracking-[0.2em] text-muted-foreground/50 group-hover:text-primary/60 transition-colors">
-                        OPEN
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Reveal>
-        ))}
-      </div>
-      <Reveal>
-        <div className="mt-10">
-          <Button asChild variant="outline" className="bg-transparent font-mono text-xs tracking-[0.18em]">
-            <a href="mailto:apex@hackathon.com">
-              BECOME A PARTNER <ArrowRight className="ml-2 h-4 w-4" />
-            </a>
-          </Button>
-        </div>
-      </Reveal>
-    </Section>
-  );
-}
+export { SponsorsSection } from "./sponsors-section";
+
 
 /* ----------------------------- ORGANIZERS ----------------------------- */
 
@@ -694,7 +638,7 @@ export function OrganizersSection() {
   return (
     <Section id="organizers">
       <Reveal>
-        <SectionHeading code="SYSTEM 08 / ORGANIZERS" title="The team behind APEX 1.0" />
+        <SectionHeading code="SYSTEM 07 / ORGANIZERS" title="The team behind APEX 1.0" />
       </Reveal>
       <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {ORGANIZERS.map((o, i) => (
@@ -758,7 +702,7 @@ export function VenueSection() {
           </Button>
         </Reveal>
         <Reveal delay={0.1}>
-          <div className="glass-panel scanlines relative grid aspect-[4/3] place-items-center overflow-hidden rounded-xl">
+          <div className="glass-panel scanlines relative grid aspect-square max-h-72 sm:max-h-80 md:aspect-[4/3] md:max-h-none place-items-center overflow-hidden rounded-xl">
             <div className="absolute inset-0 grid-veil" aria-hidden />
 
             {/* Animated ping dot */}
@@ -806,7 +750,7 @@ export function FaqSection() {
   return (
     <Section id="faq">
       <Reveal>
-        <SectionHeading code="SYSTEM 09 / FAQ" title="Frequently Asked Questions" subtitle="Everything you need to know about APEX 1.0." />
+        <SectionHeading code="SYSTEM 08 / FAQ" title="Frequently Asked Questions" subtitle="Everything you need to know about APEX 1.0." />
       </Reveal>
       <Reveal>
         <div className="mt-10 grid gap-6 md:grid-cols-2">
@@ -860,8 +804,8 @@ export function FinalCta() {
         {/* Stat badges */}
         <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
           {[
-            "₹90,000+ POOL",
-            "24H BUILD",
+            "₹30,000+ POOL",
+            "GRAND FINALE",
             "OPEN INNOVATION",
           ].map((s) => (
             <span
@@ -873,7 +817,7 @@ export function FinalCta() {
           ))}
         </div>
 
-        <Button asChild size="lg" className="mt-8 glow-primary font-mono text-xs tracking-[0.2em]">
+        <Button asChild size="lg" className="mt-8 glow-primary font-mono text-xs tracking-[0.2em] w-full sm:w-auto min-h-[44px]">
           <Link to="/register">
             ENTER THE HACKATHON <ArrowRight className="ml-2 h-4 w-4" />
           </Link>

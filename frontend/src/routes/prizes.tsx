@@ -10,10 +10,10 @@ export const Route = createFileRoute("/prizes")({
       {
         name: "description",
         content:
-          "A ₹90,000+ prize pool plus six special achievement awards at APEX 1.0.",
+          "A ₹30,000 prize pool plus six special achievement awards at APEX 1.0.",
       },
       { property: "og:title", content: "Prizes — APEX 1.0" },
-      { property: "og:description", content: "Compete for a ₹90,000+ prize pool and special track awards." },
+      { property: "og:description", content: "Compete for a ₹30,000 prize pool and special track awards." },
       { property: "og:url", content: "/prizes" },
     ],
     links: [{ rel: "canonical", href: "/prizes" }],

@@ -88,9 +88,9 @@ export function AdminShell({ title, children }: { title: string; children: React
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur-md">
-        <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-3.5 sm:px-8">
-          <div className="flex min-w-0 items-center gap-6">
+      <header className="sticky top-0 z-40 border-b border-border/70 bg-background/90 backdrop-blur-md">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-8 sm:py-3.5">
+          <div className="flex min-w-0 items-center gap-4 sm:gap-6">
             <Link to="/" className="flex items-center gap-2 shrink-0 font-display text-sm font-black tracking-widest">
               <img
                 src="/favicon-32x32.png"
@@ -106,8 +106,8 @@ export function AdminShell({ title, children }: { title: string; children: React
                 <Link
                   key={n.to}
                   to={n.to}
-                  className="rounded px-3 py-1.5 font-mono text-[0.68rem] tracking-[0.16em] text-muted-foreground hover:text-foreground"
-                  activeProps={{ className: "text-foreground bg-secondary" }}
+                  className="rounded px-3 py-1.5 font-mono text-[0.68rem] tracking-[0.16em] text-muted-foreground hover:text-foreground transition-colors"
+                  activeProps={{ className: "text-foreground bg-secondary font-bold" }}
                   activeOptions={{ exact: n.to === "/admin" }}
                 >
                   {n.label}
@@ -119,18 +119,18 @@ export function AdminShell({ title, children }: { title: string; children: React
             onClick={signOut}
             variant="outline"
             size="sm"
-            className="bg-transparent font-mono text-[0.68rem] tracking-[0.16em]"
+            className="bg-transparent font-mono text-[0.68rem] tracking-[0.16em] min-h-[36px]"
           >
-            <LogOut className="mr-2 h-3.5 w-3.5" /> SIGN OUT
+            <LogOut className="mr-1.5 h-3.5 w-3.5" /> SIGN OUT
           </Button>
         </div>
-        <nav aria-label="Admin mobile" className="flex gap-1 overflow-x-auto px-5 pb-2 md:hidden">
+        <nav aria-label="Admin mobile" className="flex gap-2 overflow-x-auto px-4 pb-2.5 md:hidden">
           {ADMIN_NAV.map((n) => (
             <Link
               key={n.to}
               to={n.to}
-              className="whitespace-nowrap rounded px-3 py-1.5 font-mono text-[0.68rem] tracking-[0.16em] text-muted-foreground"
-              activeProps={{ className: "text-foreground bg-secondary" }}
+              className="whitespace-nowrap rounded-md px-3 py-1.5 font-mono text-[0.68rem] tracking-[0.16em] text-muted-foreground bg-card/40 border border-border/40"
+              activeProps={{ className: "text-primary font-bold bg-primary/10 border-primary/40" }}
               activeOptions={{ exact: n.to === "/admin" }}
             >
               {n.label}
@@ -139,10 +139,10 @@ export function AdminShell({ title, children }: { title: string; children: React
         </nav>
       </header>
 
-      <div className="mx-auto max-w-7xl px-5 py-10 sm:px-8">
-        <SystemLabel className="text-primary">ADMIN CONTROL</SystemLabel>
-        <h1 className="mt-2 font-display text-3xl font-black uppercase sm:text-4xl">{title}</h1>
-        <div className="mt-8">{children}</div>
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-8 sm:py-10">
+        <SystemLabel className="text-primary text-[0.65rem] sm:text-xs">ADMIN CONTROL</SystemLabel>
+        <h1 className="mt-1.5 font-display text-2xl sm:text-3xl md:text-4xl font-black uppercase break-words">{title}</h1>
+        <div className="mt-6 sm:mt-8">{children}</div>
       </div>
     </div>
   );

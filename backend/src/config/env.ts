@@ -17,5 +17,9 @@ export const config = {
     environment: (process.env.CASHFREE_ENVIRONMENT as "sandbox" | "production") || "sandbox",
     apiVersion: "2023-08-01",
   },
+  razorpay: {
+    keyId: process.env.RAZORPAY_KEY_ID || process.env.VITE_RAZORPAY_KEY_ID || "",
+    keySecret: process.env.RAZORPAY_KEY_SECRET || "",
+  },
   cronSecret: process.env.CRON_SECRET || "",
 };

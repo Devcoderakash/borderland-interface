@@ -182,16 +182,16 @@ function Registrations() {
 
   return (
     <div className="space-y-5">
-      <div className="glass-panel grid gap-3 rounded-xl p-5 lg:grid-cols-[minmax(0,1fr)_auto_auto_auto] lg:items-center">
+      <div className="glass-panel grid gap-3 rounded-xl p-4 sm:p-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-[minmax(0,1.5fr)_repeat(3,minmax(0,1fr))_auto] items-center">
         <Input
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="SEARCH TEAM, LEADER, EMAIL, COLLEGE"
           aria-label="Search registrations"
-          className="font-mono text-xs tracking-[0.12em]"
+          className="font-mono text-xs tracking-[0.12em] h-10 w-full col-span-1 sm:col-span-2 lg:col-span-1"
         />
         <Select value={teamSizeFilter} onValueChange={setTeamSizeFilter}>
-          <SelectTrigger className="w-full lg:w-40" aria-label="Filter by team size">
+          <SelectTrigger className="w-full h-10" aria-label="Filter by team size">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -202,7 +202,7 @@ function Registrations() {
           </SelectContent>
         </Select>
         <Select value={status} onValueChange={setStatus}>
-          <SelectTrigger className="w-full lg:w-40" aria-label="Filter by status">
+          <SelectTrigger className="w-full h-10" aria-label="Filter by status">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -214,7 +214,7 @@ function Registrations() {
           </SelectContent>
         </Select>
         <Select value={paymentStatus} onValueChange={setPaymentStatus}>
-          <SelectTrigger className="w-full lg:w-40" aria-label="Filter by payment">
+          <SelectTrigger className="w-full h-10" aria-label="Filter by payment">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -227,14 +227,14 @@ function Registrations() {
         <Button
           onClick={exportCsv}
           variant="outline"
-          className="bg-transparent font-mono text-xs tracking-[0.16em]"
+          className="bg-transparent font-mono text-xs tracking-[0.16em] w-full sm:w-auto h-10 col-span-1 sm:col-span-2 lg:col-span-1"
         >
           <Download className="mr-2 h-4 w-4" /> EXPORT CSV
         </Button>
       </div>
 
-      <div className="glass-panel overflow-x-auto rounded-xl p-5">
-        <table className="w-full min-w-[900px] border-collapse text-left">
+      <div className="glass-panel overflow-x-auto rounded-xl p-3 sm:p-5">
+        <table className="w-full min-w-[850px] border-collapse text-left">
           <thead>
             <tr className="border-b border-border/70">
               {[

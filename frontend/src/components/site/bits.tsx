@@ -53,7 +53,7 @@ export function SectionHeading({
         <span className="h-2 w-2 rotate-45 bg-primary" aria-hidden />
         <SystemLabel>{code}</SystemLabel>
       </div>
-      <h2 className="mt-4 text-3xl font-black uppercase tracking-tight sm:text-4xl md:text-5xl">
+      <h2 className="mt-4 text-2xl font-black uppercase tracking-tight sm:text-4xl md:text-5xl break-words">
         {title}
       </h2>
       {subtitle ? (
@@ -73,7 +73,7 @@ export function Section({
   className?: string;
 }) {
   return (
-    <section id={id} className={cn("relative px-5 py-20 sm:px-8 md:py-28", className)}>
+    <section id={id} className={cn("relative px-4 py-14 sm:px-8 sm:py-20 md:py-28 overflow-hidden", className)}>
       <div className="mx-auto w-full max-w-6xl">{children}</div>
     </section>
   );

@@ -116,12 +116,12 @@ function Overview() {
     }));
 
   return (
-    <div className="space-y-8">
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+    <div className="space-y-6 sm:space-y-8">
+      <div className="grid gap-3 sm:gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
         {stats.map((s) => (
-          <div key={s.label} className="glass-panel rounded-xl p-5">
-            <SystemLabel>{s.label}</SystemLabel>
-            <p className="mt-2 font-display text-3xl font-black text-primary">
+          <div key={s.label} className="glass-panel rounded-xl p-4 sm:p-5 min-w-0">
+            <SystemLabel className="text-[0.6rem] sm:text-xs truncate block">{s.label}</SystemLabel>
+            <p className="mt-2 font-display text-xl sm:text-2xl lg:text-3xl font-black text-primary truncate">
               {teams.isLoading ? <Skeleton className="h-8 w-14" /> : s.value}
             </p>
           </div>
@@ -129,9 +129,9 @@ function Overview() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <div className="glass-panel rounded-xl p-5 sm:p-6">
-          <SystemLabel>TEAM SIZE DISTRIBUTION</SystemLabel>
-          <div className="mt-5 h-64 w-full">
+        <div className="glass-panel rounded-xl p-4 sm:p-6 min-w-0 overflow-hidden">
+          <SystemLabel className="text-xs">TEAM SIZE DISTRIBUTION</SystemLabel>
+          <div className="mt-5 h-64 w-full min-w-0">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={teamSizeChart}>
                 <CartesianGrid stroke="var(--color-border)" vertical={false} />
@@ -150,9 +150,9 @@ function Overview() {
           </div>
         </div>
 
-        <div className="glass-panel rounded-xl p-5 sm:p-6">
-          <SystemLabel>PREFERRED DOMAIN DISTRIBUTION</SystemLabel>
-          <div className="mt-5 h-64 w-full">
+        <div className="glass-panel rounded-xl p-4 sm:p-6 min-w-0 overflow-hidden">
+          <SystemLabel className="text-xs">PREFERRED DOMAIN DISTRIBUTION</SystemLabel>
+          <div className="mt-5 h-64 w-full min-w-0">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={domainChart}>
                 <CartesianGrid stroke="var(--color-border)" vertical={false} />
@@ -172,11 +172,11 @@ function Overview() {
         </div>
       </div>
 
-      <div className="glass-panel rounded-xl p-5 sm:p-6">
-        <SystemLabel>EVENT SETTINGS</SystemLabel>
+      <div className="glass-panel rounded-xl p-4 sm:p-6">
+        <SystemLabel className="text-xs">EVENT SETTINGS</SystemLabel>
         {form ? (
           <form
-            className="mt-5 grid gap-4 sm:grid-cols-2"
+            className="mt-5 grid gap-4 grid-cols-1 sm:grid-cols-2"
             onSubmit={(e) => {
               e.preventDefault();
               save.mutate(form);
@@ -194,22 +194,22 @@ function Overview() {
               ] as const
             ).map(([key, label]) => (
               <div key={key}>
-                <Label htmlFor={key} className="system-label">
+                <Label htmlFor={key} className="system-label text-xs">
                   {label}
                 </Label>
                 <Input
                   id={key}
                   value={form[key]}
                   onChange={(e) => setForm({ ...form, [key]: e.target.value })}
-                  className="mt-1.5"
+                  className="mt-1.5 h-10"
                 />
               </div>
             ))}
-            <div className="sm:col-span-2">
+            <div className="sm:col-span-2 pt-2">
               <Button
                 type="submit"
                 disabled={save.isPending}
-                className="font-mono text-xs tracking-[0.18em]"
+                className="font-mono text-xs tracking-[0.18em] w-full sm:w-auto min-h-[44px]"
               >
                 SAVE SETTINGS
               </Button>

@@ -34,7 +34,7 @@ Primary registration table. Contains all team and payment data.
 | `linkedin_url` | text? | Leader LinkedIn URL |
 | `status` | text | pending / approved / rejected |
 | `payment_status` | text | pending / paid / failed |
-| `payment_amount` | int | Amount in paise (e.g. 15000 = ₹150) |
+| `payment_amount` | int | Amount in paise (e.g. 15000 = ₹199) |
 | `payment_currency` | text | INR |
 | `payment_order_id` | text | Internal order ID |
 | `cashfree_order_id` | text | Cashfree-assigned order ID |

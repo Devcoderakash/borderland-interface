@@ -10,20 +10,19 @@ import {
   RulesSection,
   SponsorsSection,
   JudgingSection,
-  VenueSection,
   WelcomeSection,
 } from "@/components/sections/apex-sections";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "APEX 1.0 — One Idea. 24 Hours. No Limits." },
+      { title: "APEX 1.0 — One Idea. No Limits." },
       {
         name: "description",
         content:
           "APEX 1.0 is a premier open-innovation hackathon where students build, innovate, pitch, and compete to create impactful solutions.",
       },
-      { property: "og:title", content: "APEX 1.0 — One Idea. 24 Hours. No Limits." },
+      { property: "og:title", content: "APEX 1.0 — One Idea. No Limits." },
       {
         property: "og:description",
         content:
@@ -47,7 +46,6 @@ function Index() {
       <PrizesSection />
       <SponsorsSection />
       <OrganizersSection />
-      <VenueSection />
       <FaqSection />
       <FinalCta />
     </>

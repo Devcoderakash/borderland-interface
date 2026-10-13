@@ -93,13 +93,20 @@
 }
 
 @layer base {
-  * {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
     border-color: var(--color-border);
   }
 
   html {
     color-scheme: dark;
     scroll-behavior: smooth;
+    overflow-x: clip;
+    max-width: 100vw;
+    width: 100%;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
@@ -108,6 +115,19 @@
     font-family: var(--font-sans);
     font-size: 1.0125rem;
     -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+    max-width: 100vw;
+    width: 100%;
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  img,
+  video,
+  canvas,
+  svg {
+    max-width: 100%;
+    display: block;
   }
 
   h1,
@@ -116,6 +136,15 @@
   h4 {
     font-family: var(--font-display);
     letter-spacing: 0.02em;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  p,
+  span,
+  a,
+  li {
+    overflow-wrap: break-word;
   }
 
   ::selection {
@@ -231,6 +260,250 @@
   animation: float-card 9s ease-in-out infinite;
 }
 
+/* ---------------- APEX CINEMATIC HERO BACKGROUND ANIMATIONS ---------------- */
+
+@keyframes apex-crimson-breathe {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes apex-cloud-drift-1 {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes apex-cloud-drift-2 {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes apex-mist-float-1 {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(-24px, -8px, 0);
+  }
+}
+
+@keyframes apex-mist-float-2 {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(20px, -10px, 0);
+  }
+}
+
+@keyframes apex-light-sweep {
+  0% {
+    transform: translate3d(-100%, 0, 0) rotate(-8deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0;
+  }
+  28% {
+    opacity: 0.5;
+  }
+  42% {
+    opacity: 0.35;
+  }
+  58% {
+    opacity: 0;
+    transform: translate3d(240%, 0, 0) rotate(-8deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(240%, 0, 0) rotate(-8deg);
+  }
+}
+
+@keyframes apex-grid-breathe {
+  0%,
+  100% {
+    opacity: 0.75;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes apex-horizon-glow {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scaleX(0.94);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scaleX(1.04);
+  }
+}
+
+.animate-apex-crimson-breathe {
+  animation: apex-crimson-breathe 11s ease-in-out infinite alternate;
+}
+
+.animate-apex-cloud-slow {
+  animation: apex-cloud-drift-1 95s linear infinite;
+}
+
+.animate-apex-cloud-fast {
+  animation: apex-cloud-drift-2 65s linear infinite;
+}
+
+.animate-apex-mist-drift-1 {
+  animation: apex-cloud-drift-1 50s linear infinite;
+}
+
+.animate-apex-mist-drift-2 {
+  animation: apex-cloud-drift-2 75s linear infinite reverse;
+}
+
+.animate-apex-mist-float-1 {
+  animation: apex-mist-float-1 16s ease-in-out infinite;
+}
+
+.animate-apex-mist-float-2 {
+  animation: apex-mist-float-2 22s ease-in-out infinite;
+}
+
+.animate-apex-light-sweep {
+  animation: apex-light-sweep 24s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.animate-apex-grid-breathe {
+  animation: apex-grid-breathe 14s ease-in-out infinite;
+}
+
+.animate-apex-horizon-glow {
+  animation: apex-horizon-glow 8s ease-in-out infinite;
+}
+
+.apex-cloud-texture-1 {
+  background-image:
+    radial-gradient(ellipse 65% 45% at 20% 50%, rgba(225, 29, 72, 0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 55% 40% at 45% 40%, rgba(180, 20, 50, 0.22) 0%, transparent 68%),
+    radial-gradient(ellipse 70% 50% at 75% 55%, rgba(225, 29, 72, 0.20) 0%, transparent 72%),
+    radial-gradient(ellipse 45% 35% at 92% 45%, rgba(140, 15, 40, 0.18) 0%, transparent 65%);
+  background-repeat: repeat-x;
+  background-size: 100% 100%;
+}
+
+.apex-cloud-texture-2 {
+  background-image:
+    radial-gradient(ellipse 50% 35% at 15% 45%, rgba(225, 29, 72, 0.16) 0%, rgba(150, 15, 40, 0.08) 35%, transparent 70%),
+    radial-gradient(ellipse 65% 40% at 55% 60%, rgba(251, 146, 60, 0.10) 0%, rgba(225, 29, 72, 0.14) 30%, transparent 70%),
+    radial-gradient(ellipse 55% 38% at 85% 40%, rgba(180, 20, 50, 0.15) 0%, transparent 68%);
+  background-repeat: repeat-x;
+  background-size: 100% 100%;
+}
+
+.apex-mist-texture-1 {
+  background-image:
+    radial-gradient(ellipse 80% 35% at 25% 60%, rgba(225, 29, 72, 0.16) 0%, rgba(100, 15, 30, 0.08) 40%, transparent 70%),
+    radial-gradient(ellipse 70% 30% at 65% 50%, rgba(244, 63, 94, 0.14) 0%, rgba(140, 10, 35, 0.06) 45%, transparent 75%),
+    radial-gradient(ellipse 60% 40% at 90% 65%, rgba(225, 29, 72, 0.18) 0%, transparent 70%);
+  background-repeat: repeat-x;
+  background-size: 100% 100%;
+}
+
+.apex-mist-texture-2 {
+  background-image:
+    radial-gradient(ellipse 75% 30% at 30% 70%, rgba(180, 20, 45, 0.14) 0%, transparent 65%),
+    radial-gradient(ellipse 85% 35% at 70% 60%, rgba(225, 29, 72, 0.12) 0%, rgba(251, 146, 60, 0.06) 30%, transparent 70%);
+  background-repeat: repeat-x;
+  background-size: 100% 100%;
+}
+
+
+/* ---------------- PARTNERS MARQUEE & CYBER GLASS ---------------- */
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes marquee-scroll-reverse {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-marquee-infinite {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 32s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-infinite:hover {
+  animation-play-state: paused;
+}
+
+.animate-marquee-reverse-infinite {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll-reverse 36s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-reverse-infinite:hover {
+  animation-play-state: paused;
+}
+
+.sponsor-glass-card {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.035) 0%,
+    rgba(255, 255, 255, 0.008) 100%
+  );
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.sponsor-glow-border {
+  position: relative;
+}
+.sponsor-glow-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(225, 29, 72, 0.4), transparent 60%, rgba(225, 29, 72, 0.15));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -247,4 +520,5 @@
     filter: none !important;
   }
 }
+
 

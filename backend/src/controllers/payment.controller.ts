@@ -1,16 +1,19 @@
+import crypto from "node:crypto";
 import type { Request, Response } from "express";
 import { z } from "zod";
 import { config } from "../config/env.js";
 import {
-  createCashfreeOrder,
-  getCashfreeOrder,
-  verifyCashfreeWebhookSignature,
-} from "../services/cashfree.js";
+  createRazorpayOrder,
+  verifyRazorpaySignature,
+} from "../services/razorpay.service.js";
 import {
+  attachRazorpayOrder,
   createPendingRegistration,
   getTeamByOrderId,
+  markTeamFailed,
   markTeamPaid,
   REGISTRATION_FEE_INR,
+  REGISTRATION_FEE_PAISE,
 } from "../services/registration.service.js";
 import { errorResponse, successResponse } from "../utils/response.js";
 
@@ -36,8 +39,16 @@ const registrationSchema = z.object({
     .default([]),
 });
 
+const verifySchema = z.object({
+  razorpay_order_id: z.string().min(1, "razorpay_order_id is required"),
+  razorpay_payment_id: z.string().min(1, "razorpay_payment_id is required"),
+  razorpay_signature: z.string().min(1, "razorpay_signature is required"),
+  teamId: z.string().optional(),
+});
+
 /**
- * POST /api/payment/create-order
+ * POST /api/payments/create-order or POST /api/payment/create-order
+ * Validates registration and creates a pending Razorpay order
  */
 export async function createOrder(req: Request, res: Response) {
   try {
@@ -48,54 +59,45 @@ export async function createOrder(req: Request, res: Response) {
 
     const payload = parseResult.data;
 
-    // 1. Create pending record in Supabase
-    const { teamId, playerId, cleanId, orderId } = await createPendingRegistration(payload);
+    // 1. Create or retrieve pending record in Supabase
+    const { teamId, playerId, cleanId } = await createPendingRegistration(payload);
 
-    // 2. Prepare return and notify URLs
-    const frontendBase = config.frontendUrl.replace(/\/$/, "");
-    const returnUrl = `${frontendBase}/success?order_id={order_id}&team_id=${teamId}`;
-    const notifyUrl = `${req.protocol}://${req.get("host")}/api/payment/webhook`;
+    // 2. Generate Razorpay order on server (amount always calculated server-side)
+    const receipt = `rcpt_${cleanId.slice(0, 10)}_${Date.now().toString().slice(-4)}`;
+    const rzpOrder = await createRazorpayOrder({
+      amountPaise: REGISTRATION_FEE_PAISE,
+      currency: "INR",
+      receipt,
+      notes: {
+        team_id: teamId,
+        player_id: playerId,
+        team_name: payload.team_name,
+        leader_name: payload.leader_name,
+        email: payload.email,
+      },
+    });
 
-    // 3. Create Cashfree Order if credentials are provided
-    let paymentSessionId: string | null = null;
-    let cfOrderId = "";
+    const razorpayOrderId = rzpOrder.id;
 
-    if (config.cashfree.appId && config.cashfree.secretKey) {
-      const cashfreeOrder = await createCashfreeOrder({
-        orderId,
-        orderAmount: REGISTRATION_FEE_INR,
-        orderCurrency: "INR",
-        customerDetails: {
-          customerId: `cust_${cleanId}`,
-          customerName: payload.leader_name,
-          customerEmail: payload.email,
-          customerPhone: payload.phone,
-        },
-        orderMeta: {
-          returnUrl,
-          notifyUrl,
-        },
-        orderNote: `APEX 1.0 Registration — Team ${payload.team_name}`,
-      });
+    // 3. Attach order id to team record
+    await attachRazorpayOrder(teamId, razorpayOrderId);
 
-      paymentSessionId = cashfreeOrder.paymentSessionId;
-      cfOrderId = cashfreeOrder.cfOrderId;
-    } else {
-      console.warn(
-        "[Payment Controller] Cashfree credentials not configured. Generating mock session for testing.",
-      );
-      paymentSessionId = `mock_session_${cleanId}`;
-    }
+    console.log(
+      `[Payment Controller] Created Razorpay order ${razorpayOrderId} for Team ${payload.team_name} (Amount: ₹${REGISTRATION_FEE_INR})`,
+    );
 
     return successResponse(res, {
-      orderId,
-      cfOrderId,
-      paymentSessionId,
-      amount: REGISTRATION_FEE_INR,
+      orderId: razorpayOrderId,
+      amount: REGISTRATION_FEE_PAISE,
+      amountInRupees: REGISTRATION_FEE_INR,
       currency: "INR",
-      referenceId: teamId,
+      keyId: config.razorpay.keyId || process.env.VITE_RAZORPAY_KEY_ID || "",
+      teamId,
       playerId,
-      environment: config.cashfree.environment,
+      teamName: payload.team_name,
+      leaderName: payload.leader_name,
+      email: payload.email,
+      phone: payload.phone,
     });
   } catch (err: any) {
     console.error("[Payment Controller] createOrder Error:", err);
@@ -104,41 +106,68 @@ export async function createOrder(req: Request, res: Response) {
 }
 
 /**
- * POST /api/payment/verify
+ * POST /api/payments/verify or POST /api/payment/verify
+ * Cryptographically verifies Razorpay HMAC-SHA256 signature and confirms registration
  */
 export async function verifyPayment(req: Request, res: Response) {
   try {
-    const { orderId, referenceId } = req.body;
-    if (!orderId) {
-      return errorResponse(res, "orderId is required", 400);
+    const parseResult = verifySchema.safeParse(req.body);
+    if (!parseResult.success) {
+      return errorResponse(res, "Invalid payment verification payload", 400, parseResult.error.format());
     }
 
-    if (!config.cashfree.appId || !config.cashfree.secretKey) {
-      // Development mode fallback
-      await markTeamPaid(orderId, { payment_id: `dev_paid_${Date.now()}` });
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = parseResult.data;
+
+    // 1. Find registration record
+    const team = await getTeamByOrderId(razorpay_order_id);
+    if (!team) {
+      console.error(`[Payment Controller] Verification error: Team not found for order ${razorpay_order_id}`);
+      return errorResponse(res, "Registration record not found for this order", 404);
+    }
+
+    // 2. Idempotency check: if already confirmed, return success immediately
+    if (team.payment_status === "paid") {
+      console.log(`[Payment Controller] Order ${razorpay_order_id} already marked as paid.`);
       return successResponse(res, {
         success: true,
-        orderId,
-        status: "PAID",
+        alreadyProcessed: true,
+        status: "paid",
+        playerId: team.player_id,
+        teamName: team.team_name,
+        orderId: razorpay_order_id,
+        paymentId: team.payment_id,
       });
     }
 
-    const orderData = await getCashfreeOrder(orderId);
-    const orderStatus = orderData.order_status;
+    // 3. Secure HMAC-SHA256 signature verification
+    const isValid = verifyRazorpaySignature({
+      orderId: razorpay_order_id,
+      paymentId: razorpay_payment_id,
+      signature: razorpay_signature,
+    });
 
-    if (orderStatus === "PAID") {
-      await markTeamPaid(orderId, orderData);
-      return successResponse(res, {
-        success: true,
-        orderId,
-        status: "PAID",
-      });
+    if (!isValid) {
+      console.warn(`[Payment Controller] Invalid signature detected for order ${razorpay_order_id}`);
+      await markTeamFailed(razorpay_order_id);
+      return errorResponse(res, "Payment signature verification failed", 400);
     }
+
+    // 4. Update team record to paid and approved
+    await markTeamPaid(razorpay_order_id, {
+      razorpay_payment_id,
+      razorpay_order_id,
+      razorpay_signature,
+    });
+
+    console.log(`[Payment Controller] Payment VERIFIED and confirmed for Team ${team.team_name} (${team.player_id})`);
 
     return successResponse(res, {
-      success: false,
-      orderId,
-      status: orderStatus,
+      success: true,
+      status: "paid",
+      playerId: team.player_id,
+      teamName: team.team_name,
+      orderId: razorpay_order_id,
+      paymentId: razorpay_payment_id,
     });
   } catch (err: any) {
     console.error("[Payment Controller] verifyPayment Error:", err);
@@ -147,7 +176,7 @@ export async function verifyPayment(req: Request, res: Response) {
 }
 
 /**
- * GET /api/payment/order/:orderId
+ * GET /api/payment/order/:orderId or GET /api/payments/order/:orderId
  */
 export async function getOrder(req: Request, res: Response) {
   try {
@@ -162,10 +191,13 @@ export async function getOrder(req: Request, res: Response) {
     }
 
     return successResponse(res, {
+      id: team.id,
       player_id: team.player_id,
       team_name: team.team_name,
       payment_status: team.payment_status,
+      payment_amount: team.payment_amount,
       status: team.status,
+      paid_at: team.paid_at,
     });
   } catch (err: any) {
     console.error("[Payment Controller] getOrder Error:", err);
@@ -174,31 +206,74 @@ export async function getOrder(req: Request, res: Response) {
 }
 
 /**
- * POST /api/payment/webhook
+ * GET /api/registrations/:id/status
+ */
+export async function getRegistrationStatus(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return errorResponse(res, "id parameter is required", 400);
+    }
+
+    const team = await getTeamByOrderId(id);
+    if (!team) {
+      return errorResponse(res, "Registration not found", 404);
+    }
+
+    return successResponse(res, {
+      id: team.id,
+      player_id: team.player_id,
+      team_name: team.team_name,
+      payment_status: team.payment_status,
+      status: team.status,
+      paid_at: team.paid_at,
+    });
+  } catch (err: any) {
+    console.error("[Payment Controller] getRegistrationStatus Error:", err);
+    return errorResponse(res, err.message || "Failed to retrieve status", 500);
+  }
+}
+
+/**
+ * POST /api/payments/webhook
  */
 export async function handleWebhook(req: Request, res: Response) {
   try {
-    const signature = req.headers["x-webhook-signature"] as string;
-    const timestamp = req.headers["x-webhook-timestamp"] as string;
-    const rawBody = (req as any).rawBody || JSON.stringify(req.body);
+    const signature = req.headers["x-razorpay-signature"] as string;
+    const secret = config.razorpay.keySecret;
 
-    if (config.cashfree.secretKey && !verifyCashfreeWebhookSignature(rawBody, signature, timestamp)) {
-      console.warn("[Payment Webhook] Invalid webhook signature rejected.");
-      return errorResponse(res, "Invalid signature", 400);
+    if (secret && signature) {
+      const body = (req as any).rawBody || JSON.stringify(req.body);
+      const expected = crypto
+        .createHmac("sha256", secret)
+        .update(body)
+        .digest("hex");
+
+      if (expected !== signature) {
+        console.warn("[Razorpay Webhook] Invalid webhook signature");
+        return errorResponse(res, "Invalid webhook signature", 400);
+      }
     }
 
     const event = req.body;
-    const eventType = event?.type;
-    const orderId = event?.data?.order?.order_id;
+    const eventName = event?.event;
 
-    if (eventType === "PAYMENT_SUCCESS_WEBHOOK" && orderId) {
-      await markTeamPaid(orderId, event.data.payment || {});
-      console.log(`[Payment Webhook] Marked order ${orderId} as PAID`);
+    if (eventName === "order.paid" || eventName === "payment.captured") {
+      const orderId = event.payload?.payment?.entity?.order_id || event.payload?.order?.entity?.id;
+      const paymentId = event.payload?.payment?.entity?.id;
+
+      if (orderId && paymentId) {
+        await markTeamPaid(orderId, {
+          razorpay_payment_id: paymentId,
+          razorpay_order_id: orderId,
+        });
+        console.log(`[Razorpay Webhook] Order ${orderId} marked paid via webhook`);
+      }
     }
 
     return successResponse(res, { status: "OK" });
   } catch (err: any) {
-    console.error("[Payment Webhook] Error:", err);
+    console.error("[Razorpay Webhook] Error:", err);
     return errorResponse(res, "Webhook processing error", 500);
   }
 }
