@@ -11,10 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FaqRouteImport } from './routes/faq'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PrizesRouteImport } from './routes/prizes'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as RulesRouteImport } from './routes/rules'
 import { Route as SuccessRouteImport } from './routes/success'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminRegistrationsRouteImport } from './routes/admin.registrations'
 
@@ -26,6 +28,11 @@ const IndexRoute = IndexRouteImport.update({
 const FaqRoute = FaqRouteImport.update({
   id: '/faq',
   path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrizesRoute = PrizesRouteImport.update({
@@ -48,6 +55,11 @@ const SuccessRoute = SuccessRouteImport.update({
   path: '/success',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/admin/',
   path: '/admin/',
@@ -62,20 +74,24 @@ const AdminRegistrationsRoute = AdminRegistrationsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/faq': typeof FaqRoute
+  '/privacy': typeof PrivacyRoute
   '/prizes': typeof PrizesRoute
   '/register': typeof RegisterRoute
   '/rules': typeof RulesRoute
   '/success': typeof SuccessRoute
+  '/terms': typeof TermsRoute
   '/admin/registrations': typeof AdminRegistrationsRoute
   '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/faq': typeof FaqRoute
+  '/privacy': typeof PrivacyRoute
   '/prizes': typeof PrizesRoute
   '/register': typeof RegisterRoute
   '/rules': typeof RulesRoute
   '/success': typeof SuccessRoute
+  '/terms': typeof TermsRoute
   '/admin/registrations': typeof AdminRegistrationsRoute
   '/admin': typeof AdminIndexRoute
 }
@@ -83,10 +99,12 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/faq': typeof FaqRoute
+  '/privacy': typeof PrivacyRoute
   '/prizes': typeof PrizesRoute
   '/register': typeof RegisterRoute
   '/rules': typeof RulesRoute
   '/success': typeof SuccessRoute
+  '/terms': typeof TermsRoute
   '/admin/registrations': typeof AdminRegistrationsRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -95,30 +113,36 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/faq'
+    | '/privacy'
     | '/prizes'
     | '/register'
     | '/rules'
     | '/success'
+    | '/terms'
     | '/admin/registrations'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/faq'
+    | '/privacy'
     | '/prizes'
     | '/register'
     | '/rules'
     | '/success'
+    | '/terms'
     | '/admin/registrations'
     | '/admin'
   id:
     | '__root__'
     | '/'
     | '/faq'
+    | '/privacy'
     | '/prizes'
     | '/register'
     | '/rules'
     | '/success'
+    | '/terms'
     | '/admin/registrations'
     | '/admin/'
   fileRoutesById: FileRoutesById
@@ -126,10 +150,12 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FaqRoute: typeof FaqRoute
+  PrivacyRoute: typeof PrivacyRoute
   PrizesRoute: typeof PrizesRoute
   RegisterRoute: typeof RegisterRoute
   RulesRoute: typeof RulesRoute
   SuccessRoute: typeof SuccessRoute
+  TermsRoute: typeof TermsRoute
   AdminRegistrationsRoute: typeof AdminRegistrationsRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
@@ -148,6 +174,13 @@ declare module '@tanstack/react-router' {
       path: '/faq'
       fullPath: '/faq'
       preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/prizes': {
@@ -178,6 +211,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SuccessRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/': {
       id: '/admin/'
       path: '/admin'
@@ -198,10 +238,12 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FaqRoute: FaqRoute,
+  PrivacyRoute: PrivacyRoute,
   PrizesRoute: PrizesRoute,
   RegisterRoute: RegisterRoute,
   RulesRoute: RulesRoute,
   SuccessRoute: SuccessRoute,
+  TermsRoute: TermsRoute,
   AdminRegistrationsRoute: AdminRegistrationsRoute,
   AdminIndexRoute: AdminIndexRoute,
 }

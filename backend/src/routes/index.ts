@@ -2,6 +2,7 @@ import { Router } from "express";
 import { adminRouter } from "./admin.routes.js";
 import { paymentRouter } from "./payment.routes.js";
 import { registrationRouter } from "./registration.routes.js";
+import { uploadRouter } from "./upload.routes.js";
 
 export const apiRouter = Router();
 
@@ -20,3 +21,6 @@ apiRouter.use("/registrations", registrationRouter);
 
 // Admin
 apiRouter.use("/admin", adminRouter);
+
+// Uploads
+apiRouter.use("/upload", uploadRouter);

@@ -4,13 +4,19 @@ import {
   AlertTriangle,
   CheckCircle2,
   Clock,
+  Database,
+  ExternalLink,
+  FileCheck,
   FileText,
   Github,
   Linkedin,
   Loader2,
+  Shield,
   Sparkles,
   Trophy,
+  UploadCloud,
   Users,
+  X,
   Zap,
 } from "lucide-react";
 import { useState } from "react";
@@ -39,7 +45,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { loadRazorpayScript } from "@/lib/razorpay";
-import { createOrder, verifyPayment } from "@/lib/api";
+import { createOrder, verifyPayment, uploadPptFile } from "@/lib/api";
+import { cn } from "@/lib/utils";
 
 const schema = z.object({
   team_name: z.string().trim().min(2, "Team name is required").max(80),
@@ -55,8 +62,10 @@ const schema = z.object({
   preferred_domain: z.string().trim().max(120).optional().or(z.literal("")),
   github_url: z.string().trim().url("Enter a valid URL").max(255).optional().or(z.literal("")),
   linkedin_url: z.string().trim().url("Enter a valid URL").max(255).optional().or(z.literal("")),
-  ppt_url: z.string().trim().url("Enter a valid PPT URL").max(500),
-  terms: z.literal(true, { errorMap: () => ({ message: "You must accept the terms" }) }),
+  ppt_url: z.string().trim().min(1, "Please upload your idea presentation (PPT or PDF)").max(500),
+  terms: z.literal(true, {
+    errorMap: () => ({ message: "You must accept the APEX 1.0 rules, terms, and privacy policy" }),
+  }),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -81,8 +90,9 @@ export const Route = createFileRoute("/register")({
 
 /* ─── static info shown in the sidebar ─── */
 const CHECKLIST = [
-  { icon: Users, text: "Form a team of 1 – 4 members" },
-  { icon: FileText, text: "Prepare your idea PPT (Google Drive, public link)" },
+  { icon: Users, text: "Form a team of 1 – 4 members (Leader + up to 3)" },
+  { icon: FileText, text: "Upload your idea PPT or PDF (Stored in Supabase)" },
+  { icon: Shield, text: "Read and agree to Rules, Terms & Privacy Policy" },
   { icon: Zap, text: "Pay ₹199 entry fee per team (Round 1)" },
   { icon: Trophy, text: "Build, pitch & win from a ₹30,000 prize pool" },
   { icon: Sparkles, text: "National open-innovation hackathon format" },
@@ -108,6 +118,69 @@ const FORM_STEPS = [
 function RegisterPage() {
   const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
+
+  // PPT / PDF upload state
+  const [uploadedFile, setUploadedFile] = useState<{
+    name: string;
+    size: number;
+    url: string;
+  } | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
+  const formatBytes = (bytes: number) => {
+    if (bytes === 0) return "0 B";
+    const k = 1024;
+    const sizes = ["B", "KB", "MB", "GB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`;
+  };
+
+  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 20 * 1024 * 1024) {
+      setUploadError("File size exceeds 20MB limit. Please compress or choose a smaller file.");
+      toast.error("File exceeds 20MB limit");
+      return;
+    }
+
+    const ext = file.name.substring(file.name.lastIndexOf(".")).toLowerCase();
+    if (![".pdf", ".ppt", ".pptx"].includes(ext)) {
+      setUploadError("Invalid file type. Please upload a PDF, PPT, or PPTX file.");
+      toast.error("Please upload a PDF, PPT, or PPTX file");
+      return;
+    }
+
+    setIsUploading(true);
+    setUploadError(null);
+    toast.loading("Uploading presentation to Supabase Storage...", { id: "ppt_upload" });
+
+    try {
+      const res = await uploadPptFile(file);
+      setUploadedFile({
+        name: file.name,
+        size: file.size,
+        url: res.url,
+      });
+      form.setValue("ppt_url", res.url, { shouldValidate: true });
+      toast.success("Presentation uploaded to Supabase Storage!", { id: "ppt_upload" });
+    } catch (err: any) {
+      console.error("Upload error:", err);
+      const msg = err.message || "Failed to upload file to storage";
+      setUploadError(msg);
+      toast.error(msg, { id: "ppt_upload" });
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleRemoveFile = () => {
+    setUploadedFile(null);
+    setUploadError(null);
+    form.setValue("ppt_url", "", { shouldValidate: true });
+  };
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -312,7 +385,7 @@ function RegisterPage() {
       <PageHeader
         code="SYSTEM_12 / ENTRY"
         title="Register your team"
-        subtitle="Form your 1–4 member team and submit your idea PPT link. ₹199 entry fee applies for Round 1."
+        subtitle="Form your 1–4 member team and upload your idea presentation (PPT/PDF). ₹199 entry fee applies for Round 1."
       />
 
       <Section>
@@ -389,10 +462,44 @@ function RegisterPage() {
                       ENTRY FEE — ₹199
                     </p>
                     <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
-                      Payment details will be shared via email after your registration is
-                      confirmed. Your slot is reserved only after payment.
+                      Instant online payment via Razorpay upon clicking register. Your team ID
+                      and entry are verified immediately.
                     </p>
                   </div>
+                </div>
+              </div>
+
+              {/* Official Policies Links */}
+              <div className="glass-panel rounded-xl p-5 border-border/80">
+                <SystemLabel className="mb-3 text-primary">OFFICIAL PROTOCOLS</SystemLabel>
+                <div className="flex flex-col gap-2 font-mono text-xs text-muted-foreground">
+                  <a
+                    href="/rules"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between hover:text-primary transition-colors py-1 border-b border-border/40"
+                  >
+                    <span>Hackathon Rules & Scoring</span>
+                    <ExternalLink className="h-3.5 w-3.5" />
+                  </a>
+                  <a
+                    href="/terms"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between hover:text-primary transition-colors py-1 border-b border-border/40"
+                  >
+                    <span>Terms & Conditions</span>
+                    <ExternalLink className="h-3.5 w-3.5" />
+                  </a>
+                  <a
+                    href="/privacy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between hover:text-primary transition-colors py-1"
+                  >
+                    <span>Privacy Policy</span>
+                    <ExternalLink className="h-3.5 w-3.5" />
+                  </a>
                 </div>
               </div>
             </aside>
@@ -499,28 +606,163 @@ function RegisterPage() {
                     </div>
                   </div>
 
-                  {/* SECTION 04 – IDEA SUBMISSION */}
+                  {/* SECTION 04 – IDEA SUBMISSION (UPLOAD) */}
                   <div>
                     <div className="mb-4 flex items-center gap-3">
-                      <SystemLabel className="text-primary text-[0.65rem] sm:text-xs">SECTION_04 / IDEA SUBMISSION</SystemLabel>
+                      <SystemLabel className="text-primary text-[0.65rem] sm:text-xs">
+                        SECTION_04 / IDEA PRESENTATION UPLOAD
+                      </SystemLabel>
                       <div className="h-px flex-1 bg-border/40" />
                     </div>
-                    <Field
-                      form={form}
+
+                    <FormField
+                      control={form.control}
                       name="ppt_url"
-                      label="PPT DRIVE LINK (PUBLIC)"
-                      placeholder="https://drive.google.com/..."
+                      render={() => (
+                        <FormItem>
+                          <FormLabel className="font-mono text-xs tracking-wider text-muted-foreground uppercase flex items-center justify-between">
+                            <span>UPLOAD PPT / PDF PRESENTATION *</span>
+                            <span className="text-[0.65rem] text-primary/80 lowercase">
+                              .pdf, .ppt, .pptx (max 20mb)
+                            </span>
+                          </FormLabel>
+
+                          <FormControl>
+                            <div className="mt-2">
+                              {!uploadedFile ? (
+                                <label
+                                  htmlFor="ppt-file-input"
+                                  className={cn(
+                                    "relative flex flex-col items-center justify-center rounded-xl border border-dashed border-border/80 bg-card/40 p-6 sm:p-8 text-center cursor-pointer transition-all duration-200 hover:border-primary/60 hover:bg-card/70 group",
+                                    isUploading && "pointer-events-none opacity-60",
+                                    form.formState.errors.ppt_url && "border-destructive/60"
+                                  )}
+                                >
+                                  <input
+                                    id="ppt-file-input"
+                                    type="file"
+                                    accept=".pdf,.ppt,.pptx,application/pdf,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"
+                                    className="sr-only"
+                                    disabled={isUploading}
+                                    onChange={handleFileSelect}
+                                  />
+                                  <div className="grid h-12 w-12 place-items-center rounded-full border border-primary/30 bg-primary/10 text-primary transition-transform duration-200 group-hover:scale-110">
+                                    {isUploading ? (
+                                      <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                                    ) : (
+                                      <UploadCloud className="h-6 w-6 text-primary" />
+                                    )}
+                                  </div>
+                                  <p className="mt-3 text-sm font-medium text-foreground">
+                                    {isUploading ? "Uploading presentation to Supabase Storage..." : "Click to select or drag & drop presentation"}
+                                  </p>
+                                  <p className="mt-1 text-xs text-muted-foreground">
+                                    Accepted formats: PPT, PPTX, or PDF · Max file size: 20MB
+                                  </p>
+                                  <div className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/50 px-3 py-1 font-mono text-[0.65rem] text-muted-foreground">
+                                    <Database className="h-3 w-3 text-primary" />
+                                    Stored securely in Supabase Cloud Storage
+                                  </div>
+                                </label>
+                              ) : (
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl border border-primary/40 bg-card/60 p-4">
+                                  <div className="flex items-center gap-3 min-w-0">
+                                    <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-primary/40 bg-primary/15 text-primary">
+                                      <FileCheck className="h-5 w-5" />
+                                    </div>
+                                    <div className="min-w-0 flex-1">
+                                      <p className="truncate text-sm font-semibold text-foreground">
+                                        {uploadedFile.name}
+                                      </p>
+                                      <p className="font-mono text-xs text-muted-foreground">
+                                        {formatBytes(uploadedFile.size)} · Saved to Supabase
+                                      </p>
+                                    </div>
+                                  </div>
+
+                                  <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
+                                    <a
+                                      href={uploadedFile.url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center gap-1 rounded-md border border-border/60 bg-card/40 px-2.5 py-1.5 font-mono text-xs text-muted-foreground transition hover:border-primary/50 hover:text-primary"
+                                    >
+                                      <ExternalLink className="h-3 w-3" />
+                                      Preview
+                                    </a>
+                                    <Button
+                                      type="button"
+                                      variant="ghost"
+                                      size="sm"
+                                      onClick={handleRemoveFile}
+                                      className="h-8 px-2 font-mono text-xs text-destructive hover:bg-destructive/10"
+                                    >
+                                      <X className="h-3.5 w-3.5 mr-1" />
+                                      Change
+                                    </Button>
+                                  </div>
+                                </div>
+                              )}
+
+                              {uploadError && (
+                                <p className="mt-2 font-mono text-xs text-destructive flex items-center gap-1.5">
+                                  <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
+                                  {uploadError}
+                                </p>
+                              )}
+                            </div>
+                          </FormControl>
+                          <FormMessage className="font-mono text-[0.7rem]" />
+                        </FormItem>
+                      )}
                     />
                     <p className="mt-2.5 text-xs text-muted-foreground leading-relaxed">
-                      Upload your idea presentation to Google Drive and paste the public
-                      shareable link above. Ensure the link is accessible without sign-in.
+                      Upload your idea presentation (PPT or PDF). It will be securely stored in Supabase and evaluated by the official judging panel for Round 1 shortlisting.
                     </p>
                   </div>
 
                   {/* Divider */}
                   <div className="h-px bg-border/40" />
 
-                  {/* Terms */}
+                  {/* Rules & Guidelines Summary Card */}
+                  <div className="rounded-xl border border-primary/30 bg-card/40 p-4 sm:p-5">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+                      <div className="flex items-center gap-2">
+                        <Shield className="h-4 w-4 text-primary" />
+                        <span className="font-mono text-xs font-bold tracking-wider text-foreground">
+                          APEX 1.0 PROTOCOL & RULES SUMMARY
+                        </span>
+                      </div>
+                      <a
+                        href="/rules"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-mono text-[0.65rem] text-primary hover:underline flex items-center gap-1"
+                      >
+                        FULL GUIDELINES & SCORING <ExternalLink className="h-3 w-3" />
+                      </a>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-muted-foreground">
+                      <div className="flex items-start gap-2">
+                        <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
+                        <span><strong className="text-foreground">Team Size:</strong> 1–4 members (Leader + up to 3 additional members).</span>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
+                        <span><strong className="text-foreground">Round 1 Online:</strong> PPT/PDF idea review. ₹199 per team.</span>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
+                        <span><strong className="text-foreground">Round 2 Offline:</strong> Shortlisted teams pitch in Bhopal, MP.</span>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
+                        <span><strong className="text-foreground">Technology & AI:</strong> Open tools; solution must be original.</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Terms & Policies Acceptance */}
                   <div className="flex items-start gap-3">
                     <Checkbox
                       id="terms"
@@ -533,11 +775,19 @@ function RegisterPage() {
                     />
                     <div>
                       <label htmlFor="terms" className="text-xs sm:text-sm text-muted-foreground cursor-pointer leading-relaxed">
-                        I accept the{" "}
-                        <a href="/rules" className="text-primary underline underline-offset-2 hover:text-primary/80">
-                          APEX 1.0 rules
+                        I and my team members have read and agree to the{" "}
+                        <a href="/rules" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2 hover:text-primary/80 font-medium">
+                          Official Rules
                         </a>
-                        , guidelines, and judging terms.
+                        ,{" "}
+                        <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2 hover:text-primary/80 font-medium">
+                          Terms & Conditions
+                        </a>
+                        , and{" "}
+                        <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2 hover:text-primary/80 font-medium">
+                          Privacy Policy
+                        </a>
+                        .
                       </label>
                       {form.formState.errors.terms ? (
                         <p className="mt-1 font-mono text-[0.7rem] text-destructive">

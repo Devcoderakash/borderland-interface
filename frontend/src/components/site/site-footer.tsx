@@ -87,14 +87,14 @@ export function SiteFooter() {
           </p>
           <ul className="mt-4 flex gap-4 text-xs text-muted-foreground">
             <li>
-              <a href="#" className="hover:text-foreground">
+              <Link to="/privacy" className="hover:text-primary transition-colors">
                 Privacy Policy
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="hover:text-foreground">
+              <Link to="/terms" className="hover:text-primary transition-colors">
                 Terms
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

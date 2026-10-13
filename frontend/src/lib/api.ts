@@ -125,3 +125,29 @@ export async function getRegistrationStatus(
   const json = await response.json();
   return json.data || json;
 }
+
+export interface UploadPptResponse {
+  success: boolean;
+  url: string;
+  fileName: string;
+  size: number;
+  mimeType?: string;
+}
+
+export async function uploadPptFile(file: File): Promise<UploadPptResponse> {
+  const formData = new FormData();
+  formData.append("ppt", file);
+
+  const response = await fetch(`${API_BASE_URL}/api/upload/ppt`, {
+    method: "POST",
+    body: formData,
+  });
+
+  const responseData = await response.json();
+
+  if (!response.ok) {
+    throw new Error(responseData?.error || responseData?.detail || "Failed to upload file");
+  }
+
+  return responseData;
+}

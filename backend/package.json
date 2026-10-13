@@ -13,12 +13,14 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "multer": "^2.4.0",
     "razorpay": "^2.9.8",
     "zod": "^3.25.76"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
+    "@types/multer": "^2.3.0",
     "@types/node": "^22.16.5",
     "tsx": "^4.19.3",
     "typescript": "^5.8.3"
