@@ -538,3 +538,97 @@
 }
 
 
+/* ─────────────────── AMBIENT PAGE BACKGROUND ANIMATIONS ─────────────────── */
+
+@keyframes orb-drift-a {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  33%  { transform: translate3d(60px, -40px, 0) scale(1.08); }
+  66%  { transform: translate3d(-30px, 50px, 0) scale(0.96); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+
+@keyframes orb-drift-b {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  40%  { transform: translate3d(-70px, 30px, 0) scale(1.06); }
+  75%  { transform: translate3d(40px, -55px, 0) scale(0.94); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+
+@keyframes orb-drift-c {
+  0%   { transform: translate3d(0, 0, 0) scale(1); opacity: 0.55; }
+  50%  { transform: translate3d(50px, -35px, 0) scale(1.12); opacity: 0.75; }
+  100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.55; }
+}
+
+@keyframes aurora-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+    opacity: 0.28;
+  }
+  50% {
+    background-position: 100% 50%;
+    opacity: 0.45;
+  }
+}
+
+/* Ambient orb utility classes — purely decorative */
+.ambient-orb-crimson {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, oklch(0.6 0.235 22 / 0.38) 0%, oklch(0.6 0.235 22 / 0.12) 45%, transparent 72%);
+  filter: blur(60px);
+  will-change: transform;
+  animation: orb-drift-a 28s ease-in-out infinite;
+}
+
+.ambient-orb-violet {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, oklch(0.58 0.235 300 / 0.3) 0%, oklch(0.58 0.235 300 / 0.10) 45%, transparent 72%);
+  filter: blur(72px);
+  will-change: transform;
+  animation: orb-drift-b 36s ease-in-out infinite;
+}
+
+.ambient-orb-cyan {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, oklch(0.8 0.13 195 / 0.18) 0%, transparent 68%);
+  filter: blur(80px);
+  will-change: transform;
+  animation: orb-drift-c 44s ease-in-out infinite;
+}
+
+/* Animated aurora gradient layer */
+.ambient-aurora {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    125deg,
+    oklch(0.6 0.235 22 / 0.12) 0%,
+    oklch(0.58 0.235 300 / 0.10) 30%,
+    oklch(0.8 0.13 195 / 0.07) 60%,
+    oklch(0.6 0.235 22 / 0.09) 100%
+  );
+  background-size: 300% 300%;
+  animation: aurora-shift 22s ease-in-out infinite;
+}
+
+/* Mouse-follow glow — positioned via JS via --gx / --gy CSS custom props */
+.mouse-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 600px;
+  height: 600px;
+  border-radius: 9999px;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(circle, oklch(0.6 0.235 22 / 0.07) 0%, transparent 65%);
+  transform: translate3d(calc(var(--gx, -9999px) - 300px), calc(var(--gy, -9999px) - 300px), 0);
+  will-change: transform;
+}

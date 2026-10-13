@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteNav } from "@/components/site/site-nav";
+import { AmbientBackground } from "@/components/site/ambient-background";
 import { reportClientError } from "../lib/error-reporting";
 
 function NotFoundComponent() {
@@ -90,6 +91,8 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      {/* Global ambient animated background — purely decorative, z-0, pointer-events:none */}
+      {isAdmin ? null : <AmbientBackground />}
       {isAdmin ? null : <SiteNav />}
       <main id="main" className="w-full max-w-full overflow-x-hidden">
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
