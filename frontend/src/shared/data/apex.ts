@@ -82,7 +82,7 @@ export const ROADMAP = [
     n: 1,
     title: "REGISTRATION",
     window: "ROUND 1",
-    text: "Teams register for APEX 1.0 and form their 2–4 member teams.",
+    text: "Teams register for APEX 1.0 and form their 1–4 member teams.",
     active: true,
   },
   {

@@ -141,7 +141,7 @@ export function SponsorsSection() {
                         value={contactName}
                         onChange={(e) => setContactName(e.target.value)}
                         placeholder="Alex Morgan"
-                        className="mt-1 w-full rounded border border-border bg-background px-3 py-2 font-mono text-xs text-foreground placeholder:text-muted-foreground/40 focus:border-primary focus:outline-none"
+                        className="mt-1 w-full rounded border border-border bg-background px-3 py-2 font-mono text-xs text-foreground placeholder:text-muted-foreground/40 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors"
                       />
                     </div>
                     <div>
@@ -154,7 +154,7 @@ export function SponsorsSection() {
                         value={contactEmail}
                         onChange={(e) => setContactEmail(e.target.value)}
                         placeholder="alex@company.com"
-                        className="mt-1 w-full rounded border border-border bg-background px-3 py-2 font-mono text-xs text-foreground placeholder:text-muted-foreground/40 focus:border-primary focus:outline-none"
+                        className="mt-1 w-full rounded border border-border bg-background px-3 py-2 font-mono text-xs text-foreground placeholder:text-muted-foreground/40 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors"
                       />
                     </div>
                   </div>
@@ -170,7 +170,7 @@ export function SponsorsSection() {
                         value={orgName}
                         onChange={(e) => setOrgName(e.target.value)}
                         placeholder="Acme Corp"
-                        className="mt-1 w-full rounded border border-border bg-background px-3 py-2 font-mono text-xs text-foreground placeholder:text-muted-foreground/40 focus:border-primary focus:outline-none"
+                        className="mt-1 w-full rounded border border-border bg-background px-3 py-2 font-mono text-xs text-foreground placeholder:text-muted-foreground/40 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors"
                       />
                     </div>
                     <div>
@@ -180,7 +180,7 @@ export function SponsorsSection() {
                       <select
                         value={partnerType}
                         onChange={(e) => setPartnerType(e.target.value)}
-                        className="mt-1 w-full rounded border border-border bg-background px-3 py-2 font-mono text-xs text-foreground focus:border-primary focus:outline-none"
+                        className="mt-1 w-full rounded border border-border bg-background px-3 py-2 font-mono text-xs text-foreground focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors"
                       >
                         <option value="TITLE SPONSOR">TITLE SPONSOR</option>
                         <option value="GOLD PARTNER">GOLD PARTNER</option>
@@ -199,7 +199,7 @@ export function SponsorsSection() {
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       placeholder="Tell us about your developer relations or brand goals..."
-                      className="mt-1 w-full rounded border border-border bg-background px-3 py-2 font-mono text-xs text-foreground placeholder:text-muted-foreground/40 focus:border-primary focus:outline-none resize-none"
+                      className="mt-1 w-full rounded border border-border bg-background px-3 py-2 font-mono text-xs text-foreground placeholder:text-muted-foreground/40 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none resize-none transition-colors"
                     />
                   </div>
 

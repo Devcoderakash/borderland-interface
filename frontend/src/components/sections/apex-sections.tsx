@@ -175,6 +175,13 @@ export function Hero() {
                     <span className="text-muted-foreground">ROUND 2:</span>
                     <span className="text-white font-semibold">OFFLINE GRAND FINALE</span>
                   </div>
+                  <div className="flex justify-between border-t border-border/40 pt-1.5">
+                    <span className="text-muted-foreground">STATUS:</span>
+                    <span className="text-emerald-400 font-mono font-semibold tracking-wider flex items-center gap-1">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      LIVE · T-{remaining}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -227,15 +234,21 @@ export function Hero() {
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-[4.5rem] left-1/2 -translate-x-1/2 z-20 hidden lg:flex flex-col items-center">
-        <p className="font-mono text-[0.65rem] tracking-[0.2em] text-white/40 mb-2">SCROLL TO EXPLORE</p>
+      <a
+        href="#welcome"
+        aria-label="Scroll to explore about APEX 1.0"
+        className="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 hidden lg:flex flex-col items-center group cursor-pointer transition-opacity hover:opacity-100 opacity-60 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary rounded p-1"
+      >
+        <p className="font-mono text-[0.55rem] tracking-[0.25em] text-white/50 mb-1 group-hover:text-primary transition-colors">
+          SCROLL TO EXPLORE
+        </p>
         <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          animate={{ y: [0, 6, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
         >
-          <ArrowRight className="h-4 w-4 text-white/40 rotate-90" />
+          <ArrowRight className="h-3.5 w-3.5 text-primary rotate-90" />
         </motion.div>
-      </div>
+      </a>
     </section>
   );
 }

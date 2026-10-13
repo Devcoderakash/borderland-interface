@@ -23,14 +23,46 @@ const NAV_ITEMS: NavItem[] = [
 export function SiteNav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>("home");
   const location = useLocation();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 24);
+      if (location.pathname === "/" && window.scrollY < 240) {
+        setActiveSection("home");
+      }
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (location.pathname !== "/") {
+      setActiveSection("");
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.2) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.2, rootMargin: "-10% 0px -40% 0px" }
+    );
+
+    const ids = ["roadmap", "sponsors"];
+    ids.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [location.pathname]);
 
   const handleHashClick = (e: React.MouseEvent<HTMLAnchorElement>, hashTarget: string) => {
     if (location.pathname === "/") {
@@ -92,9 +124,17 @@ export function SiteNav() {
                 <a
                   href={item.href}
                   onClick={(e) => handleHashClick(e, item.href)}
-                  className="relative rounded px-3 py-1.5 font-mono text-[0.7rem] tracking-[0.16em] text-muted-foreground transition-all duration-200 hover:text-foreground hover:bg-white/[0.05]"
+                  className={cn(
+                    "relative rounded px-3 py-1.5 font-mono text-[0.7rem] tracking-[0.16em] transition-all duration-200 hover:text-foreground hover:bg-white/[0.05]",
+                    activeSection === item.href.replace("/#", "")
+                      ? "text-foreground font-semibold"
+                      : "text-muted-foreground"
+                  )}
                 >
                   {item.label}
+                  {activeSection === item.href.replace("/#", "") && (
+                    <span className="absolute inset-x-3 -bottom-1 h-[2px] rounded-full bg-primary shadow-[0_0_8px] shadow-primary/60" />
+                  )}
                 </a>
               ) : (
                 <Link
@@ -103,14 +143,20 @@ export function SiteNav() {
                   activeProps={{ className: "text-foreground font-semibold" }}
                   activeOptions={{ exact: item.href === "/" }}
                 >
-                  {({ isActive }) => (
-                    <>
-                      {item.label}
-                      {isActive && (
-                        <span className="absolute inset-x-3 -bottom-1 h-[2px] rounded-full bg-primary shadow-[0_0_8px] shadow-primary/60" />
-                      )}
-                    </>
-                  )}
+                  {({ isActive }) => {
+                    const isCurrent =
+                      item.href === "/"
+                        ? location.pathname === "/" && activeSection === "home"
+                        : isActive;
+                    return (
+                      <>
+                        {item.label}
+                        {isCurrent && (
+                          <span className="absolute inset-x-3 -bottom-1 h-[2px] rounded-full bg-primary shadow-[0_0_8px] shadow-primary/60" />
+                        )}
+                      </>
+                    );
+                  }}
                 </Link>
               )}
             </li>
@@ -151,7 +197,12 @@ export function SiteNav() {
                     <a
                       href={item.href}
                       onClick={(e) => handleHashClick(e, item.href)}
-                      className="flex items-center min-h-[44px] rounded-lg px-4 py-2.5 font-mono text-xs tracking-[0.18em] text-muted-foreground hover:bg-white/[0.06] hover:text-foreground transition-colors"
+                      className={cn(
+                        "flex items-center min-h-[44px] rounded-lg px-4 py-2.5 font-mono text-xs tracking-[0.18em] transition-colors",
+                        activeSection === item.href.replace("/#", "")
+                          ? "text-primary font-bold bg-primary/10"
+                          : "text-muted-foreground hover:bg-white/[0.06] hover:text-foreground"
+                      )}
                     >
                       {item.label}
                     </a>

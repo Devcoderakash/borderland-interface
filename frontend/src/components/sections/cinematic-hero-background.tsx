@@ -202,8 +202,8 @@ export function CinematicHeroBackground() {
         ctx.arc(drawX, drawY, p.size, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${p.colorRgb}, ${p.opacity.toFixed(3)})`;
 
-        // Soft atmospheric glow for larger particles
-        if (p.size > 1.4) {
+        // Soft atmospheric glow for larger particles (desktop only for performance)
+        if (!isMobile && p.size > 1.4) {
           ctx.shadowBlur = 6;
           ctx.shadowColor = `rgba(${p.colorRgb}, 0.6)`;
         } else {
