@@ -52,26 +52,63 @@ export function SponsorsSection() {
         </div>
       </Reveal>
 
-      {/* Sponsor Tiers in Minimal Dashed Box Style */}
-      <div className="mt-12 space-y-10">
+      {/* Mobile View: Clean category grouping with subtle slot pills (No dashed box clutter) */}
+      <div className="mt-8 space-y-4 sm:hidden">
         {SPONSOR_TIERS.map((tierGroup, tierIndex) => (
-          <Reveal key={tierGroup.tier} delay={tierIndex * 0.06}>
-            <div className="space-y-3.5">
-              <p className="font-mono text-xs font-semibold tracking-[0.2em] text-primary uppercase">
-                {tierGroup.tier}
-              </p>
-
-              <div className="flex flex-wrap gap-2.5 sm:gap-4">
+          <Reveal key={tierGroup.tier} delay={tierIndex * 0.05}>
+            <div className="border-b border-white/[0.08] pb-4 last:border-none">
+              <div className="flex items-center justify-between mb-2.5">
+                <div className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                  <span className="font-mono text-xs font-bold uppercase tracking-wider text-foreground">
+                    {tierGroup.tier}
+                  </span>
+                </div>
+                <span className="font-mono text-[0.6rem] font-medium text-primary/80">
+                  {tierGroup.slots} {tierGroup.slots === 1 ? "SLOT" : "SLOTS"} OPEN
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-2">
                 {Array.from({ length: tierGroup.slots }).map((_, slotIndex) => (
                   <div
                     key={slotIndex}
-                    className="group relative flex h-20 w-[calc(50%-0.35rem)] sm:w-40 md:w-44 flex-col items-center justify-center rounded-lg border border-dashed border-border/80 bg-card/20 px-2.5 py-2 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/60 hover:bg-card/40 hover:shadow-[0_8px_20px_-8px_rgba(225,29,72,0.2)]"
+                    className="flex items-center gap-1.5 rounded-md border border-white/[0.08] bg-white/[0.02] px-3 py-1.5 font-mono text-[0.65rem] text-muted-foreground/80"
                   >
-                    <span className="font-mono text-[0.55rem] sm:text-[0.6rem] tracking-[0.16em] sm:tracking-[0.2em] text-muted-foreground/60 uppercase text-center select-none group-hover:text-muted-foreground transition-colors truncate max-w-full">
+                    <span className="h-1 w-1 rounded-full bg-primary/60" />
+                    <span>Slot {String(slotIndex + 1).padStart(2, "0")} Available</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+
+      {/* Desktop View: Clean Grid with Subtle Borders */}
+      <div className="mt-12 hidden sm:block space-y-10">
+        {SPONSOR_TIERS.map((tierGroup, tierIndex) => (
+          <Reveal key={tierGroup.tier} delay={tierIndex * 0.06}>
+            <div className="space-y-3.5">
+              <div className="flex items-center justify-between">
+                <p className="font-mono text-xs font-semibold tracking-[0.2em] text-primary uppercase">
+                  {tierGroup.tier}
+                </p>
+                <span className="font-mono text-[0.65rem] text-muted-foreground/60 uppercase">
+                  {tierGroup.slots} {tierGroup.slots === 1 ? "Slot" : "Slots"}
+                </span>
+              </div>
+
+              <div className="flex flex-wrap gap-3">
+                {Array.from({ length: tierGroup.slots }).map((_, slotIndex) => (
+                  <div
+                    key={slotIndex}
+                    className="group relative flex h-20 w-40 md:w-44 flex-col items-center justify-center rounded-lg border border-border/60 bg-card/20 px-2.5 py-2 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/60 hover:bg-card/40 hover:shadow-[0_8px_20px_-8px_rgba(225,29,72,0.2)]"
+                  >
+                    <span className="font-mono text-[0.6rem] tracking-[0.16em] text-muted-foreground/60 uppercase text-center select-none group-hover:text-muted-foreground transition-colors truncate max-w-full">
                       {tierGroup.tier}
                     </span>
-                    <span className="mt-1 font-mono text-xs sm:text-sm font-bold tracking-[0.22em] text-foreground/80 uppercase group-hover:text-primary transition-colors">
-                      OPEN
+                    <span className="mt-1 font-mono text-xs font-bold tracking-[0.2em] text-foreground/80 uppercase group-hover:text-primary transition-colors">
+                      OPEN SLOT
                     </span>
                   </div>
                 ))}

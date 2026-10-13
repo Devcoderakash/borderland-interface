@@ -40,7 +40,22 @@ function RulesPage() {
       <Section>
         <Reveal>
           <SectionHeading code="PROTOCOL / SCORING" title="How judging works" />
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+
+          {/* Mobile: Clean specification rows (no heavy box clutter) */}
+          <div className="mt-6 divide-y divide-border/25 border-y border-border/25 sm:hidden">
+            {EVALUATION_CRITERIA.map((j) => (
+              <div key={j.id} className="py-3.5 flex items-center justify-between">
+                <div>
+                  <span className="font-mono text-xs font-bold tracking-wider text-foreground uppercase">{j.name}</span>
+                  <p className="text-[0.7rem] text-muted-foreground">{j.subtitle}</p>
+                </div>
+                <span className={cn("font-display text-lg font-black", j.colorClass)}>{j.weightage}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop: Grid Cards */}
+          <div className="mt-8 hidden sm:grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {EVALUATION_CRITERIA.map((j, i) => (
               <div key={j.id} className={cn("glass-panel relative overflow-hidden rounded-xl p-6", j.borderClass)}>
                 {/* Faint background number */}
@@ -68,7 +83,7 @@ function RulesPage() {
               </div>
             ))}
           </div>
-          <p className="mt-8 max-w-2xl text-sm text-muted-foreground">
+          <p className="mt-6 sm:mt-8 max-w-2xl text-xs sm:text-sm text-muted-foreground leading-relaxed">
             Projects are evaluated by an expert judging panel across all four criteria. Ensure all submissions
             adhere to originality, fair play, and event guidelines.
           </p>

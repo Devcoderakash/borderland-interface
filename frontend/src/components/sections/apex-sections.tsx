@@ -110,7 +110,7 @@ export function Hero() {
                 asChild
                 size="lg"
                 variant="outline"
-                className="group h-11 sm:h-13 px-5 sm:px-8 border-border/80 bg-background/50 hover:bg-primary/10 hover:border-primary/50 font-mono text-xs tracking-[0.16em] sm:tracking-[0.2em] rounded-md transition-all duration-200 text-white/90 hover:text-white w-full sm:w-auto min-h-[44px]"
+                className="group h-11 sm:h-13 px-5 sm:px-8 border-white/15 bg-white/[0.03] hover:bg-white/[0.08] hover:border-white/30 font-mono text-xs tracking-[0.16em] sm:tracking-[0.2em] rounded-md transition-all duration-200 text-white/80 hover:text-white w-full sm:w-auto min-h-[44px]"
               >
                 <a href="#roadmap">
                   EXPLORE THE ROADMAP <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">&rarr;</span>
@@ -127,7 +127,7 @@ export function Hero() {
               </p>
             </div>
 
-            <div className="mt-4 sm:mt-10 lg:mt-16">
+            <div className="hidden sm:block mt-6 sm:mt-10 lg:mt-16">
               <p className="font-display font-black text-sm sm:text-xl tracking-widest text-white/90">
                 ▲ APEX<span className="text-primary">//</span>1.0
               </p>
@@ -196,10 +196,43 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Bottom Information Bar - Fully accessible responsive grid */}
+      {/* Bottom Information Bar - Sleek Specification Panel */}
       <div className="relative z-20 mt-4 sm:mt-6 w-full border-t border-white/[0.08] bg-background/90 backdrop-blur-md lg:absolute lg:bottom-0 lg:left-0 lg:right-0 lg:mt-0 lg:bg-background/70 shadow-[0_-10px_30px_-10px_rgba(0,0,0,0.5)]">
-        <div className="mx-auto max-w-7xl px-3 py-3 sm:px-8 sm:py-4">
-          <div className="grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-4 lg:flex lg:w-full lg:items-center lg:justify-between lg:gap-4 xl:gap-6">
+        <div className="mx-auto max-w-7xl px-4 py-3 sm:px-8 sm:py-4">
+          {/* Mobile: Clean 2-column specification rows (Zero nested box clutter) */}
+          <div className="grid grid-cols-2 gap-x-4 gap-y-2.5 sm:hidden py-1">
+            <div className="border-b border-white/[0.06] pb-2">
+              <dt className="font-mono text-[0.55rem] tracking-[0.18em] text-white/40 uppercase">TEAM SIZE</dt>
+              <dd className="mt-0.5 font-display text-xs font-bold tracking-wider text-foreground">1–4 MEMBERS</dd>
+            </div>
+            <div className="border-b border-white/[0.06] pb-2">
+              <dt className="font-mono text-[0.55rem] tracking-[0.18em] text-primary/80 uppercase font-semibold">PRIZE POOL</dt>
+              <dd className="mt-0.5 font-display text-xs font-black tracking-wider text-primary text-glow">₹30,000</dd>
+            </div>
+            <div className="border-b border-white/[0.06] pb-2">
+              <dt className="font-mono text-[0.55rem] tracking-[0.18em] text-white/40 uppercase">FORMAT</dt>
+              <dd className="mt-0.5 font-display text-xs font-bold tracking-wider text-foreground">OPEN INNOVATION</dd>
+            </div>
+            <div className="border-b border-white/[0.06] pb-2">
+              <dt className="font-mono text-[0.55rem] tracking-[0.18em] text-white/40 uppercase">STRUCTURE</dt>
+              <dd className="mt-0.5 font-display text-xs font-bold tracking-wider text-foreground">2 ROUNDS</dd>
+            </div>
+            <div>
+              <dt className="font-mono text-[0.55rem] tracking-[0.18em] text-white/40 uppercase">ROUND 1</dt>
+              <dd className="mt-0.5 font-display text-xs font-bold tracking-wider text-primary">ONLINE PPT</dd>
+            </div>
+            <div>
+              <dt className="font-mono text-[0.55rem] tracking-[0.18em] text-white/40 uppercase">ROUND 2</dt>
+              <dd className="mt-0.5 font-display text-xs font-bold tracking-wider text-foreground">OFFLINE FINALE</dd>
+            </div>
+            <div className="col-span-2 pt-2 border-t border-white/[0.06] flex items-center justify-between">
+              <span className="font-mono text-[0.55rem] tracking-[0.18em] text-white/40 uppercase">LOCATION</span>
+              <span className="font-display text-xs font-bold tracking-wider text-foreground">BHOPAL, MADHYA PRADESH</span>
+            </div>
+          </div>
+
+          {/* Tablet & Desktop: Inline ribbon */}
+          <div className="hidden sm:grid sm:grid-cols-4 lg:flex lg:w-full lg:items-center lg:justify-between lg:gap-4 xl:gap-6">
             {[
               ["TEAM SIZE", "1–4 MEMBERS"],
               ["FORMAT", "OPEN INNOVATION"],
@@ -212,8 +245,8 @@ export function Hero() {
               <div
                 key={k}
                 className={cn(
-                  "group flex flex-col justify-center rounded-lg border border-border/40 bg-card/30 p-2 sm:p-2.5 lg:border-0 lg:bg-transparent lg:p-0 min-w-0 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40",
-                  i === 6 ? "col-span-2 sm:col-span-1" : ""
+                  "group flex flex-col justify-center p-2 lg:p-0 min-w-0 transition-all duration-200",
+                  i === 6 ? "sm:col-span-2 lg:col-span-1" : ""
                 )}
               >
                 <div className="flex items-center min-w-0">
@@ -222,7 +255,10 @@ export function Hero() {
                     <dt className="font-mono text-[0.55rem] sm:text-[0.6rem] tracking-[0.16em] text-muted-foreground truncate uppercase group-hover:text-foreground/70 transition-colors">
                       {k}
                     </dt>
-                    <dd className="mt-0.5 font-display text-xs sm:text-sm font-bold tracking-wider text-foreground whitespace-normal break-words group-hover:text-primary transition-colors">
+                    <dd className={cn(
+                      "mt-0.5 font-display text-xs sm:text-sm font-bold tracking-wider whitespace-normal break-words transition-colors",
+                      k === "PRIZE POOL" ? "text-primary group-hover:text-primary font-black" : "text-foreground group-hover:text-primary"
+                    )}>
                       {v}
                     </dd>
                   </div>
@@ -261,23 +297,40 @@ export function WelcomeSection() {
       <div className="grid gap-8 md:gap-12 md:grid-cols-[1.15fr_1fr] md:items-center">
         <Reveal>
           <SectionHeading code="SYSTEM 01 / ABOUT APEX" title="About APEX 1.0" />
-          <div className="mt-6 space-y-4 text-muted-foreground">
-            <p>You have entered APEX 1.0 — a premier open-innovation hackathon for student builders and problem solvers.</p>
-            <p>APEX 1.0 brings together student innovators across domains to design, prototype, and pitch impactful solutions for real-world challenges.</p>
-            <p className="text-foreground">The journey is split into two distinct rounds:</p>
-            <ul className="space-y-2 font-mono text-sm">
-              {[
-                "Round 1: Idea Submission & PPT Pitch (Online)",
-                "Round 2: Grand Finale Build & Demo (Offline, Bhopal)",
-              ].map((q) => (
-                <li key={q} className="flex gap-3">
-                  <span className="text-primary">›</span>
-                  {q}
-                </li>
-              ))}
-            </ul>
-            <p className="font-display uppercase tracking-widest text-foreground">
-              Bring your best ideas.
+          <div className="mt-5 sm:mt-6 space-y-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
+            <p>
+              You have entered <strong className="text-foreground font-semibold">APEX 1.0</strong> — a premier open-innovation hackathon engineered for student builders and problem solvers.
+            </p>
+            <p>
+              Students collaborate across domains to design, prototype, and pitch impactful solutions for real-world challenges with zero domain restrictions.
+            </p>
+
+            {/* Two-round sequential timeline flow */}
+            <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
+              <div className="relative pl-3.5 border-l-2 border-primary/70 py-1">
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-[0.6rem] tracking-[0.2em] text-primary uppercase font-bold">ROUND 01 · ONLINE</span>
+                  <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                </div>
+                <p className="mt-1 font-display text-sm font-bold text-foreground">Idea Submission & PPT Pitch</p>
+                <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">
+                  Submit your innovation concept and slide deck for jury shortlisting.
+                </p>
+              </div>
+              <div className="relative pl-3.5 border-l-2 border-white/20 py-1">
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-[0.6rem] tracking-[0.2em] text-white/50 uppercase font-bold">ROUND 02 · OFFLINE</span>
+                  <span className="h-1.5 w-1.5 rounded-full bg-white/40" />
+                </div>
+                <p className="mt-1 font-display text-sm font-bold text-foreground">Grand Finale Build & Demo</p>
+                <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">
+                  Shortlisted teams prototype and pitch live at Bhopal, MP.
+                </p>
+              </div>
+            </div>
+
+            <p className="mt-4 font-display text-xs sm:text-sm font-bold tracking-[0.22em] text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-primary uppercase">
+              BRING YOUR BEST IDEAS. NO LIMITS.
             </p>
           </div>
           <Button asChild variant="outline" className="group mt-6 sm:mt-8 border-border/80 bg-card/30 hover:border-primary/50 hover:bg-primary/10 font-mono text-xs tracking-[0.18em] w-full sm:w-auto min-h-[44px]">
@@ -288,13 +341,13 @@ export function WelcomeSection() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <div className="glass-panel scanlines relative grid aspect-square max-h-72 place-items-center overflow-hidden rounded-xl sm:max-h-80 md:max-h-none">
+          <div className="scanlines relative grid aspect-square max-h-56 place-items-center overflow-hidden rounded-xl border border-border/40 bg-card/20 sm:max-h-80 md:max-h-none">
             <div className="absolute inset-0 grid-veil" aria-hidden />
             {[0, 1, 2].map((i) => (
               <span
                 key={i}
                 aria-hidden
-                className="absolute rounded-full border border-primary/40"
+                className="absolute rounded-full border border-primary/30"
                 style={{
                   width: `${40 + i * 22}%`,
                   height: `${40 + i * 22}%`,
@@ -302,20 +355,20 @@ export function WelcomeSection() {
                 }}
               />
             ))}
-            <div className="relative grid h-24 w-24 sm:h-28 sm:w-28 place-items-center rounded-xl border border-primary/50 bg-card text-center font-display glow-primary float-card p-4">
-              <Terminal className="h-8 w-8 text-primary" />
+            <div className="relative grid h-20 w-20 sm:h-28 sm:w-28 place-items-center rounded-xl border border-primary/50 bg-card/90 text-center font-display glow-primary float-card p-3 sm:p-4">
+              <Terminal className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
               <div className="mt-1 font-display text-xs sm:text-sm font-black tracking-widest text-foreground">
                 APEX<span className="text-primary">//</span>1.0
               </div>
             </div>
             {/* Corner micro-labels */}
-            <span className="absolute left-4 top-4 font-mono text-[0.5rem] tracking-[0.2em] text-muted-foreground/40" aria-hidden>
+            <span className="absolute left-3.5 top-3.5 font-mono text-[0.5rem] tracking-[0.2em] text-muted-foreground/40" aria-hidden>
               STATUS: ACTIVE
             </span>
-            <span className="absolute right-4 top-4 font-mono text-[0.5rem] tracking-[0.2em] text-muted-foreground/40" aria-hidden>
+            <span className="absolute right-3.5 top-3.5 font-mono text-[0.5rem] tracking-[0.2em] text-muted-foreground/40" aria-hidden>
               APX//01
             </span>
-            <p className="absolute bottom-3 sm:bottom-5 system-label text-[0.5rem] sm:text-[0.6875rem] text-center px-2">PORTAL: ACTIVE · REGISTRATIONS: OPEN</p>
+            <p className="absolute bottom-2.5 sm:bottom-5 system-label text-[0.5rem] sm:text-[0.6875rem] text-center px-2">PORTAL: ACTIVE · REGISTRATIONS: OPEN</p>
           </div>
         </Reveal>
       </div>
@@ -336,7 +389,74 @@ export function JudgingSection() {
         />
       </Reveal>
 
-      <div className="mt-10 grid gap-4 grid-cols-1 sm:grid-cols-2">
+      {/* Mobile: Clean numbered editorial list (Zero box clutter) */}
+      <div className="mt-8 divide-y divide-border/25 sm:hidden">
+        {EVALUATION_CRITERIA.map((criterion, i) => (
+          <Reveal key={criterion.id} delay={i * 0.05}>
+            <Dialog>
+              <DialogTrigger asChild>
+                <button
+                  type="button"
+                  className="w-full text-left py-4 px-1 group transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary rounded"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-start gap-3 min-w-0">
+                      <span className={cn("font-mono text-sm font-black shrink-0 pt-0.5", criterion.colorClass)}>
+                        {criterion.id}
+                      </span>
+                      <div className="min-w-0">
+                        <div className="flex items-baseline gap-2">
+                          <h3 className="font-display text-base font-bold text-foreground group-hover:text-primary transition-colors">
+                            {criterion.name}
+                          </h3>
+                          <span className="font-mono text-[0.6rem] tracking-wider text-muted-foreground">
+                            / {criterion.role}
+                          </span>
+                        </div>
+                        <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
+                          {criterion.description}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <span className={cn("font-display text-lg font-black tracking-tight", criterion.colorClass)}>
+                        {criterion.weightage}
+                      </span>
+                      <p className="font-mono text-[0.55rem] tracking-wider text-muted-foreground/60 uppercase">
+                        WEIGHT
+                      </p>
+                    </div>
+                  </div>
+                  {/* Subtle progress line */}
+                  <div className="mt-3 h-0.5 w-full rounded-full bg-border/30 overflow-hidden">
+                    <div
+                      className={cn("h-full rounded-full", criterion.bgClass.replace("/10", "/80"))}
+                      style={{ width: `${criterion.pct}%` }}
+                    />
+                  </div>
+                </button>
+              </DialogTrigger>
+              <DialogContent className="max-w-lg">
+                <DialogHeader>
+                  <DialogTitle className={cn("font-display text-2xl", criterion.colorClass)}>
+                    {criterion.id}. {criterion.name} — {criterion.role} ({criterion.weightage})
+                  </DialogTitle>
+                  <DialogDescription className="font-mono text-[0.7rem] uppercase tracking-[0.16em]">
+                    {criterion.focus}
+                  </DialogDescription>
+                </DialogHeader>
+                <p className="text-sm text-muted-foreground">{criterion.description}</p>
+                <Button asChild className="mt-6 font-mono text-xs tracking-[0.18em]">
+                  <Link to="/register">REGISTER YOUR TEAM</Link>
+                </Button>
+              </DialogContent>
+            </Dialog>
+          </Reveal>
+        ))}
+      </div>
+
+      {/* Tablet & Desktop: 2-column cards */}
+      <div className="mt-10 hidden sm:grid gap-4 sm:grid-cols-2">
         {EVALUATION_CRITERIA.map((criterion, i) => (
           <Reveal key={criterion.id} delay={i * 0.07}>
             <Dialog>
@@ -462,38 +582,57 @@ export function RoadmapSection() {
         <RoadmapRow items={ROADMAP.slice(4)} />
       </div>
 
-      {/* ── Mobile: vertical list ── */}
-      <ol className="mt-12 space-y-4 md:hidden">
-        {ROADMAP.map((g, i) => (
-          <Reveal key={g.id} delay={i * 0.06}>
-            <li className={cn(
-              "glass-panel relative overflow-hidden rounded-xl p-5 sm:p-7",
-              g.active && "border-primary/50",
-            )}>
-              <span className="absolute left-0 top-0 h-full w-[3px] bg-primary/70" aria-hidden />
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <div className="flex items-center gap-3 min-w-0">
-                  <div className={cn(
-                    "grid h-8 w-8 shrink-0 place-items-center rounded-full border font-mono text-xs font-bold",
+      {/* ── Mobile: Sleek coherent vertical timeline (Zero bulky cards) ── */}
+      <div className="relative mt-8 md:hidden pl-7">
+        {/* Continuous timeline vertical stem line */}
+        <div className="absolute left-[11px] top-3 bottom-6 w-px bg-gradient-to-b from-primary/80 via-primary/30 to-border/40" />
+
+        <ol className="space-y-5">
+          {ROADMAP.map((g, i) => (
+            <Reveal key={g.id} delay={i * 0.05}>
+              <li className="relative group">
+                {/* Milestone node circle on the timeline stem */}
+                <div
+                  className={cn(
+                    "absolute -left-[23px] top-0.5 grid h-6 w-6 place-items-center rounded-full border text-[0.6rem] font-mono font-bold transition-all",
                     g.active
-                      ? "border-primary bg-primary/20 text-primary"
-                      : "border-border bg-card text-muted-foreground",
-                  )}>
-                    {g.n.toString().padStart(2, "0")}
-                  </div>
-                  <h3 className="font-display text-sm sm:text-base font-black uppercase truncate">
-                    {g.title}
-                  </h3>
+                      ? "border-primary bg-primary text-primary-foreground shadow-[0_0_12px_rgba(225,29,72,0.8)]"
+                      : "border-border/80 bg-background text-muted-foreground group-hover:border-primary/50 group-hover:text-foreground"
+                  )}
+                >
+                  {g.n}
                 </div>
-                <span className="inline-flex items-center rounded-md border border-primary/40 bg-primary/10 px-2 py-0.5 font-mono text-[0.6rem] font-bold tracking-widest text-primary shrink-0 ml-auto sm:ml-0">
-                  {g.window}
-                </span>
-              </div>
-              <p className="mt-3 text-xs sm:text-sm text-muted-foreground leading-relaxed">{g.text}</p>
-            </li>
-          </Reveal>
-        ))}
-      </ol>
+
+                {/* Milestone content */}
+                <div className={cn(
+                  "pt-0.5 pb-2 transition-all",
+                  g.active && "pl-2.5 rounded-r-lg bg-primary/[0.04] border-l-2 border-primary -ml-2"
+                )}>
+                  <div className="flex flex-wrap items-center justify-between gap-1.5">
+                    <h3 className={cn(
+                      "font-display text-xs sm:text-sm font-black uppercase tracking-wider",
+                      g.active ? "text-primary text-glow" : "text-foreground"
+                    )}>
+                      {g.title}
+                    </h3>
+                    <span className={cn(
+                      "inline-flex items-center rounded px-1.5 py-0.5 font-mono text-[0.55rem] font-bold tracking-widest",
+                      g.active
+                        ? "border border-primary/40 bg-primary/10 text-primary"
+                        : "border border-border/60 bg-muted/20 text-muted-foreground"
+                    )}>
+                      {g.window}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
+                    {g.text}
+                  </p>
+                </div>
+              </li>
+            </Reveal>
+          ))}
+        </ol>
+      </div>
     </Section>
   );
 }
@@ -562,7 +701,29 @@ export function RulesSection() {
           subtitle="Key guidelines governing APEX 1.0. Ensure compliance before submission."
         />
       </Reveal>
-      <div className="mt-12 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      {/* Mobile: Clean editorial numbered list (Zero box clutter) */}
+      <div className="mt-8 divide-y divide-border/25 sm:hidden">
+        {RULES.map((r, i) => (
+          <Reveal key={r.n} delay={i * 0.04}>
+            <article className="py-3.5 flex items-start gap-3.5 group">
+              <span className="font-mono text-sm font-black text-primary/80 shrink-0 pt-0.5">
+                {r.n}
+              </span>
+              <div className="min-w-0 flex-1">
+                <h3 className="font-display text-xs font-bold tracking-widest text-foreground uppercase group-hover:text-primary transition-colors">
+                  {r.title}
+                </h3>
+                <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
+                  {r.text}
+                </p>
+              </div>
+            </article>
+          </Reveal>
+        ))}
+      </div>
+
+      {/* Tablet & Desktop: Multi-column cards */}
+      <div className="mt-12 hidden sm:grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {RULES.map((r) => (
           <Reveal key={r.n} delay={0.05}>
             <article className="glass-panel group relative h-full overflow-hidden rounded-xl p-5 sm:p-6 transition-all duration-300 hover:border-primary/40">
@@ -612,43 +773,40 @@ export function PrizesSection() {
         />
       </Reveal>
 
-      {/* Grand champion – prominently featured */}
+      {/* Grand champion – prominently featured centerpiece */}
       <Reveal>
-        <div className="mt-12 glass-panel relative overflow-hidden rounded-xl border-primary/60 glow-primary p-6 text-center sm:p-12 shadow-[0_20px_60px_-15px_rgba(225,29,72,0.25)]">
+        <div className="mt-8 sm:mt-12 glass-panel relative overflow-hidden rounded-xl border-primary/60 glow-primary p-5 sm:p-12 text-center shadow-[0_20px_60px_-15px_rgba(225,29,72,0.25)]">
           <div className="hair-line absolute top-0 inset-x-0" />
           <span className="pointer-events-none absolute inset-0 bg-gradient-to-b from-primary/[0.08] via-transparent to-transparent" aria-hidden />
           <span className="pointer-events-none absolute -right-10 -top-10 select-none font-display text-[8rem] sm:text-[12rem] font-black leading-none text-foreground/[0.02]" aria-hidden>01</span>
 
-          <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-full border border-primary/60 bg-primary/15 text-primary shadow-[0_0_24px_rgba(225,29,72,0.4)]">
-            <Trophy className="h-5 w-5" />
+          <div className="mx-auto mb-2.5 sm:mb-3 flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full border border-primary/60 bg-primary/15 text-primary shadow-[0_0_24px_rgba(225,29,72,0.4)]">
+            <Trophy className="h-4 w-4 sm:h-5 sm:w-5" />
           </div>
 
           <SystemLabel className="text-primary font-bold tracking-[0.25em]">FIRST PLACE</SystemLabel>
-          <p className="mt-4 font-display text-4xl sm:text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-white/95 to-white/70 drop-shadow-[0_0_25px_rgba(225,29,72,0.35)]">
+          <p className="mt-2.5 sm:mt-4 font-display text-4xl sm:text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-white/95 to-white/70 drop-shadow-[0_0_25px_rgba(225,29,72,0.35)]">
             <Counter to={18000} prefix="₹" />
           </p>
-          <h3 className="mt-3 font-display text-base sm:text-lg font-bold tracking-[0.2em] sm:tracking-[0.3em] text-primary">
+          <h3 className="mt-2 sm:mt-3 font-display text-sm sm:text-lg font-bold tracking-[0.18em] sm:tracking-[0.3em] text-primary">
             1ST PRIZE — GRAND CHAMPION
           </h3>
-          <p className="mt-3 text-xs sm:text-sm text-muted-foreground max-w-lg mx-auto leading-relaxed">
+          <p className="mt-2 text-xs sm:text-sm text-muted-foreground max-w-lg mx-auto leading-relaxed">
             The team demonstrating the highest combined score across all four judging criteria.
           </p>
         </div>
       </Reveal>
 
-      {/* Runner up + Second runner up */}
-      <div className="mt-5 grid gap-5 grid-cols-1 sm:grid-cols-2">
+      {/* Runner up + Second runner up - compact side-by-side */}
+      <div className="mt-3.5 sm:mt-5 grid gap-3 sm:gap-5 grid-cols-2">
         {PRIZES.slice(1).map((p, i) => (
           <Reveal key={p.title} delay={(i + 1) * 0.08}>
-            <article className="glass-panel group relative h-full overflow-hidden rounded-xl p-5 sm:p-7 text-center transition-all duration-300 hover:border-primary/40 hover:-translate-y-1 hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.8)]">
-              <span className="pointer-events-none absolute -right-4 -top-4 select-none font-display text-[6rem] sm:text-[8rem] font-black leading-none text-foreground/[0.02]" aria-hidden>
-                {String(i + 2).padStart(2, "0")}
-              </span>
-              <SystemLabel>{p.sub}</SystemLabel>
-              <p className="mt-3 font-display text-3xl sm:text-4xl font-black text-foreground group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-b group-hover:from-white group-hover:to-white/80 transition-colors">
+            <article className="glass-panel group relative h-full overflow-hidden rounded-xl p-3.5 sm:p-7 text-center transition-all duration-300 hover:border-primary/40 hover:-translate-y-0.5">
+              <SystemLabel className="text-[0.55rem] sm:text-xs text-muted-foreground/80">{p.sub}</SystemLabel>
+              <p className="mt-1 sm:mt-3 font-display text-2xl sm:text-4xl font-black text-foreground group-hover:text-primary transition-colors">
                 <Counter to={p.amount} prefix="₹" />
               </p>
-              <h3 className="mt-3 font-display text-xs sm:text-sm font-bold tracking-[0.2em] sm:tracking-[0.24em] text-primary">
+              <h3 className="mt-1 sm:mt-3 font-display text-[0.65rem] sm:text-sm font-bold tracking-[0.14em] sm:tracking-[0.24em] text-primary truncate">
                 {p.title}
               </h3>
             </article>
@@ -656,24 +814,25 @@ export function PrizesSection() {
         ))}
       </div>
 
-      {/* Special awards */}
+      {/* Special awards - clean minimal tag list */}
       <Reveal>
-        <div className="mt-6">
-          <SystemLabel className="text-primary font-bold">SPECIAL AWARDS</SystemLabel>
-          <div className="mt-3 grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 pt-2">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="h-1.5 w-1.5 bg-primary rotate-45" />
+            <SystemLabel className="text-primary font-bold tracking-[0.2em]">SPECIAL RECOGNITION AWARDS</SystemLabel>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
             {SPECIAL_AWARDS.map((a, i) => (
               <div
                 key={a}
-                className="group rounded-lg border border-border/80 bg-card/40 backdrop-blur-sm px-4 py-3 sm:px-5 sm:py-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:bg-card/70 hover:shadow-[0_6px_20px_-8px_rgba(225,29,72,0.2)]"
+                className="group flex items-center gap-2 rounded-lg border border-border/40 bg-card/25 px-2.5 py-2 sm:px-4 sm:py-3 transition-colors hover:border-primary/40"
               >
-                <div className="flex items-center gap-3">
-                  <span className="font-mono text-[0.6rem] text-muted-foreground/50 group-hover:text-primary transition-colors">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="font-mono text-[0.65rem] sm:text-[0.7rem] tracking-[0.16em] sm:tracking-[0.18em] text-muted-foreground group-hover:text-foreground transition-colors">
-                    {a}
-                  </span>
-                </div>
+                <span className="font-mono text-[0.6rem] text-primary/70 font-bold shrink-0">
+                  0{i + 1}
+                </span>
+                <span className="font-mono text-[0.6rem] sm:text-xs tracking-wider text-muted-foreground group-hover:text-foreground transition-colors truncate">
+                  {a}
+                </span>
               </div>
             ))}
           </div>
@@ -696,7 +855,36 @@ export function OrganizersSection() {
       <Reveal>
         <SectionHeading code="SYSTEM 07 / ORGANIZERS" title="The team behind APEX 1.0" />
       </Reveal>
-      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+      {/* Mobile: Clean list with subtle hairlines (no repeated box overload) */}
+      <div className="mt-8 divide-y divide-white/[0.06] border-y border-white/[0.06] sm:hidden">
+        {ORGANIZERS.map((o) => (
+          <div key={o.name} className="flex items-center justify-between py-3.5">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-primary/30 bg-primary/10 font-display text-xs font-bold text-primary">
+                {o.initials}
+              </div>
+              <div className="min-w-0">
+                <h3 className="truncate font-display text-sm font-bold tracking-wider text-foreground">
+                  {o.name}
+                </h3>
+                <p className="truncate text-xs text-muted-foreground">{o.role}</p>
+              </div>
+            </div>
+            <div className="flex gap-2.5 shrink-0 pl-2">
+              <a href="#" className="font-mono text-[0.6rem] tracking-wider text-muted-foreground hover:text-primary py-1 px-1.5">
+                LI
+              </a>
+              <a href="#" className="font-mono text-[0.6rem] tracking-wider text-muted-foreground hover:text-primary py-1 px-1.5">
+                GH
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop: Grid cards */}
+      <div className="mt-12 hidden sm:grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {ORGANIZERS.map((o, i) => (
           <Reveal key={o.name} delay={i * 0.05}>
             <article className="glass-panel flex h-full items-center gap-4 rounded-xl p-5">
@@ -798,7 +986,6 @@ export function VenueSection() {
 /* --------------------------------- FAQ --------------------------------- */
 
 export function FaqSection() {
-  // Split into two columns for desktop
   const mid = Math.ceil(FAQS.length / 2);
   const col1 = FAQS.slice(0, mid);
   const col2 = FAQS.slice(mid);
@@ -809,30 +996,54 @@ export function FaqSection() {
         <SectionHeading code="SYSTEM 08 / FAQ" title="Frequently Asked Questions" subtitle="Everything you need to know about APEX 1.0." />
       </Reveal>
       <Reveal>
-        <div className="mt-10 grid gap-6 md:grid-cols-2">
+        {/* Mobile: Unified single accordion with delicate hairline dividers & readable sentence-case questions */}
+        <div className="mt-8 md:hidden">
+          <Accordion type="single" collapsible className="divide-y divide-border/25 border-y border-border/25">
+            {FAQS.map((f, i) => (
+              <AccordionItem key={f.q} value={`faq-m-${i}`} className="border-none py-0.5">
+                <AccordionTrigger className="text-left py-3.5 hover:no-underline group">
+                  <div className="flex items-start gap-2.5 pr-2">
+                    <span className="mt-0.5 font-mono text-[0.65rem] font-semibold text-primary/80 shrink-0">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="font-sans text-sm font-semibold tracking-normal text-foreground group-hover:text-primary transition-colors leading-snug">
+                      {f.q}
+                    </span>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="pl-6 pr-2 pb-3.5 text-xs text-muted-foreground leading-relaxed">
+                  {f.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+
+        {/* Desktop: 2-column layout */}
+        <div className="mt-10 hidden md:grid md:grid-cols-2 md:gap-8">
           <Accordion type="single" collapsible>
             {col1.map((f, i) => (
-              <AccordionItem key={f.q} value={`q-${i}`} className="border-border/70">
-                <AccordionTrigger className="text-left font-display text-sm font-bold uppercase tracking-[0.12em] hover:text-primary">
-                  <span className="mr-3 font-mono text-[0.6rem] text-muted-foreground/50">
+              <AccordionItem key={f.q} value={`q-${i}`} className="border-border/60">
+                <AccordionTrigger className="text-left font-display text-sm font-bold tracking-[0.06em] hover:text-primary">
+                  <span className="mr-3 font-mono text-[0.65rem] text-primary/70">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   {f.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-sm text-muted-foreground">{f.a}</AccordionContent>
+                <AccordionContent className="text-sm text-muted-foreground leading-relaxed pl-7">{f.a}</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
           <Accordion type="single" collapsible>
             {col2.map((f, i) => (
-              <AccordionItem key={f.q} value={`q-${mid + i}`} className="border-border/70">
-                <AccordionTrigger className="text-left font-display text-sm font-bold uppercase tracking-[0.12em] hover:text-primary">
-                  <span className="mr-3 font-mono text-[0.6rem] text-muted-foreground/50">
+              <AccordionItem key={f.q} value={`q-${mid + i}`} className="border-border/60">
+                <AccordionTrigger className="text-left font-display text-sm font-bold tracking-[0.06em] hover:text-primary">
+                  <span className="mr-3 font-mono text-[0.65rem] text-primary/70">
                     {String(mid + i + 1).padStart(2, "0")}
                   </span>
                   {f.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-sm text-muted-foreground">{f.a}</AccordionContent>
+                <AccordionContent className="text-sm text-muted-foreground leading-relaxed pl-7">{f.a}</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>

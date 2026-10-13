@@ -73,7 +73,7 @@ export function Section({
   className?: string;
 }) {
   return (
-    <section id={id} className={cn("relative px-4 py-12 sm:px-8 sm:py-20 md:py-28 overflow-x-clip", className)}>
+    <section id={id} className={cn("relative px-4 py-12 sm:px-8 sm:py-20 md:py-28 overflow-x-clip scroll-mt-20 sm:scroll-mt-24", className)}>
       <div className="mx-auto w-full max-w-6xl">{children}</div>
     </section>
   );

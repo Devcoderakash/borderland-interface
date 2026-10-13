@@ -27,6 +27,17 @@ export function SiteNav() {
   const location = useLocation();
 
   useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 24);
       if (location.pathname === "/" && window.scrollY < 240) {
