@@ -8,6 +8,7 @@ import {
   Github,
   Linkedin,
   Loader2,
+  Sparkles,
   Trophy,
   Users,
   Zap,
@@ -193,7 +194,7 @@ function RegisterPage() {
 
       // 3. Open Razorpay Checkout modal
       const options = {
-        key: keyId,
+        key: keyId as string,
         amount: orderData.amount, // In paise (₹199 = 19900)
         currency: orderData.currency || "INR",
         name: "APEX 1.0",
@@ -552,14 +553,16 @@ function RegisterPage() {
                       type="submit"
                       size="lg"
                       disabled={submitting}
-                      className="glow-primary font-mono text-xs tracking-[0.2em] w-full sm:w-auto min-h-[44px]"
+                      className="group glow-primary font-mono text-xs tracking-[0.2em] w-full sm:w-auto min-h-[44px] transition-all duration-200"
                     >
                       {submitting ? (
                         <>
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" /> PROCESSING…
                         </>
                       ) : (
-                        "REGISTER & PAY ₹199 →"
+                        <>
+                          REGISTER & PAY ₹199 <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">&rarr;</span>
+                        </>
                       )}
                     </Button>
                   </div>

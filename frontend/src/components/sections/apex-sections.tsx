@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { ArrowRight, MapPin, Terminal } from "lucide-react";
+import { ArrowRight, MapPin, Terminal, Trophy } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import {
@@ -78,17 +78,17 @@ export function Hero() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/60 bg-primary/10 px-3 py-1 w-fit">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/60 bg-primary/10 px-3 py-1 w-fit shadow-[0_0_16px_-2px_rgba(225,29,72,0.35)] backdrop-blur-sm">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" aria-hidden />
               <SystemLabel className="text-primary text-[0.65rem] tracking-[0.2em] font-bold">REGISTRATIONS OPEN</SystemLabel>
             </div>
 
             <h1 className="mt-5 sm:mt-8 font-display text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[0.95] tracking-tight text-white break-words">
-              APEX<span className="text-primary">//</span>1.0
+              APEX<span className="text-primary text-glow">//</span>1.0
             </h1>
 
             <div className="mt-4 sm:mt-6 flex flex-col font-display font-black uppercase tracking-tight">
-              <span className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] text-white">
+              <span className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] text-transparent bg-clip-text bg-gradient-to-b from-white via-white/95 to-white/70">
                 ONE IDEA.
               </span>
               <span className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] text-primary text-glow">
@@ -101,18 +101,20 @@ export function Hero() {
             </p>
 
             <div className="mt-6 sm:mt-10 flex flex-col gap-3 sm:flex-row sm:gap-4">
-              <Button asChild size="lg" className="h-12 sm:h-14 px-6 sm:px-8 bg-primary text-primary-foreground hover:bg-primary/90 glow-primary font-mono text-xs tracking-[0.2em] rounded-md transition-all w-full sm:w-auto">
+              <Button asChild size="lg" className="group h-12 sm:h-14 px-6 sm:px-8 bg-primary text-primary-foreground hover:bg-primary/90 glow-primary font-mono text-xs tracking-[0.2em] rounded-md transition-all duration-200 w-full sm:w-auto">
                 <Link to="/register">
-                  ENTER THE HACKATHON &rarr;
+                  ENTER THE HACKATHON <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">&rarr;</span>
                 </Link>
               </Button>
               <Button
                 asChild
                 size="lg"
                 variant="outline"
-                className="h-12 sm:h-14 px-6 sm:px-8 border-border bg-background/30 hover:bg-secondary/50 font-mono text-xs tracking-[0.2em] rounded-md transition-all text-white hover:text-white w-full sm:w-auto"
+                className="group h-12 sm:h-14 px-6 sm:px-8 border-border/80 bg-background/40 hover:bg-primary/10 hover:border-primary/50 font-mono text-xs tracking-[0.2em] rounded-md transition-all duration-200 text-white/90 hover:text-white w-full sm:w-auto"
               >
-                <a href="#roadmap">EXPLORE THE ROADMAP &rarr;</a>
+                <a href="#roadmap">
+                  EXPLORE THE ROADMAP <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">&rarr;</span>
+                </a>
               </Button>
             </div>
 
@@ -136,9 +138,9 @@ export function Hero() {
             </div>
           </motion.div>
 
-          {/* Right Side Micro Message */}
+          {/* Right Side Micro Message & HUD Telemetry */}
           <motion.div
-            className="hidden lg:flex flex-col items-end justify-start h-full pt-10"
+            className="hidden lg:flex flex-col items-end justify-between h-full pt-10"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
@@ -150,10 +152,35 @@ export function Hero() {
                 INNOVATE<br />
                 <span className="text-white/80">TOGETHER.</span>
               </p>
+
+              {/* Sleek Mini Telemetry HUD Card */}
+              <div className="mt-6 glass-panel rounded-lg p-3.5 border-border/60 bg-card/40 backdrop-blur-md text-left w-64 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.8)]">
+                <div className="flex items-center justify-between pb-2 border-b border-border/40">
+                  <div className="flex items-center gap-1.5">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="font-mono text-[0.6rem] tracking-[0.18em] text-white/80">SYSTEM READY</span>
+                  </div>
+                  <span className="font-mono text-[0.55rem] tracking-[0.16em] text-primary">SYS//2026</span>
+                </div>
+                <div className="mt-2.5 space-y-1.5 font-mono text-[0.6rem] tracking-wider text-white/60">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">MODE:</span>
+                    <span className="text-white font-semibold">OPEN INNOVATION</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">ROUND 1:</span>
+                    <span className="text-primary font-semibold">ONLINE SUBMISSION</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">ROUND 2:</span>
+                    <span className="text-white font-semibold">OFFLINE GRAND FINALE</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Social Tag */}
-            <div className="mt-auto pb-10">
+            <div className="mt-auto pb-8">
               <p className="font-mono text-xs tracking-[0.2em] text-white/50 hover:text-primary transition-colors cursor-pointer">
                 #APEX1.0
               </p>
@@ -163,7 +190,7 @@ export function Hero() {
       </div>
 
       {/* Bottom Information Bar - Fully responsive, no horizontal scroll needed! */}
-      <div className="relative z-20 mt-6 w-full border-t border-border/40 bg-background/85 backdrop-blur-md lg:absolute lg:bottom-0 lg:left-0 lg:right-0 lg:mt-0 lg:bg-background/60">
+      <div className="relative z-20 mt-6 w-full border-t border-white/[0.08] bg-background/85 backdrop-blur-md lg:absolute lg:bottom-0 lg:left-0 lg:right-0 lg:mt-0 lg:bg-background/70 shadow-[0_-10px_30px_-10px_rgba(0,0,0,0.5)]">
         <div className="mx-auto max-w-7xl px-3 py-3 sm:px-8 sm:py-4">
           <div className="grid grid-cols-2 gap-x-2.5 gap-y-3 sm:grid-cols-3 md:grid-cols-4 lg:flex lg:w-full lg:items-center lg:justify-between lg:gap-4 xl:gap-6">
             {[
@@ -175,11 +202,11 @@ export function Hero() {
               ["ROUND 2", "OFFLINE"],
               ["LOCATION", "BHOPAL"],
             ].map(([k, v], i) => (
-              <div key={k} className="flex items-center min-w-0">
+              <div key={k} className="group flex items-center min-w-0 transition-all duration-200 hover:-translate-y-0.5">
                 {i > 0 && <div className="hidden h-8 w-px bg-border/40 mr-6 lg:block" aria-hidden />}
                 <div className="min-w-0">
-                  <dt className="font-mono text-[0.55rem] sm:text-[0.6rem] tracking-[0.18em] text-muted-foreground truncate">{k}</dt>
-                  <dd className="mt-0.5 font-display text-xs sm:text-sm font-bold tracking-wider text-foreground whitespace-nowrap truncate">
+                  <dt className="font-mono text-[0.55rem] sm:text-[0.6rem] tracking-[0.18em] text-muted-foreground truncate group-hover:text-foreground/70 transition-colors">{k}</dt>
+                  <dd className="mt-0.5 font-display text-xs sm:text-sm font-bold tracking-wider text-foreground whitespace-nowrap truncate group-hover:text-primary transition-colors">
                     {v}
                   </dd>
                 </div>
@@ -230,9 +257,9 @@ export function WelcomeSection() {
               Bring your best ideas.
             </p>
           </div>
-          <Button asChild variant="outline" className="mt-8 bg-transparent font-mono text-xs tracking-[0.18em]">
+          <Button asChild variant="outline" className="group mt-8 border-border/80 bg-card/30 hover:border-primary/50 hover:bg-primary/10 font-mono text-xs tracking-[0.18em]">
             <Link to="/rules">
-              EXPLORE EVENT RULES <ArrowRight className="ml-2 h-4 w-4" />
+              EXPLORE EVENT RULES <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
             </Link>
           </Button>
         </Reveal>
@@ -564,11 +591,17 @@ export function PrizesSection() {
 
       {/* Grand champion – prominently featured */}
       <Reveal>
-        <div className="mt-12 glass-panel relative overflow-hidden rounded-xl border-primary/50 glow-primary p-6 text-center sm:p-12">
-          <span className="pointer-events-none absolute inset-0 bg-primary/[0.03]" aria-hidden />
+        <div className="mt-12 glass-panel relative overflow-hidden rounded-xl border-primary/60 glow-primary p-6 text-center sm:p-12 shadow-[0_20px_60px_-15px_rgba(225,29,72,0.25)]">
+          <div className="hair-line absolute top-0 inset-x-0" />
+          <span className="pointer-events-none absolute inset-0 bg-gradient-to-b from-primary/[0.08] via-transparent to-transparent" aria-hidden />
           <span className="pointer-events-none absolute -right-10 -top-10 select-none font-display text-[8rem] sm:text-[12rem] font-black leading-none text-foreground/[0.02]" aria-hidden>01</span>
-          <SystemLabel className="text-primary">FIRST PLACE</SystemLabel>
-          <p className="mt-4 font-display text-4xl sm:text-5xl md:text-6xl font-black text-foreground">
+
+          <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-full border border-primary/60 bg-primary/15 text-primary shadow-[0_0_24px_rgba(225,29,72,0.4)]">
+            <Trophy className="h-5 w-5" />
+          </div>
+
+          <SystemLabel className="text-primary font-bold tracking-[0.25em]">FIRST PLACE</SystemLabel>
+          <p className="mt-4 font-display text-4xl sm:text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-white/95 to-white/70 drop-shadow-[0_0_25px_rgba(225,29,72,0.35)]">
             <Counter to={18000} prefix="₹" />
           </p>
           <h3 className="mt-3 font-display text-base sm:text-lg font-bold tracking-[0.2em] sm:tracking-[0.3em] text-primary">
@@ -584,12 +617,12 @@ export function PrizesSection() {
       <div className="mt-5 grid gap-5 grid-cols-1 sm:grid-cols-2">
         {PRIZES.slice(1).map((p, i) => (
           <Reveal key={p.title} delay={(i + 1) * 0.08}>
-            <article className="glass-panel relative h-full overflow-hidden rounded-xl p-5 sm:p-7 text-center">
+            <article className="glass-panel group relative h-full overflow-hidden rounded-xl p-5 sm:p-7 text-center transition-all duration-300 hover:border-primary/40 hover:-translate-y-1 hover:shadow-[0_16px_40px_-12px_rgba(0,0,0,0.8)]">
               <span className="pointer-events-none absolute -right-4 -top-4 select-none font-display text-[6rem] sm:text-[8rem] font-black leading-none text-foreground/[0.02]" aria-hidden>
                 {String(i + 2).padStart(2, "0")}
               </span>
               <SystemLabel>{p.sub}</SystemLabel>
-              <p className="mt-3 font-display text-3xl sm:text-4xl font-black text-foreground">
+              <p className="mt-3 font-display text-3xl sm:text-4xl font-black text-foreground group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-b group-hover:from-white group-hover:to-white/80 transition-colors">
                 <Counter to={p.amount} prefix="₹" />
               </p>
               <h3 className="mt-3 font-display text-xs sm:text-sm font-bold tracking-[0.2em] sm:tracking-[0.24em] text-primary">
@@ -603,15 +636,15 @@ export function PrizesSection() {
       {/* Special awards */}
       <Reveal>
         <div className="mt-6">
-          <SystemLabel className="text-primary">SPECIAL AWARDS</SystemLabel>
+          <SystemLabel className="text-primary font-bold">SPECIAL AWARDS</SystemLabel>
           <div className="mt-3 grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {SPECIAL_AWARDS.map((a, i) => (
               <div
                 key={a}
-                className="group rounded-lg border border-border bg-card/40 px-4 py-3 sm:px-5 sm:py-4 transition-all duration-300 hover:border-primary/30"
+                className="group rounded-lg border border-border/80 bg-card/40 backdrop-blur-sm px-4 py-3 sm:px-5 sm:py-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:bg-card/70 hover:shadow-[0_6px_20px_-8px_rgba(225,29,72,0.2)]"
               >
                 <div className="flex items-center gap-3">
-                  <span className="font-mono text-[0.6rem] text-muted-foreground/50">
+                  <span className="font-mono text-[0.6rem] text-muted-foreground/50 group-hover:text-primary transition-colors">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span className="font-mono text-[0.65rem] sm:text-[0.7rem] tracking-[0.16em] sm:tracking-[0.18em] text-muted-foreground group-hover:text-foreground transition-colors">
@@ -817,9 +850,9 @@ export function FinalCta() {
           ))}
         </div>
 
-        <Button asChild size="lg" className="mt-8 glow-primary font-mono text-xs tracking-[0.2em] w-full sm:w-auto min-h-[44px]">
+        <Button asChild size="lg" className="group mt-8 glow-primary font-mono text-xs tracking-[0.2em] w-full sm:w-auto min-h-[44px]">
           <Link to="/register">
-            ENTER THE HACKATHON <ArrowRight className="ml-2 h-4 w-4" />
+            ENTER THE HACKATHON <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
           </Link>
         </Button>
       </div>

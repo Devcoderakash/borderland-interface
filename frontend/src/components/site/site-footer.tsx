@@ -2,13 +2,13 @@ import { Link } from "@tanstack/react-router";
 import { Github, Instagram, Linkedin, MessageCircle } from "lucide-react";
 
 const LINKS = [
-  { to: "/", label: "Home" },
+  { to: "/", label: "Home", isHash: false },
   { to: "/#roadmap", label: "Roadmap", isHash: true },
-  { to: "/rules", label: "Rules" },
-  { to: "/prizes", label: "Prizes" },
+  { to: "/rules", label: "Rules", isHash: false },
+  { to: "/prizes", label: "Prizes", isHash: false },
   { to: "/#sponsors", label: "Sponsors", isHash: true },
-  { to: "/faq", label: "FAQ" },
-  { to: "/register", label: "Register" },
+  { to: "/faq", label: "FAQ", isHash: false },
+  { to: "/register", label: "Register", isHash: false },
 ] as const;
 
 const SOCIALS = [
@@ -20,7 +20,8 @@ const SOCIALS = [
 
 export function SiteFooter() {
   return (
-    <footer className="relative border-t border-border/70 bg-background px-4 py-10 sm:px-8 sm:py-14">
+    <footer className="relative border-t border-border/80 bg-background px-4 py-10 sm:px-8 sm:py-14 overflow-hidden">
+      <div className="hair-line absolute top-0 inset-x-0" />
       <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-[1.2fr_1fr_1fr]">
         <div>
           <div className="flex items-center gap-2.5">
@@ -45,17 +46,17 @@ export function SiteFooter() {
           <ul className="mt-4 grid grid-cols-2 gap-2">
             {LINKS.map((l) => (
               <li key={l.label}>
-                {"isHash" in l && l.isHash ? (
+                {l.isHash ? (
                   <a
                     href={l.to}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    className="inline-block text-sm text-muted-foreground transition-all duration-200 hover:text-foreground hover:translate-x-0.5"
                   >
                     {l.label}
                   </a>
                 ) : (
                   <Link
                     to={l.to}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    className="inline-block text-sm text-muted-foreground transition-all duration-200 hover:text-foreground hover:translate-x-0.5"
                   >
                     {l.label}
                   </Link>
@@ -73,7 +74,7 @@ export function SiteFooter() {
                 key={label}
                 href="#"
                 aria-label={label}
-                className="grid h-9 w-9 place-items-center rounded border border-border text-muted-foreground transition-colors hover:border-primary/60 hover:text-primary"
+                className="grid h-9 w-9 place-items-center rounded-md border border-border/80 bg-card/40 text-muted-foreground transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/60 hover:text-primary hover:shadow-[0_0_15px_-3px_rgba(225,29,72,0.4)]"
               >
                 <Icon className="h-4 w-4" />
               </a>

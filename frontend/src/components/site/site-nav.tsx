@@ -66,7 +66,7 @@ export function SiteNav() {
         className={cn(
           "mx-auto flex max-w-6xl items-center justify-between gap-2 sm:gap-4 transition-all duration-300",
           scrolled
-            ? "glass-panel rounded-lg px-3 py-2 sm:px-5 sm:py-2.5 shadow-[0_4px_20px_rgba(0,0,0,0.5)] border-primary/20"
+            ? "glass-panel rounded-xl px-3 py-2 sm:px-5 sm:py-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.6)] border-primary/25"
             : "border-b border-border/60 bg-background/80 px-4 py-3 sm:px-8 sm:py-4 backdrop-blur-md",
         )}
       >
@@ -92,14 +92,14 @@ export function SiteNav() {
                 <a
                   href={item.href}
                   onClick={(e) => handleHashClick(e, item.href)}
-                  className="relative rounded px-3 py-2 font-mono text-[0.7rem] tracking-[0.16em] text-muted-foreground transition-colors hover:text-foreground hover:bg-white/[0.03]"
+                  className="relative rounded px-3 py-1.5 font-mono text-[0.7rem] tracking-[0.16em] text-muted-foreground transition-all duration-200 hover:text-foreground hover:bg-white/[0.05]"
                 >
                   {item.label}
                 </a>
               ) : (
                 <Link
                   to={item.href}
-                  className="relative rounded px-3 py-2 font-mono text-[0.7rem] tracking-[0.16em] text-muted-foreground transition-colors hover:text-foreground hover:bg-white/[0.03]"
+                  className="relative rounded px-3 py-1.5 font-mono text-[0.7rem] tracking-[0.16em] text-muted-foreground transition-all duration-200 hover:text-foreground hover:bg-white/[0.05]"
                   activeProps={{ className: "text-foreground font-semibold" }}
                   activeOptions={{ exact: item.href === "/" }}
                 >
@@ -118,8 +118,10 @@ export function SiteNav() {
         </ul>
 
         <div className="flex items-center gap-2 shrink-0">
-          <Button asChild size="sm" className="hidden font-mono text-[0.7rem] tracking-[0.16em] bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_0_15px_-3px] shadow-primary/40 transition-all sm:inline-flex rounded-md min-h-[36px]">
-            <Link to="/register">REGISTER NOW &rarr;</Link>
+          <Button asChild size="sm" className="group hidden font-mono text-[0.7rem] tracking-[0.16em] bg-primary text-primary-foreground hover:bg-primary/90 glow-primary transition-all sm:inline-flex rounded-md min-h-[36px] px-3.5">
+            <Link to="/register">
+              REGISTER NOW <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">&rarr;</span>
+            </Link>
           </Button>
           <button
             type="button"

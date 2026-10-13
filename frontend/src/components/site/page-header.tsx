@@ -19,7 +19,7 @@ export function PageHeader({
       <div className="grain pointer-events-none absolute inset-0" aria-hidden />
       <div className="relative mx-auto max-w-6xl">
         <SystemLabel className="text-primary text-[0.65rem] sm:text-xs">{code}</SystemLabel>
-        <h1 className="mt-2.5 sm:mt-3 font-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase leading-[1.08] break-words">
+        <h1 className="mt-2.5 sm:mt-3 font-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase leading-[1.08] break-words text-transparent bg-clip-text bg-gradient-to-b from-white via-white/95 to-white/75">
           {title}
         </h1>
         {subtitle ? (
@@ -29,6 +29,7 @@ export function PageHeader({
         ) : null}
         {children}
       </div>
+      <div className="hair-line absolute bottom-0 inset-x-0" />
     </section>
   );
 }

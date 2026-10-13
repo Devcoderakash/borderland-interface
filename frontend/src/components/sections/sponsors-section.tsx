@@ -65,7 +65,7 @@ export function SponsorsSection() {
                 {Array.from({ length: tierGroup.slots }).map((_, slotIndex) => (
                   <div
                     key={slotIndex}
-                    className="group relative flex h-20 w-[calc(50%-0.35rem)] sm:w-40 md:w-44 flex-col items-center justify-center rounded border border-dashed border-border/80 bg-card/20 px-2.5 py-2 transition-all duration-200 hover:border-primary/60 hover:bg-card/40"
+                    className="group relative flex h-20 w-[calc(50%-0.35rem)] sm:w-40 md:w-44 flex-col items-center justify-center rounded-lg border border-dashed border-border/80 bg-card/20 px-2.5 py-2 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/60 hover:bg-card/40 hover:shadow-[0_8px_20px_-8px_rgba(225,29,72,0.2)]"
                   >
                     <span className="font-mono text-[0.55rem] sm:text-[0.6rem] tracking-[0.16em] sm:tracking-[0.2em] text-muted-foreground/60 uppercase text-center select-none group-hover:text-muted-foreground transition-colors truncate max-w-full">
                       {tierGroup.tier}
@@ -88,9 +88,9 @@ export function SponsorsSection() {
             <DialogTrigger asChild>
               <Button
                 variant="outline"
-                className="font-mono text-xs tracking-[0.2em] uppercase border-border/80 bg-background/50 hover:border-primary hover:text-primary transition-colors h-11 sm:h-10 px-5 w-full sm:w-auto min-h-[44px]"
+                className="group font-mono text-xs tracking-[0.2em] uppercase border-border/80 bg-background/50 hover:border-primary hover:text-primary transition-all duration-200 h-11 sm:h-10 px-5 w-full sm:w-auto min-h-[44px]"
               >
-                BECOME A PARTNER <ArrowRight className="ml-2 h-4 w-4" />
+                BECOME A PARTNER <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
               </Button>
             </DialogTrigger>
 

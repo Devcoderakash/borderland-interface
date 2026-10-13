@@ -50,10 +50,10 @@ export function SectionHeading({
   return (
     <div className={cn("max-w-3xl", className)}>
       <div className="flex items-center gap-3">
-        <span className="h-2 w-2 rotate-45 bg-primary" aria-hidden />
+        <span className="h-2 w-2 rotate-45 bg-primary shadow-[0_0_10px_rgba(225,29,72,0.6)]" aria-hidden />
         <SystemLabel>{code}</SystemLabel>
       </div>
-      <h2 className="mt-4 text-2xl font-black uppercase tracking-tight sm:text-4xl md:text-5xl break-words">
+      <h2 className="mt-4 text-2xl font-black uppercase tracking-tight sm:text-4xl md:text-5xl break-words text-transparent bg-clip-text bg-gradient-to-b from-white via-white/95 to-white/80">
         {title}
       </h2>
       {subtitle ? (
