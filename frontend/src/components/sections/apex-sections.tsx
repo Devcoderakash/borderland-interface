@@ -65,7 +65,7 @@ export function Hero() {
   );
 
   return (
-    <section className="relative flex flex-col justify-start sm:justify-between overflow-x-clip bg-[#08070B] px-4 pt-20 pb-8 sm:min-h-[100svh] sm:px-8 sm:pt-28 md:pb-12 lg:min-h-screen lg:justify-center lg:pb-24">
+    <section className="relative flex flex-col justify-start sm:justify-between overflow-x-clip bg-[#08070B] min-h-[100svh] px-4 pt-20 pb-8 sm:px-8 sm:pt-28 md:pb-12 lg:min-h-screen lg:justify-center lg:pb-24">
       {/* Cinematic Animated Background */}
       <CinematicHeroBackground />
 
