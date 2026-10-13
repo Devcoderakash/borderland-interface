@@ -469,14 +469,17 @@ function RegisterPage() {
                       <SystemLabel className="text-primary text-[0.65rem] sm:text-xs">SECTION_02 / MEMBERS</SystemLabel>
                       <div className="h-px flex-1 bg-border/40" />
                     </div>
+                    <p className="mb-3 font-mono text-[0.6rem] sm:text-[0.65rem] tracking-wider text-muted-foreground/70">
+                      TEAM LEADER IS ALREADY COUNTED · ADD REMAINING MEMBERS BELOW
+                    </p>
                     <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2">
-                      <Field form={form} name="member1" label="MEMBER 1" />
-                      <Field form={form} name="member2" label="MEMBER 2" />
-                      {size >= 3 ? <Field form={form} name="member3" label="MEMBER 3" /> : null}
-                      {size >= 4 ? <Field form={form} name="member4" label="MEMBER 4" /> : null}
+                      {/* size=2 → leader + 1 additional; size=3 → +2; size=4 → +3 */}
+                      <Field form={form} name="member1" label="ADDITIONAL MEMBER 1" />
+                      {size >= 3 ? <Field form={form} name="member2" label="ADDITIONAL MEMBER 2" /> : null}
+                      {size >= 4 ? <Field form={form} name="member3" label="ADDITIONAL MEMBER 3" /> : null}
                     </div>
                     <p className="mt-2.5 font-mono text-[0.6rem] sm:text-[0.65rem] tracking-wider text-muted-foreground/70">
-                      ↑ MEMBER SLOTS ADJUST BASED ON SELECTED TEAM SIZE
+                      ↑ SLOTS ADJUST WITH TEAM SIZE · LEADER + ABOVE = TOTAL TEAM
                     </p>
                   </div>
 
