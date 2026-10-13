@@ -538,37 +538,132 @@
 }
 
 
-/* ─────────────────── AMBIENT PAGE BACKGROUND ANIMATIONS ─────────────────── */
+/* ─────────────────── PREMIUM AMBIENT BACKGROUND ANIMATIONS ─────────────────── */
 
-@keyframes orb-drift-a {
+@keyframes orb-drift-1 {
   0%   { transform: translate3d(0, 0, 0) scale(1); }
-  33%  { transform: translate3d(60px, -40px, 0) scale(1.08); }
-  66%  { transform: translate3d(-30px, 50px, 0) scale(0.96); }
+  25%  { transform: translate3d(45px, -35px, 0) scale(1.08); }
+  50%  { transform: translate3d(-30px, 40px, 0) scale(0.96); }
+  75%  { transform: translate3d(-60px, -20px, 0) scale(1.04); }
   100% { transform: translate3d(0, 0, 0) scale(1); }
 }
 
-@keyframes orb-drift-b {
+@keyframes orb-drift-2 {
   0%   { transform: translate3d(0, 0, 0) scale(1); }
-  40%  { transform: translate3d(-70px, 30px, 0) scale(1.06); }
-  75%  { transform: translate3d(40px, -55px, 0) scale(0.94); }
+  30%  { transform: translate3d(-55px, 30px, 0) scale(1.06); }
+  60%  { transform: translate3d(40px, -50px, 0) scale(0.94); }
+  85%  { transform: translate3d(20px, 25px, 0) scale(1.02); }
   100% { transform: translate3d(0, 0, 0) scale(1); }
 }
 
-@keyframes orb-drift-c {
+@keyframes orb-drift-3 {
   0%   { transform: translate3d(0, 0, 0) scale(1); opacity: 0.55; }
-  50%  { transform: translate3d(50px, -35px, 0) scale(1.12); opacity: 0.75; }
+  35%  { transform: translate3d(35px, -45px, 0) scale(1.10); opacity: 0.75; }
+  70%  { transform: translate3d(-40px, 25px, 0) scale(0.92); opacity: 0.60; }
   100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.55; }
 }
 
-@keyframes aurora-shift {
+@keyframes orb-drift-4 {
+  0%   { transform: translate3d(0, 0, 0) scale(1); opacity: 0.50; }
+  45%  { transform: translate3d(-45px, -30px, 0) scale(1.12); opacity: 0.70; }
+  80%  { transform: translate3d(30px, 40px, 0) scale(0.95); opacity: 0.45; }
+  100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.50; }
+}
+
+@keyframes aurora-mesh-flow {
+  0% {
+    background-position: 0% 0%, 100% 100%, 50% 0%;
+    opacity: 0.32;
+  }
+  33% {
+    background-position: 50% 50%, 0% 100%, 100% 50%;
+    opacity: 0.44;
+  }
+  66% {
+    background-position: 100% 50%, 50% 0%, 0% 100%;
+    opacity: 0.36;
+  }
+  100% {
+    background-position: 0% 0%, 100% 100%, 50% 0%;
+    opacity: 0.32;
+  }
+}
+
+@keyframes grid-wave-pulse {
   0%, 100% {
-    background-position: 0% 50%;
-    opacity: 0.28;
+    opacity: 0.04;
+    transform: translate3d(0, 0, 0);
   }
   50% {
-    background-position: 100% 50%;
-    opacity: 0.45;
+    opacity: 0.09;
+    transform: translate3d(0, -6px, 0);
   }
+}
+
+@keyframes light-beam-drift {
+  0% {
+    transform: translate3d(-30%, -30%, 0) rotate(-32deg);
+    opacity: 0.02;
+  }
+  40% {
+    opacity: 0.07;
+  }
+  60% {
+    opacity: 0.06;
+  }
+  100% {
+    transform: translate3d(30%, 30%, 0) rotate(-32deg);
+    opacity: 0.02;
+  }
+}
+
+/* Ambient aurora mesh layer */
+.ambient-aurora-mesh {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 20% 15%, oklch(0.6 0.235 22 / 0.20) 0%, transparent 65%),
+    radial-gradient(ellipse 70% 60% at 85% 85%, oklch(0.58 0.235 300 / 0.16) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 50% at 50% 40%, oklch(0.8 0.13 195 / 0.09) 0%, transparent 60%);
+  background-size: 200% 200%, 180% 180%, 150% 150%;
+  animation: aurora-mesh-flow 26s ease-in-out infinite;
+  will-change: background-position, opacity;
+}
+
+/* Ambient cyber grid with subtle luminous wave */
+.ambient-cyber-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, oklch(0.96 0.01 300 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(0.96 0.01 300 / 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, black 0%, transparent 80%);
+  animation: grid-wave-pulse 16s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+/* Atmospheric light beam */
+.ambient-light-beam {
+  position: absolute;
+  top: -40%;
+  left: -20%;
+  width: 140vw;
+  height: 180vh;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 42%,
+    oklch(0.6 0.235 22 / 0.05) 48%,
+    oklch(0.8 0.13 195 / 0.04) 52%,
+    transparent 58%,
+    transparent 100%
+  );
+  animation: light-beam-drift 24s ease-in-out infinite alternate;
+  will-change: transform, opacity;
 }
 
 /* Ambient orb utility classes — purely decorative */
@@ -576,46 +671,40 @@
   position: absolute;
   border-radius: 9999px;
   pointer-events: none;
-  background: radial-gradient(ellipse at center, oklch(0.6 0.235 22 / 0.38) 0%, oklch(0.6 0.235 22 / 0.12) 45%, transparent 72%);
-  filter: blur(60px);
+  background: radial-gradient(ellipse at center, oklch(0.6 0.235 22 / 0.38) 0%, oklch(0.6 0.235 22 / 0.14) 40%, transparent 70%);
+  filter: blur(55px);
   will-change: transform;
-  animation: orb-drift-a 28s ease-in-out infinite;
+  animation: orb-drift-1 30s ease-in-out infinite;
 }
 
 .ambient-orb-violet {
   position: absolute;
   border-radius: 9999px;
   pointer-events: none;
-  background: radial-gradient(ellipse at center, oklch(0.58 0.235 300 / 0.3) 0%, oklch(0.58 0.235 300 / 0.10) 45%, transparent 72%);
-  filter: blur(72px);
+  background: radial-gradient(ellipse at center, oklch(0.58 0.235 300 / 0.32) 0%, oklch(0.58 0.235 300 / 0.12) 42%, transparent 70%);
+  filter: blur(65px);
   will-change: transform;
-  animation: orb-drift-b 36s ease-in-out infinite;
+  animation: orb-drift-2 36s ease-in-out infinite;
 }
 
 .ambient-orb-cyan {
   position: absolute;
   border-radius: 9999px;
   pointer-events: none;
-  background: radial-gradient(ellipse at center, oklch(0.8 0.13 195 / 0.18) 0%, transparent 68%);
-  filter: blur(80px);
+  background: radial-gradient(ellipse at center, oklch(0.8 0.13 195 / 0.20) 0%, oklch(0.8 0.13 195 / 0.06) 45%, transparent 68%);
+  filter: blur(70px);
   will-change: transform;
-  animation: orb-drift-c 44s ease-in-out infinite;
+  animation: orb-drift-3 42s ease-in-out infinite;
 }
 
-/* Animated aurora gradient layer */
-.ambient-aurora {
+.ambient-orb-amber {
   position: absolute;
-  inset: 0;
+  border-radius: 9999px;
   pointer-events: none;
-  background: linear-gradient(
-    125deg,
-    oklch(0.6 0.235 22 / 0.12) 0%,
-    oklch(0.58 0.235 300 / 0.10) 30%,
-    oklch(0.8 0.13 195 / 0.07) 60%,
-    oklch(0.6 0.235 22 / 0.09) 100%
-  );
-  background-size: 300% 300%;
-  animation: aurora-shift 22s ease-in-out infinite;
+  background: radial-gradient(ellipse at center, oklch(0.64 0.21 35 / 0.26) 0%, oklch(0.64 0.21 35 / 0.08) 42%, transparent 68%);
+  filter: blur(60px);
+  will-change: transform;
+  animation: orb-drift-4 32s ease-in-out infinite;
 }
 
 /* Mouse-follow glow — positioned via JS via --gx / --gy CSS custom props */
@@ -623,12 +712,49 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 600px;
-  height: 600px;
+  width: 650px;
+  height: 650px;
   border-radius: 9999px;
   pointer-events: none;
   z-index: 1;
-  background: radial-gradient(circle, oklch(0.6 0.235 22 / 0.07) 0%, transparent 65%);
-  transform: translate3d(calc(var(--gx, -9999px) - 300px), calc(var(--gy, -9999px) - 300px), 0);
+  background: radial-gradient(
+    circle at center,
+    oklch(0.6 0.235 22 / 0.09) 0%,
+    oklch(0.58 0.235 300 / 0.05) 35%,
+    oklch(0.8 0.13 195 / 0.02) 55%,
+    transparent 72%
+  );
+  transform: translate3d(calc(var(--gx, -9999px) - 325px), calc(var(--gy, -9999px) - 325px), 0);
   will-change: transform;
+}
+
+/* Backward compatibility for previous class name */
+.ambient-aurora {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    125deg,
+    oklch(0.6 0.235 22 / 0.14) 0%,
+    oklch(0.58 0.235 300 / 0.12) 30%,
+    oklch(0.8 0.13 195 / 0.08) 60%,
+    oklch(0.6 0.235 22 / 0.10) 100%
+  );
+  background-size: 300% 300%;
+  animation: aurora-mesh-flow 24s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-aurora-mesh,
+  .ambient-cyber-grid,
+  .ambient-light-beam,
+  .ambient-orb-crimson,
+  .ambient-orb-violet,
+  .ambient-orb-cyan,
+  .ambient-orb-amber,
+  .mouse-glow,
+  .ambient-aurora {
+    animation: none !important;
+    transform: none !important;
+  }
 }

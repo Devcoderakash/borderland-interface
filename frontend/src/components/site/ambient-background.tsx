@@ -64,68 +64,75 @@ export function AmbientBackground() {
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 z-0 overflow-hidden select-none"
     >
-      {/* ── Aurora gradient mesh ── */}
-      <div className="ambient-aurora" />
+      {/* ── Layer 1: Atmospheric Aurora Mesh ── */}
+      <div className="ambient-aurora-mesh" />
 
-      {/* ── Orb 1: Crimson — top-left quadrant ── */}
-      <div
-        className="ambient-orb-crimson"
-        style={{
-          width: "55vw",
-          height: "55vw",
-          maxWidth: 700,
-          maxHeight: 700,
-          top: "-12%",
-          left: "-10%",
-          animationDelay: "0s",
-        }}
-      />
+      {/* ── Layer 2: Subtle Digital Cyber-Grid with Wave Pulse ── */}
+      <div className="ambient-cyber-grid" />
 
-      {/* ── Orb 2: Violet — bottom-right quadrant ── */}
-      <div
-        className="ambient-orb-violet"
-        style={{
-          width: "50vw",
-          height: "50vw",
-          maxWidth: 640,
-          maxHeight: 640,
-          bottom: "-15%",
-          right: "-12%",
-          animationDelay: "-12s",
-        }}
-      />
+      {/* ── Layer 3: Cinema Light Beam Drift ── */}
+      <div className="ambient-light-beam" />
 
-      {/* ── Orb 3: Cyan — mid-left accent ── */}
-      <div
-        className="ambient-orb-cyan"
-        style={{
-          width: "35vw",
-          height: "35vw",
-          maxWidth: 480,
-          maxHeight: 480,
-          top: "40%",
-          left: "5%",
-          animationDelay: "-22s",
-        }}
-      />
+      {/* ── Layer 4: Harmonic Floating Ambient Orbs ── */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        {/* Orb 1: Crimson Nova — top-left quadrant */}
+        <div
+          className="ambient-orb-crimson"
+          style={{
+            width: "55vw",
+            height: "55vw",
+            maxWidth: 750,
+            maxHeight: 750,
+            top: "-14%",
+            left: "-12%",
+            animationDelay: "0s",
+          }}
+        />
 
-      {/* ── Orb 4: Crimson echo — top-right ── */}
-      <div
-        className="ambient-orb-crimson"
-        style={{
-          width: "30vw",
-          height: "30vw",
-          maxWidth: 400,
-          maxHeight: 400,
-          top: "10%",
-          right: "5%",
-          opacity: 0.6,
-          animationDelay: "-8s",
-          animationDuration: "34s",
-        }}
-      />
+        {/* Orb 2: Violet Eclipse — bottom-right quadrant */}
+        <div
+          className="ambient-orb-violet"
+          style={{
+            width: "52vw",
+            height: "52vw",
+            maxWidth: 680,
+            maxHeight: 680,
+            bottom: "-16%",
+            right: "-12%",
+            animationDelay: "-14s",
+          }}
+        />
 
-      {/* ── Mouse-follow glow (desktop) ── */}
+        {/* Orb 3: Cyan Pulse — mid-left accent */}
+        <div
+          className="ambient-orb-cyan"
+          style={{
+            width: "38vw",
+            height: "38vw",
+            maxWidth: 500,
+            maxHeight: 500,
+            top: "38%",
+            left: "4%",
+            animationDelay: "-24s",
+          }}
+        />
+
+        {/* Orb 4: Warm Rose / Amber Core — top-right quadrant */}
+        <div
+          className="ambient-orb-amber"
+          style={{
+            width: "36vw",
+            height: "36vw",
+            maxWidth: 460,
+            maxHeight: 460,
+            top: "8%",
+            right: "4%",
+            animationDelay: "-9s",
+          }}
+        />
+      </div>
+
+      {/* ── Layer 5: Interactive Cursor Resonance (Desktop) ── */}
       <div
         ref={glowRef}
         className="mouse-glow"
