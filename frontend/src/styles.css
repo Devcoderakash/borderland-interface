@@ -414,6 +414,69 @@
   animation: apex-horizon-glow 8s ease-in-out infinite;
 }
 
+@keyframes apex-shooting-star-1 {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-32deg);
+    opacity: 0;
+  }
+  3% {
+    opacity: 0.9;
+  }
+  14% {
+    transform: translate3d(120vw, 65vh, 0) rotate(-32deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(120vw, 65vh, 0) rotate(-32deg);
+    opacity: 0;
+  }
+}
+
+@keyframes apex-shooting-star-2 {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-28deg);
+    opacity: 0;
+  }
+  42% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) rotate(-28deg);
+  }
+  45% {
+    opacity: 0.8;
+  }
+  58% {
+    transform: translate3d(100vw, 55vh, 0) rotate(-28deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(100vw, 55vh, 0) rotate(-28deg);
+    opacity: 0;
+  }
+}
+
+@keyframes apex-arc-glow {
+  0%, 100% {
+    opacity: 0.55;
+    transform: translate(-50%, 0) scale(0.97);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translate(-50%, 0) scale(1.03);
+  }
+}
+
+.animate-apex-shooting-star-1 {
+  animation: apex-shooting-star-1 14s ease-out infinite;
+}
+
+.animate-apex-shooting-star-2 {
+  animation: apex-shooting-star-2 20s ease-out infinite;
+}
+
+.animate-apex-arc-glow {
+  animation: apex-arc-glow 7s ease-in-out infinite;
+}
+
 .apex-cloud-texture-1 {
   background-image:
     radial-gradient(ellipse 65% 45% at 20% 50%, rgba(225, 29, 72, 0.18) 0%, transparent 70%),

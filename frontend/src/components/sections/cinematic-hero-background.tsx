@@ -238,7 +238,7 @@ export function CinematicHeroBackground() {
       }
       aria-hidden="true"
     >
-      {/* ---------------- 1. MOUNTAIN BASE LAYER (Preserved, with subtle mouse parallax) ---------------- */}
+      {/* ---------------- 1. MOUNTAIN BASE LAYER (Responsive Mobile & Desktop Sci-Fi Art) ---------------- */}
       <div
         className="absolute inset-[-4%] will-change-transform transition-transform duration-200 ease-out"
         style={{
@@ -246,35 +246,40 @@ export function CinematicHeroBackground() {
             "translate3d(calc(var(--m-x, 0) * -6px), calc(var(--m-y, 0) * -4px), 0) scale(1.04)",
         }}
       >
-        <img
-          src="/hero-bg-apex.jpg"
-          alt="Cinematic Peak"
-          className="h-full w-full object-cover object-[62%_center] sm:object-center"
-          loading="eager"
-        />
+        <picture className="h-full w-full">
+          <source media="(max-width: 767px)" srcSet="/hero-bg-mobile.jpg" />
+          <source media="(min-width: 768px)" srcSet="/hero-bg-desktop.jpg" />
+          <img
+            src="/hero-bg-mobile.jpg"
+            alt="APEX 1.0 Cinematic Mountain Peak"
+            className="h-full w-full object-cover object-center"
+            loading="eager"
+          />
+        </picture>
       </div>
 
-      {/* ---------------- 2. CRIMSON ATMOSPHERIC GLOW (Breathing behind central peak & horizon) ---------------- */}
+      {/* ---------------- 2. PLANETARY ARC & CRIMSON ATMOSPHERIC GLOW ---------------- */}
       <div
-        className="absolute inset-0 will-change-transform"
+        className="absolute inset-0 will-change-transform pointer-events-none"
         style={{
           transform:
             "translate3d(calc(var(--m-x, 0) * -10px), calc(var(--m-y, 0) * -6px), 0)",
         }}
       >
-        {/* Core crimson radial bloom behind peak */}
+        {/* Glowing Planetary Arc Pulse Behind Mountain Peak */}
         <div
-          className="absolute inset-0 animate-apex-crimson-breathe"
+          className="absolute top-[16%] left-1/2 w-[340px] h-[340px] sm:w-[540px] sm:h-[540px] rounded-full animate-apex-arc-glow pointer-events-none"
           style={{
             background:
-              "radial-gradient(ellipse 65% 55% at 64% 44%, rgba(225, 29, 72, 0.44) 0%, rgba(180, 15, 50, 0.22) 35%, rgba(120, 10, 40, 0.08) 60%, transparent 80%)",
+              "radial-gradient(circle, rgba(255, 35, 69, 0.32) 0%, rgba(225, 29, 72, 0.16) 45%, transparent 72%)",
             mixBlendMode: "screen",
+            filter: "blur(20px)",
           }}
         />
 
         {/* Deep ambient horizon backlight */}
         <div
-          className="absolute bottom-1/4 left-0 right-0 h-96 opacity-60 animate-apex-crimson-breathe"
+          className="absolute bottom-1/4 left-0 right-0 h-96 opacity-60 animate-apex-crimson-breathe pointer-events-none"
           style={{
             background:
               "radial-gradient(ellipse 80% 50% at 50% 60%, rgba(225, 29, 72, 0.25) 0%, rgba(159, 18, 57, 0.12) 40%, transparent 75%)",
@@ -284,10 +289,15 @@ export function CinematicHeroBackground() {
         />
       </div>
 
-      {/* ---------------- 3. SLOWLY MOVING ATMOSPHERIC CLOUDS (Dual-layered drift) ---------------- */}
-      {/* Cloud Layer 1: Distant upper clouds (drifting right-to-left slowly) */}
+      {/* ---------------- 3. MOVING LIGHT STREAKS (Shooting stars across the cosmic sky) ---------------- */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[12%] -left-16 h-[1.5px] w-36 bg-gradient-to-r from-transparent via-[#FF2345] to-transparent animate-apex-shooting-star-1 opacity-85" />
+        <div className="absolute top-[24%] -left-16 h-[1px] w-28 bg-gradient-to-r from-transparent via-rose-300 to-transparent animate-apex-shooting-star-2 opacity-65" />
+      </div>
+
+      {/* ---------------- 4. SLOWLY MOVING ATMOSPHERIC CLOUDS (Dual-layered drift) ---------------- */}
       <div
-        className="absolute inset-0 will-change-transform"
+        className="absolute inset-0 will-change-transform pointer-events-none"
         style={{
           transform:
             "translate3d(calc(var(--m-x, 0) * -14px), calc(var(--m-y, 0) * -8px), 0)",
@@ -297,33 +307,15 @@ export function CinematicHeroBackground() {
             "linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.85) 50%, transparent 85%)",
         }}
       >
-        <div className="absolute top-0 left-0 h-[65%] w-[200%] flex animate-apex-cloud-slow opacity-25 mix-blend-screen">
+        <div className="absolute top-0 left-0 h-[65%] w-[200%] flex animate-apex-cloud-slow opacity-20 mix-blend-screen">
           <div className="h-full w-1/2 apex-cloud-texture-1" />
           <div className="h-full w-1/2 apex-cloud-texture-1" />
         </div>
       </div>
 
-      {/* Cloud Layer 2: Mid-atmospheric drifting clouds */}
+      {/* ---------------- 5. VOLUMETRIC FOG & MOUNTAIN MIST ---------------- */}
       <div
-        className="absolute inset-0 will-change-transform"
-        style={{
-          transform:
-            "translate3d(calc(var(--m-x, 0) * -20px), calc(var(--m-y, 0) * -12px), 0)",
-          maskImage:
-            "linear-gradient(to bottom, transparent 5%, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.7) 65%, transparent 90%)",
-          WebkitMaskImage:
-            "linear-gradient(to bottom, transparent 5%, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.7) 65%, transparent 90%)",
-        }}
-      >
-        <div className="absolute top-[8%] left-0 h-[55%] w-[200%] flex animate-apex-cloud-fast opacity-20 mix-blend-screen">
-          <div className="h-full w-1/2 apex-cloud-texture-2" />
-          <div className="h-full w-1/2 apex-cloud-texture-2" />
-        </div>
-      </div>
-
-      {/* ---------------- 4. VOLUMETRIC FOG & MOUNTAIN MIST (Lower terrain & horizon) ---------------- */}
-      <div
-        className="absolute bottom-[8%] left-0 right-0 h-[48%] will-change-transform"
+        className="absolute bottom-[8%] left-0 right-0 h-[48%] will-change-transform pointer-events-none"
         style={{
           transform:
             "translate3d(calc(var(--m-x, 0) * -16px), calc(var(--m-y, 0) * -10px), 0)",
@@ -333,29 +325,10 @@ export function CinematicHeroBackground() {
             "linear-gradient(to top, transparent 0%, rgba(0,0,0,0.85) 25%, rgba(0,0,0,0.85) 75%, transparent 100%)",
         }}
       >
-        {/* Mist Layer A: Drifts right to left with vertical undulating waves */}
-        <div className="absolute inset-0 w-[200%] flex animate-apex-mist-drift-1 opacity-30 mix-blend-screen">
+        <div className="absolute inset-0 w-[200%] flex animate-apex-mist-drift-1 opacity-25 mix-blend-screen">
           <div className="h-full w-1/2 apex-mist-texture-1 animate-apex-mist-float-1" />
           <div className="h-full w-1/2 apex-mist-texture-1 animate-apex-mist-float-1" />
         </div>
-
-        {/* Mist Layer B: Counter-drifting lower fog */}
-        <div className="absolute bottom-0 left-0 h-[70%] w-[200%] flex animate-apex-mist-drift-2 opacity-25 mix-blend-overlay">
-          <div className="h-full w-1/2 apex-mist-texture-2 animate-apex-mist-float-2" />
-          <div className="h-full w-1/2 apex-mist-texture-2 animate-apex-mist-float-2" />
-        </div>
-      </div>
-
-      {/* ---------------- 5. FUTURISTIC AMBIENT LIGHTING SWEEP (Subtle, infrequent beam across peak) ---------------- */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-          className="absolute -inset-y-10 -left-1/3 w-2/3 animate-apex-light-sweep opacity-0 pointer-events-none"
-          style={{
-            background:
-              "linear-gradient(115deg, transparent 38%, rgba(225, 29, 72, 0.16) 48%, rgba(251, 146, 60, 0.08) 52%, transparent 62%)",
-            mixBlendMode: "screen",
-          }}
-        />
       </div>
 
       {/* ---------------- 6. FLOATING ATMOSPHERIC PARTICLES CANVAS ---------------- */}
@@ -373,23 +346,19 @@ export function CinematicHeroBackground() {
         }}
       />
 
-      {/* ---------------- 8. PRESERVED ORIGINAL READABILITY OVERLAYS & TECHNICAL GRID ---------------- */}
-      {/* Dark Gradients for typography sharpness & contrast (Left text remains 100% crisp) */}
-      <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/30 sm:via-background/90 sm:to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent sm:via-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
-
-      {/* Red Atmospheric Tint Blend */}
-      <div className="absolute inset-0 bg-primary/10 mix-blend-overlay" />
+      {/* ---------------- 8. READABILITY OVERLAYS & TECHNICAL GRID ---------------- */}
+      {/* Top and bottom subtle vignettes for text contrast while preserving mountain & glowing lava river */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#08070B]/75 via-transparent to-[#08070B]/80 pointer-events-none" />
+      <div className="hidden sm:block absolute inset-0 bg-gradient-to-r from-[#08070B]/60 via-[#08070B]/30 to-transparent pointer-events-none" />
 
       {/* Preserved Technical Grid with Subtle Breathing */}
       <div
-        className="absolute inset-0 grid-veil animate-apex-grid-breathe"
+        className="absolute inset-0 grid-veil animate-apex-grid-breathe opacity-50 pointer-events-none"
         aria-hidden="true"
       />
 
       {/* Subtle Cinematic Film Grain */}
-      <div className="absolute inset-0 grain" aria-hidden="true" />
+      <div className="absolute inset-0 grain opacity-40 pointer-events-none" aria-hidden="true" />
     </div>
   );
 }

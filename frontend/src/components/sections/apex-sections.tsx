@@ -65,7 +65,7 @@ export function Hero() {
   );
 
   return (
-    <section className="relative flex flex-col justify-start sm:justify-between overflow-x-clip bg-background px-4 pt-20 pb-8 sm:min-h-[100svh] sm:px-8 sm:pt-28 md:pb-12 lg:min-h-screen lg:justify-center lg:pb-24">
+    <section className="relative flex flex-col justify-start sm:justify-between overflow-x-clip bg-[#08070B] px-4 pt-20 pb-8 sm:min-h-[100svh] sm:px-8 sm:pt-28 md:pb-12 lg:min-h-screen lg:justify-center lg:pb-24">
       {/* Cinematic Animated Background */}
       <CinematicHeroBackground />
 
@@ -74,36 +74,36 @@ export function Hero() {
           {/* Left Content */}
           <motion.div
             className="reveal-safe flex flex-col justify-center"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-primary/50 bg-primary/10 px-2.5 py-0.5 sm:px-3 sm:py-1 w-fit shadow-[0_0_12px_rgba(225,29,72,0.3)] backdrop-blur-sm">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" aria-hidden />
-              <SystemLabel className="text-primary text-[0.6rem] sm:text-[0.65rem] tracking-[0.16em] sm:tracking-[0.2em] font-bold">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#FF2345]/50 bg-[#FF2345]/10 px-3 py-1 w-fit shadow-[0_0_16px_rgba(255,35,69,0.3)] backdrop-blur-md">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#FF2345]" aria-hidden />
+              <SystemLabel className="text-[#FF2345] text-[0.62rem] sm:text-[0.65rem] tracking-[0.18em] font-bold">
                 ROUND 01 LIVE · REGISTRATIONS OPEN
               </SystemLabel>
             </div>
 
-            <h1 className="mt-3 sm:mt-6 font-display text-[2.5rem] xs:text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[0.96] sm:leading-[0.95] tracking-tight text-white break-words">
-              APEX<span className="text-primary text-glow">//</span>1.0
+            <h1 className="mt-3.5 sm:mt-6 font-display text-[clamp(2.5rem,8.5vw,4.5rem)] lg:text-7xl xl:text-8xl font-black leading-[0.95] tracking-tight text-white break-words">
+              APEX<span className="text-[#FF2345] drop-shadow-[0_0_18px_rgba(255,35,69,0.6)]">//</span>1.0
             </h1>
 
-            <div className="mt-2 sm:mt-4 flex items-center gap-2 font-display font-black uppercase tracking-tight text-lg xs:text-xl sm:text-4xl md:text-5xl lg:text-6xl">
-              <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-white/95 to-white/70">
+            <div className="mt-2 sm:mt-4 flex items-center gap-2 font-display font-black uppercase tracking-tight text-xl xs:text-2xl sm:text-4xl md:text-5xl lg:text-6xl">
+              <span className="text-white">
                 ONE IDEA.
               </span>
-              <span className="text-primary text-glow">
+              <span className="text-[#FF2345] drop-shadow-[0_0_12px_rgba(255,35,69,0.5)]">
                 NO LIMITS.
               </span>
             </div>
 
-            <p className="mt-2.5 sm:mt-6 max-w-lg text-[0.85rem] sm:text-base md:text-lg text-white/75 leading-relaxed font-normal">
+            <p className="mt-3 sm:mt-6 max-w-lg text-[0.875rem] sm:text-base md:text-lg text-[#B8B4BE] leading-relaxed font-normal">
               A premier open-innovation hackathon where students build, innovate, pitch, and compete to create impactful solutions.
             </p>
 
-            <div className="mt-4 sm:mt-8 flex flex-col gap-2.5 sm:flex-row sm:gap-4 w-full sm:w-auto">
-              <Button asChild size="lg" className="group h-11 sm:h-13 px-5 sm:px-8 bg-primary text-primary-foreground hover:bg-primary/90 glow-primary font-mono text-xs tracking-[0.16em] sm:tracking-[0.2em] rounded-md transition-all duration-200 w-full sm:w-auto min-h-[44px]">
+            <div className="mt-5 sm:mt-8 flex flex-col gap-2.5 sm:flex-row sm:gap-4 w-full sm:w-auto">
+              <Button asChild size="lg" className="group h-12 w-full sm:w-auto px-6 sm:px-8 bg-[#FF2345] hover:bg-[#FF2345]/90 text-white font-mono text-xs tracking-[0.16em] sm:tracking-[0.2em] rounded-xl shadow-[0_0_24px_rgba(255,35,69,0.45)] hover:shadow-[0_0_32px_rgba(255,35,69,0.7)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 min-h-[48px]">
                 <Link to="/register">
                   ENTER THE HACKATHON <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">&rarr;</span>
                 </Link>
@@ -112,7 +112,7 @@ export function Hero() {
                 asChild
                 size="lg"
                 variant="outline"
-                className="group h-10 sm:h-13 px-5 sm:px-8 border-white/15 bg-white/[0.03] hover:bg-white/[0.08] hover:border-white/30 font-mono text-xs tracking-[0.16em] sm:tracking-[0.2em] rounded-md transition-all duration-200 text-white/80 hover:text-white w-full sm:w-auto min-h-[40px] sm:min-h-[44px]"
+                className="group h-12 w-full sm:w-auto px-6 sm:px-8 border border-white/[0.14] bg-[rgba(12,10,16,0.82)] hover:bg-[rgba(255,35,69,0.12)] hover:border-[#FF2345]/50 text-[#B8B4BE] hover:text-white font-mono text-xs tracking-[0.16em] sm:tracking-[0.2em] rounded-xl backdrop-blur-md hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 min-h-[48px]"
               >
                 <a href="#roadmap">
                   EXPLORE THE ROADMAP <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">&rarr;</span>
@@ -120,39 +120,57 @@ export function Hero() {
               </Button>
             </div>
 
-            {/* Mobile: Floating Glassmorphism Event Overview Card */}
-            <div className="sm:hidden mt-4 w-full rounded-xl border border-white/[0.1] bg-black/40 backdrop-blur-xl p-3.5 shadow-[0_12px_36px_rgba(0,0,0,0.5)]">
-              <div className="flex items-center justify-between pb-2 border-b border-white/[0.08]">
-                <div className="flex items-center gap-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-                  <span className="font-mono text-[0.6rem] tracking-[0.18em] text-white/70 font-semibold uppercase">EVENT OVERVIEW</span>
+            {/* Mobile: Refined Glassmorphism Event Overview Card */}
+            <div className="sm:hidden mt-4.5 w-full rounded-2xl border border-white/[0.14] bg-[rgba(12,10,16,0.82)] backdrop-blur-xl p-4 shadow-[0_16px_40px_rgba(0,0,0,0.8)]">
+              <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
+                <div className="flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full bg-[#FF2345] shadow-[0_0_8px_#FF2345] animate-pulse" />
+                  <span className="font-mono text-[0.62rem] tracking-[0.2em] text-white font-bold uppercase">
+                    EVENT OVERVIEW
+                  </span>
                 </div>
-                <span className="font-mono text-[0.65rem] tracking-wider text-primary font-bold">14–15 MAR 2026</span>
+                <span className="font-mono text-xs tracking-wider text-[#FF2345] font-bold">
+                  14–15 MAR 2026
+                </span>
               </div>
 
-              <div className="grid grid-cols-3 gap-2 py-2.5 text-center">
-                <div className="border-r border-white/[0.06] pr-1">
-                  <p className="font-mono text-[0.55rem] tracking-[0.16em] text-white/40 uppercase">PRIZE POOL</p>
-                  <p className="mt-0.5 font-display text-sm font-black text-primary text-glow">₹30,000</p>
+              <div className="grid grid-cols-3 gap-2 py-3 text-center">
+                <div className="border-r border-white/[0.08] pr-1">
+                  <p className="font-mono text-[0.55rem] tracking-[0.18em] text-[#B8B4BE] uppercase">
+                    PRIZE POOL
+                  </p>
+                  <p className="mt-1 font-display text-base font-black text-[#FF2345] tracking-tight drop-shadow-[0_0_10px_rgba(255,35,69,0.5)]">
+                    ₹30,000
+                  </p>
                 </div>
-                <div className="border-r border-white/[0.06] pr-1">
-                  <p className="font-mono text-[0.55rem] tracking-[0.16em] text-white/40 uppercase">TEAM SIZE</p>
-                  <p className="mt-0.5 font-display text-xs font-bold text-foreground">1–4</p>
+                <div className="border-r border-white/[0.08] pr-1">
+                  <p className="font-mono text-[0.55rem] tracking-[0.18em] text-[#B8B4BE] uppercase">
+                    TEAM SIZE
+                  </p>
+                  <p className="mt-1 font-display text-base font-bold text-white tracking-wider">
+                    1–4
+                  </p>
                 </div>
                 <div>
-                  <p className="font-mono text-[0.55rem] tracking-[0.16em] text-white/40 uppercase">LOCATION</p>
-                  <p className="mt-0.5 font-display text-xs font-bold text-foreground truncate">BHOPAL, MP</p>
+                  <p className="font-mono text-[0.55rem] tracking-[0.18em] text-[#B8B4BE] uppercase">
+                    LOCATION
+                  </p>
+                  <p className="mt-1 font-display text-xs xs:text-sm font-bold text-white tracking-wider truncate">
+                    BHOPAL, MP
+                  </p>
                 </div>
               </div>
 
-              <div className="pt-2 border-t border-white/[0.06] flex items-center justify-between font-mono text-[0.6rem] text-muted-foreground">
-                <span className="flex items-center gap-1">
-                  <span className="text-primary font-bold">R1:</span> ONLINE PPT
-                </span>
-                <span className="text-white/20">→</span>
-                <span className="flex items-center gap-1">
-                  <span className="text-foreground font-bold">R2:</span> OFFLINE FINALE
-                </span>
+              <div className="pt-2.5 border-t border-white/[0.08] flex items-center justify-between font-mono text-[0.62rem]">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[#FF2345] font-bold">R1:</span>
+                  <span className="text-white/80">ONLINE PPT</span>
+                </div>
+                <span className="text-[#B8B4BE]/40 px-1">&rarr;</span>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[#FF2345] font-bold">R2:</span>
+                  <span className="text-white/80">OFFLINE FINALE</span>
+                </div>
               </div>
             </div>
 
