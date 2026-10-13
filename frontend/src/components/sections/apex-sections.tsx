@@ -65,15 +65,15 @@ export function Hero() {
   );
 
   return (
-    <section className="relative flex flex-col justify-center overflow-hidden bg-[#08070B] h-[100svh] sm:h-auto sm:min-h-[100svh] px-4 pt-20 pb-6 sm:px-8 sm:pt-28 md:pb-12 lg:min-h-screen lg:pb-24">
+    <section className="relative flex flex-col justify-between overflow-hidden bg-[#08070B] h-[100svh] sm:h-auto sm:min-h-[100svh] px-4 pt-20 pb-6 sm:px-8 sm:pt-28 md:pb-12 lg:min-h-screen lg:justify-center lg:pb-24">
       {/* Cinematic Animated Background */}
       <CinematicHeroBackground />
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl my-0 sm:my-auto py-0 sm:py-8 lg:py-12 flex flex-col h-full sm:h-auto">
-        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
+      <div className="relative z-10 mx-auto w-full max-w-7xl flex-1 flex flex-col sm:my-auto sm:py-8 lg:py-12">
+        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center flex-1">
           {/* Left Content */}
           <motion.div
-            className="reveal-safe flex flex-col justify-center"
+            className="reveal-safe flex flex-col justify-between flex-1 sm:justify-center h-full sm:h-auto"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
@@ -102,7 +102,9 @@ export function Hero() {
               A premier open-innovation hackathon where students build, innovate, pitch, and compete to create impactful solutions.
             </p>
 
-            <div className="mt-6 sm:mt-8 flex flex-col gap-2.5 sm:flex-row sm:gap-4 w-full sm:w-auto">
+            {/* --- MOBILE BOTTOM GROUP: buttons + event overview --- */}
+            <div className="sm:contents flex flex-col gap-3 mt-auto pt-6 sm:mt-0 sm:pt-0">
+            <div className="flex flex-col gap-2.5 sm:mt-8 sm:flex-row sm:gap-4 w-full sm:w-auto">
               <Button asChild size="lg" className="group h-11 w-full sm:w-auto px-6 sm:px-8 bg-[#FF2345] hover:bg-[#FF2345]/90 text-white font-mono text-xs tracking-[0.16em] sm:tracking-[0.2em] rounded-xl shadow-[0_0_24px_rgba(255,35,69,0.45)] hover:shadow-[0_0_32px_rgba(255,35,69,0.7)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 min-h-[44px]">
                 <Link to="/register">
                   ENTER THE HACKATHON <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">&rarr;</span>
@@ -121,7 +123,7 @@ export function Hero() {
             </div>
 
             {/* Mobile: Refined Glassmorphism Event Overview Card */}
-            <div className="sm:hidden mt-6 w-full rounded-2xl border border-white/[0.14] bg-[rgba(12,10,16,0.82)] backdrop-blur-xl p-4 shadow-[0_16px_40px_rgba(0,0,0,0.8)]">
+            <div className="sm:hidden w-full rounded-2xl border border-white/[0.14] bg-[rgba(12,10,16,0.82)] backdrop-blur-xl p-4 shadow-[0_16px_40px_rgba(0,0,0,0.8)]">
               <div className="flex items-center justify-between pb-2 border-b border-white/[0.08]">
                 <div className="flex items-center gap-2">
                   <span className="h-2 w-2 rounded-full bg-[#FF2345] shadow-[0_0_8px_#FF2345] animate-pulse" />
@@ -173,6 +175,7 @@ export function Hero() {
                 </div>
               </div>
             </div>
+            </div>{/* end mobile bottom group */}
 
             <div className="hidden sm:block mt-3.5 sm:mt-7 border-l-2 border-primary/50 pl-3 sm:pl-4 py-0.5 sm:py-1">
               <p className="font-serif italic text-white/60 text-xs sm:text-base tracking-wide">
