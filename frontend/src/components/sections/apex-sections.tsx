@@ -65,11 +65,11 @@ export function Hero() {
   );
 
   return (
-    <section className="relative flex min-h-[100svh] flex-col justify-between overflow-x-clip bg-background px-4 pt-20 pb-4 sm:px-8 sm:pt-28 md:pb-12 lg:min-h-screen lg:justify-center lg:pb-24">
+    <section className="relative flex flex-col justify-start sm:justify-between overflow-x-clip bg-background px-4 pt-20 pb-8 sm:min-h-[100svh] sm:px-8 sm:pt-28 md:pb-12 lg:min-h-screen lg:justify-center lg:pb-24">
       {/* Cinematic Animated Background */}
       <CinematicHeroBackground />
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl my-auto py-2.5 sm:py-8 lg:py-12">
+      <div className="relative z-10 mx-auto w-full max-w-7xl my-0 sm:my-auto py-1 sm:py-8 lg:py-12">
         <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
           {/* Left Content */}
           <motion.div
