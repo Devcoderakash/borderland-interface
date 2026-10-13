@@ -65,7 +65,7 @@ export function Hero() {
   );
 
   return (
-    <section className="relative flex flex-col justify-start sm:justify-between overflow-hidden bg-[#08070B] h-[100svh] sm:h-auto sm:min-h-[100svh] px-4 pt-20 pb-4 sm:px-8 sm:pt-28 md:pb-12 lg:min-h-screen lg:justify-center lg:pb-24">
+    <section className="relative flex flex-col justify-center overflow-hidden bg-[#08070B] h-[100svh] sm:h-auto sm:min-h-[100svh] px-4 pt-20 pb-6 sm:px-8 sm:pt-28 md:pb-12 lg:min-h-screen lg:pb-24">
       {/* Cinematic Animated Background */}
       <CinematicHeroBackground />
 
@@ -85,11 +85,11 @@ export function Hero() {
               </SystemLabel>
             </div>
 
-            <h1 className="mt-2 sm:mt-6 font-display text-[clamp(2.2rem,8.5vw,4.5rem)] lg:text-7xl xl:text-8xl font-black leading-[0.95] tracking-tight text-white break-words">
+            <h1 className="mt-5 sm:mt-6 font-display text-[clamp(2.2rem,8.5vw,4.5rem)] lg:text-7xl xl:text-8xl font-black leading-[0.95] tracking-tight text-white break-words">
               APEX<span className="text-[#FF2345] drop-shadow-[0_0_18px_rgba(255,35,69,0.6)]">//</span>1.0
             </h1>
 
-            <div className="mt-1.5 sm:mt-4 flex items-center gap-2 font-display font-black uppercase tracking-tight text-xl xs:text-2xl sm:text-4xl md:text-5xl lg:text-6xl">
+            <div className="mt-2 sm:mt-4 flex items-center gap-2 font-display font-black uppercase tracking-tight text-xl xs:text-2xl sm:text-4xl md:text-5xl lg:text-6xl">
               <span className="text-white">
                 ONE IDEA.
               </span>
@@ -98,11 +98,11 @@ export function Hero() {
               </span>
             </div>
 
-            <p className="mt-2 sm:mt-6 max-w-lg text-[0.8rem] sm:text-base md:text-lg text-[#B8B4BE] leading-snug font-normal">
+            <p className="mt-4 sm:mt-6 max-w-lg text-[0.8rem] sm:text-base md:text-lg text-[#B8B4BE] leading-relaxed font-normal">
               A premier open-innovation hackathon where students build, innovate, pitch, and compete to create impactful solutions.
             </p>
 
-            <div className="mt-3 sm:mt-8 flex flex-col gap-2 sm:flex-row sm:gap-4 w-full sm:w-auto">
+            <div className="mt-6 sm:mt-8 flex flex-col gap-2.5 sm:flex-row sm:gap-4 w-full sm:w-auto">
               <Button asChild size="lg" className="group h-11 w-full sm:w-auto px-6 sm:px-8 bg-[#FF2345] hover:bg-[#FF2345]/90 text-white font-mono text-xs tracking-[0.16em] sm:tracking-[0.2em] rounded-xl shadow-[0_0_24px_rgba(255,35,69,0.45)] hover:shadow-[0_0_32px_rgba(255,35,69,0.7)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 min-h-[44px]">
                 <Link to="/register">
                   ENTER THE HACKATHON <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">&rarr;</span>
@@ -121,7 +121,7 @@ export function Hero() {
             </div>
 
             {/* Mobile: Refined Glassmorphism Event Overview Card */}
-            <div className="sm:hidden mt-3 w-full rounded-2xl border border-white/[0.14] bg-[rgba(12,10,16,0.82)] backdrop-blur-xl p-3 shadow-[0_16px_40px_rgba(0,0,0,0.8)]">
+            <div className="sm:hidden mt-6 w-full rounded-2xl border border-white/[0.14] bg-[rgba(12,10,16,0.82)] backdrop-blur-xl p-4 shadow-[0_16px_40px_rgba(0,0,0,0.8)]">
               <div className="flex items-center justify-between pb-2 border-b border-white/[0.08]">
                 <div className="flex items-center gap-2">
                   <span className="h-2 w-2 rounded-full bg-[#FF2345] shadow-[0_0_8px_#FF2345] animate-pulse" />
