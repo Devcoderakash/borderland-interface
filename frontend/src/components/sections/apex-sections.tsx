@@ -340,7 +340,7 @@ export function WelcomeSection() {
           </Button>
         </Reveal>
 
-        <Reveal delay={0.1}>
+        <Reveal delay={0.1} className="hidden md:block">
           <div className="scanlines relative grid aspect-square max-h-56 place-items-center overflow-hidden rounded-xl border border-border/40 bg-card/20 sm:max-h-80 md:max-h-none">
             <div className="absolute inset-0 grid-veil" aria-hidden />
             {[0, 1, 2].map((i) => (
