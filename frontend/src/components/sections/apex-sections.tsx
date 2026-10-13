@@ -80,27 +80,29 @@ export function Hero() {
           >
             <div className="inline-flex items-center gap-1.5 rounded-full border border-primary/50 bg-primary/10 px-2.5 py-0.5 sm:px-3 sm:py-1 w-fit shadow-[0_0_12px_rgba(225,29,72,0.3)] backdrop-blur-sm">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" aria-hidden />
-              <SystemLabel className="text-primary text-[0.6rem] sm:text-[0.65rem] tracking-[0.16em] sm:tracking-[0.2em] font-bold">REGISTRATIONS OPEN</SystemLabel>
+              <SystemLabel className="text-primary text-[0.6rem] sm:text-[0.65rem] tracking-[0.16em] sm:tracking-[0.2em] font-bold">
+                ROUND 01 LIVE · REGISTRATIONS OPEN
+              </SystemLabel>
             </div>
 
-            <h1 className="mt-3.5 sm:mt-8 font-display text-[2.2rem] xs:text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[0.98] sm:leading-[0.95] tracking-tight text-white break-words">
+            <h1 className="mt-3 sm:mt-6 font-display text-[2.5rem] xs:text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[0.96] sm:leading-[0.95] tracking-tight text-white break-words">
               APEX<span className="text-primary text-glow">//</span>1.0
             </h1>
 
-            <div className="mt-2.5 sm:mt-5 flex flex-col font-display font-black uppercase tracking-tight">
-              <span className="text-xl xs:text-2xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.08] sm:leading-[1.05] text-transparent bg-clip-text bg-gradient-to-b from-white via-white/95 to-white/70">
+            <div className="mt-2 sm:mt-4 flex items-center gap-2 font-display font-black uppercase tracking-tight text-lg xs:text-xl sm:text-4xl md:text-5xl lg:text-6xl">
+              <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-white/95 to-white/70">
                 ONE IDEA.
               </span>
-              <span className="text-xl xs:text-2xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.08] sm:leading-[1.05] text-primary text-glow">
+              <span className="text-primary text-glow">
                 NO LIMITS.
               </span>
             </div>
 
-            <p className="mt-3 sm:mt-6 max-w-lg text-[0.875rem] sm:text-base md:text-lg text-white/75 leading-relaxed font-normal">
+            <p className="mt-2.5 sm:mt-6 max-w-lg text-[0.85rem] sm:text-base md:text-lg text-white/75 leading-relaxed font-normal">
               A premier open-innovation hackathon where students build, innovate, pitch, and compete to create impactful solutions.
             </p>
 
-            <div className="mt-4.5 sm:mt-8 flex flex-col gap-2.5 sm:flex-row sm:gap-4 w-full sm:w-auto">
+            <div className="mt-4 sm:mt-8 flex flex-col gap-2.5 sm:flex-row sm:gap-4 w-full sm:w-auto">
               <Button asChild size="lg" className="group h-11 sm:h-13 px-5 sm:px-8 bg-primary text-primary-foreground hover:bg-primary/90 glow-primary font-mono text-xs tracking-[0.16em] sm:tracking-[0.2em] rounded-md transition-all duration-200 w-full sm:w-auto min-h-[44px]">
                 <Link to="/register">
                   ENTER THE HACKATHON <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">&rarr;</span>
@@ -110,7 +112,7 @@ export function Hero() {
                 asChild
                 size="lg"
                 variant="outline"
-                className="group h-11 sm:h-13 px-5 sm:px-8 border-white/15 bg-white/[0.03] hover:bg-white/[0.08] hover:border-white/30 font-mono text-xs tracking-[0.16em] sm:tracking-[0.2em] rounded-md transition-all duration-200 text-white/80 hover:text-white w-full sm:w-auto min-h-[44px]"
+                className="group h-10 sm:h-13 px-5 sm:px-8 border-white/15 bg-white/[0.03] hover:bg-white/[0.08] hover:border-white/30 font-mono text-xs tracking-[0.16em] sm:tracking-[0.2em] rounded-md transition-all duration-200 text-white/80 hover:text-white w-full sm:w-auto min-h-[40px] sm:min-h-[44px]"
               >
                 <a href="#roadmap">
                   EXPLORE THE ROADMAP <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">&rarr;</span>
@@ -118,7 +120,43 @@ export function Hero() {
               </Button>
             </div>
 
-            <div className="mt-3.5 sm:mt-7 border-l-2 border-primary/50 pl-3 sm:pl-4 py-0.5 sm:py-1">
+            {/* Mobile: Floating Glassmorphism Event Overview Card */}
+            <div className="sm:hidden mt-4 w-full rounded-xl border border-white/[0.1] bg-black/40 backdrop-blur-xl p-3.5 shadow-[0_12px_36px_rgba(0,0,0,0.5)]">
+              <div className="flex items-center justify-between pb-2 border-b border-white/[0.08]">
+                <div className="flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+                  <span className="font-mono text-[0.6rem] tracking-[0.18em] text-white/70 font-semibold uppercase">EVENT OVERVIEW</span>
+                </div>
+                <span className="font-mono text-[0.65rem] tracking-wider text-primary font-bold">14–15 MAR 2026</span>
+              </div>
+
+              <div className="grid grid-cols-3 gap-2 py-2.5 text-center">
+                <div className="border-r border-white/[0.06] pr-1">
+                  <p className="font-mono text-[0.55rem] tracking-[0.16em] text-white/40 uppercase">PRIZE POOL</p>
+                  <p className="mt-0.5 font-display text-sm font-black text-primary text-glow">₹30,000</p>
+                </div>
+                <div className="border-r border-white/[0.06] pr-1">
+                  <p className="font-mono text-[0.55rem] tracking-[0.16em] text-white/40 uppercase">TEAM SIZE</p>
+                  <p className="mt-0.5 font-display text-xs font-bold text-foreground">1–4</p>
+                </div>
+                <div>
+                  <p className="font-mono text-[0.55rem] tracking-[0.16em] text-white/40 uppercase">LOCATION</p>
+                  <p className="mt-0.5 font-display text-xs font-bold text-foreground truncate">BHOPAL, MP</p>
+                </div>
+              </div>
+
+              <div className="pt-2 border-t border-white/[0.06] flex items-center justify-between font-mono text-[0.6rem] text-muted-foreground">
+                <span className="flex items-center gap-1">
+                  <span className="text-primary font-bold">R1:</span> ONLINE PPT
+                </span>
+                <span className="text-white/20">→</span>
+                <span className="flex items-center gap-1">
+                  <span className="text-foreground font-bold">R2:</span> OFFLINE FINALE
+                </span>
+              </div>
+            </div>
+
+            <div className="hidden sm:block mt-3.5 sm:mt-7 border-l-2 border-primary/50 pl-3 sm:pl-4 py-0.5 sm:py-1">
               <p className="font-serif italic text-white/60 text-xs sm:text-base tracking-wide">
                 “Ideas don’t wait. Neither should you.”
               </p>
@@ -196,43 +234,11 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Bottom Information Bar - Sleek Specification Panel */}
-      <div className="relative z-20 mt-4 sm:mt-6 w-full border-t border-white/[0.08] bg-background/90 backdrop-blur-md lg:absolute lg:bottom-0 lg:left-0 lg:right-0 lg:mt-0 lg:bg-background/70 shadow-[0_-10px_30px_-10px_rgba(0,0,0,0.5)]">
+      {/* Bottom Information Bar - Desktop Ribbon */}
+      <div className="hidden sm:block relative z-20 mt-4 sm:mt-6 w-full border-t border-white/[0.08] bg-background/90 backdrop-blur-md lg:absolute lg:bottom-0 lg:left-0 lg:right-0 lg:mt-0 lg:bg-background/70 shadow-[0_-10px_30px_-10px_rgba(0,0,0,0.5)]">
         <div className="mx-auto max-w-7xl px-4 py-3 sm:px-8 sm:py-4">
-          {/* Mobile: Clean 2-column specification rows (Zero nested box clutter) */}
-          <div className="grid grid-cols-2 gap-x-4 gap-y-2.5 sm:hidden py-1">
-            <div className="border-b border-white/[0.06] pb-2">
-              <dt className="font-mono text-[0.55rem] tracking-[0.18em] text-white/40 uppercase">TEAM SIZE</dt>
-              <dd className="mt-0.5 font-display text-xs font-bold tracking-wider text-foreground">1–4 MEMBERS</dd>
-            </div>
-            <div className="border-b border-white/[0.06] pb-2">
-              <dt className="font-mono text-[0.55rem] tracking-[0.18em] text-primary/80 uppercase font-semibold">PRIZE POOL</dt>
-              <dd className="mt-0.5 font-display text-xs font-black tracking-wider text-primary text-glow">₹30,000</dd>
-            </div>
-            <div className="border-b border-white/[0.06] pb-2">
-              <dt className="font-mono text-[0.55rem] tracking-[0.18em] text-white/40 uppercase">FORMAT</dt>
-              <dd className="mt-0.5 font-display text-xs font-bold tracking-wider text-foreground">OPEN INNOVATION</dd>
-            </div>
-            <div className="border-b border-white/[0.06] pb-2">
-              <dt className="font-mono text-[0.55rem] tracking-[0.18em] text-white/40 uppercase">STRUCTURE</dt>
-              <dd className="mt-0.5 font-display text-xs font-bold tracking-wider text-foreground">2 ROUNDS</dd>
-            </div>
-            <div>
-              <dt className="font-mono text-[0.55rem] tracking-[0.18em] text-white/40 uppercase">ROUND 1</dt>
-              <dd className="mt-0.5 font-display text-xs font-bold tracking-wider text-primary">ONLINE PPT</dd>
-            </div>
-            <div>
-              <dt className="font-mono text-[0.55rem] tracking-[0.18em] text-white/40 uppercase">ROUND 2</dt>
-              <dd className="mt-0.5 font-display text-xs font-bold tracking-wider text-foreground">OFFLINE FINALE</dd>
-            </div>
-            <div className="col-span-2 pt-2 border-t border-white/[0.06] flex items-center justify-between">
-              <span className="font-mono text-[0.55rem] tracking-[0.18em] text-white/40 uppercase">LOCATION</span>
-              <span className="font-display text-xs font-bold tracking-wider text-foreground">BHOPAL, MADHYA PRADESH</span>
-            </div>
-          </div>
-
           {/* Tablet & Desktop: Inline ribbon */}
-          <div className="hidden sm:grid sm:grid-cols-4 lg:flex lg:w-full lg:items-center lg:justify-between lg:gap-4 xl:gap-6">
+          <div className="grid sm:grid-cols-4 lg:flex lg:w-full lg:items-center lg:justify-between lg:gap-4 xl:gap-6">
             {[
               ["TEAM SIZE", "1–4 MEMBERS"],
               ["FORMAT", "OPEN INNOVATION"],
