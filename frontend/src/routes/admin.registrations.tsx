@@ -1,11 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { Check, Download, ExternalLink, Pencil, Trash2, X } from "lucide-react";
+import { Check, Download, ExternalLink, Mail, Pencil, Trash2, X } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import {
   getAdminPptSignedUrl,
   getAdminRegistrations,
+  sendAdminTeamEmail,
   updateAdminTeamStatus,
   updateAdminTeam,
   deleteAdminTeam,
@@ -382,6 +383,28 @@ function Registrations() {
                         onClick={() => setEditing(t)}
                       >
                         <Pencil className="h-3.5 w-3.5" />
+                      </Button>
+                      <Button
+                        size="icon"
+                        variant="outline"
+                        aria-label="Send confirmation email"
+                        title={`Send confirmation email to ${t.email}`}
+                        className="h-8 w-8 bg-transparent hover:text-cyan-400 hover:border-cyan-400/50"
+                        onClick={async () => {
+                          toast.loading(`Sending confirmation email to ${t.email}...`, { id: `email_${t.id}` });
+                          try {
+                            const res = await sendAdminTeamEmail(t.id, true);
+                            if (res?.success) {
+                              toast.success(`Confirmation email sent to ${t.email}!`, { id: `email_${t.id}` });
+                            } else {
+                              toast.error(res?.error || "Failed to send email", { id: `email_${t.id}` });
+                            }
+                          } catch {
+                            toast.error("Failed to trigger email", { id: `email_${t.id}` });
+                          }
+                        }}
+                      >
+                        <Mail className="h-3.5 w-3.5 text-cyan-400" />
                       </Button>
                       <Button
                         size="icon"

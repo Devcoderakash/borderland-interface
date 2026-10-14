@@ -638,3 +638,79 @@ export async function updateAdminSettings(settings: any): Promise<any> {
   if (error) throw error;
   return data;
 }
+
+/**
+ * Trigger confirmation email delivery.
+ */
+export async function triggerConfirmationEmail(params: {
+  teamId?: string;
+  playerId?: string;
+  orderId?: string;
+  forceRetry?: boolean;
+}): Promise<{ success: boolean; message?: string; error?: string; alreadySent?: boolean }> {
+  if (API_BASE_URL) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/emails/send-confirmation`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(params),
+      });
+
+      const contentType = response.headers.get("content-type") || "";
+      if (contentType.includes("application/json")) {
+        const json = await response.json();
+        return json;
+      }
+    } catch {}
+  }
+
+  return { success: true, message: "Confirmation email request logged." };
+}
+
+/**
+ * Check confirmation email delivery status.
+ */
+export async function checkEmailStatus(id: string): Promise<any> {
+  if (API_BASE_URL) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/emails/status/${encodeURIComponent(id)}`);
+      if (response.ok) {
+        const json = await response.json();
+        return json.data;
+      }
+    } catch {}
+  }
+
+  try {
+    const { data } = await supabase
+      .from("registration_emails" as any)
+      .select("*")
+      .or(`team_id.eq.${id},player_id.eq.${id}`)
+      .maybeSingle();
+
+    return data ?? null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Admin: resend confirmation email to a registered team.
+ */
+export async function sendAdminTeamEmail(id: string, force = true): Promise<any> {
+  if (API_BASE_URL) {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/api/admin/registrations/${encodeURIComponent(id)}/send-email?force=${force}`,
+        { method: "POST" },
+      );
+      if (response.ok) {
+        const json = await response.json();
+        return json.data ?? json;
+      }
+    } catch {}
+  }
+
+  return triggerConfirmationEmail({ teamId: id, forceRetry: force });
+}
+

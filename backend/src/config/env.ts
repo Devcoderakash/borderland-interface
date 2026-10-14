@@ -22,4 +22,17 @@ export const config = {
     keySecret: process.env.RAZORPAY_KEY_SECRET || "",
   },
   cronSecret: process.env.CRON_SECRET || "",
+  email: {
+    senderName: process.env.EMAIL_SENDER_NAME || "APEX//1.0 Team",
+    senderEmail: process.env.EMAIL_SENDER_EMAIL || "lodhiakash286@gmail.com",
+    replyTo: process.env.EMAIL_REPLY_TO || "lodhiakash286@gmail.com",
+    resendApiKey: process.env.RESEND_API_KEY || "",
+    smtp: {
+      host: process.env.SMTP_HOST || "smtp.gmail.com",
+      port: Number(process.env.SMTP_PORT) || 465,
+      secure: process.env.SMTP_SECURE !== "false",
+      user: process.env.SMTP_USER || process.env.EMAIL_SENDER_EMAIL || "lodhiakash286@gmail.com",
+      pass: process.env.SMTP_PASS || process.env.GMAIL_APP_PASSWORD || "",
+    },
+  },
 };

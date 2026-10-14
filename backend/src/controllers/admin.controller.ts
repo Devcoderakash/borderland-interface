@@ -6,6 +6,7 @@ import {
   getTeamByOrderId,
   updateStoredTeam,
 } from "../services/registration.service.js";
+import { sendRegistrationConfirmationEmail } from "../services/email.service.js";
 import { errorResponse, successResponse } from "../utils/response.js";
 
 const PPT_BUCKET = "apex-presentations";
@@ -274,3 +275,24 @@ export async function updateSettings(req: Request, res: Response) {
     return errorResponse(res, err.message, 500);
   }
 }
+
+/**
+ * POST /api/admin/registrations/:id/send-email
+ * Allows admins to trigger/resend confirmation email to a participant.
+ */
+export async function sendAdminTeamEmail(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    const force = req.query.force === "true" || req.body?.force === true;
+    const result = await sendRegistrationConfirmationEmail(id, force);
+
+    if (!result.success && result.error) {
+      return errorResponse(res, result.error, 500);
+    }
+
+    return successResponse(res, result);
+  } catch (err: any) {
+    return errorResponse(res, err.message, 500);
+  }
+}
+

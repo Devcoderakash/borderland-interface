@@ -5,6 +5,8 @@ import {
   CalendarPlus,
   Check,
   Copy,
+  Mail,
+  RefreshCw,
   ShieldCheck,
 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -13,7 +15,11 @@ import { z } from "zod";
 
 import { SystemLabel } from "@/components/site/bits";
 import { Button } from "@/components/ui/button";
-import { getTeamByOrderId } from "@/lib/api";
+import {
+  checkEmailStatus,
+  getTeamByOrderId,
+  triggerConfirmationEmail,
+} from "@/lib/api";
 
 const searchSchema = z.object({
   pid: z.string().optional().catch("APEX-2048"),
@@ -46,6 +52,8 @@ function SuccessPage() {
     pid: search.pid || "APEX-2048",
     team: search.team || "TEAM NOVA",
   });
+  const [emailStatus, setEmailStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [resending, setResending] = useState(false);
   const [copiedId, setCopiedId] = useState(false);
   const [copiedOrder, setCopiedOrder] = useState(false);
 
@@ -60,6 +68,21 @@ function SuccessPage() {
         .catch(() => {});
     } else if (search.pid && search.team) {
       setTeamInfo({ pid: search.pid, team: search.team });
+    }
+
+    // Auto-trigger confirmation email if not already sent
+    const identifier = search.order_id || search.pid;
+    if (identifier) {
+      setEmailStatus("sending");
+      triggerConfirmationEmail({ orderId: search.order_id, playerId: search.pid })
+        .then((res) => {
+          if (res.success) {
+            setEmailStatus("sent");
+          } else {
+            setEmailStatus("idle");
+          }
+        })
+        .catch(() => setEmailStatus("idle"));
     }
   }, [search.order_id, search.pid, search.team]);
 
@@ -79,6 +102,30 @@ function SuccessPage() {
       setCopiedOrder(true);
       toast.success("Order ID copied to clipboard!");
       setTimeout(() => setCopiedOrder(false), 2000);
+    }
+  };
+
+  const handleResendEmail = async () => {
+    const identifier = search.order_id || pid;
+    if (!identifier) return;
+    setResending(true);
+    toast.loading("Sending confirmation email...", { id: "resend_email" });
+    try {
+      const res = await triggerConfirmationEmail({
+        orderId: search.order_id,
+        playerId: pid,
+        forceRetry: true,
+      });
+      if (res.success) {
+        setEmailStatus("sent");
+        toast.success("Confirmation email dispatched!", { id: "resend_email" });
+      } else {
+        toast.error(res.error || "Failed to deliver email", { id: "resend_email" });
+      }
+    } catch {
+      toast.error("Failed to resend email", { id: "resend_email" });
+    } finally {
+      setResending(false);
     }
   };
 
@@ -236,6 +283,39 @@ function SuccessPage() {
               </Button>
             </div>
           ) : null}
+
+          {/* Automated Confirmation Email Banner */}
+          <div className="mt-4 sm:mt-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl border border-primary/30 bg-primary/5 p-4 sm:p-5">
+            <div className="flex items-start sm:items-center gap-3">
+              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-primary/40 bg-card text-primary">
+                <Mail className="h-5 w-5" />
+              </div>
+              <div className="min-w-0">
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-xs font-bold tracking-wider text-white">
+                    CONFIRMATION EMAIL
+                  </span>
+                  <span className="inline-flex items-center gap-1 rounded bg-emerald-500/10 px-2 py-0.5 font-mono text-[0.6rem] text-emerald-400">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    {emailStatus === "sent" ? "SENT" : "DELIVERED"}
+                  </span>
+                </div>
+                <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
+                  Official confirmation & Round 1 details have been dispatched to your registered team email.
+                </p>
+              </div>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleResendEmail}
+              disabled={resending}
+              className="h-9 shrink-0 border-border bg-background/50 font-mono text-xs text-muted-foreground hover:text-white"
+            >
+              <RefreshCw className={`mr-1.5 h-3.5 w-3.5 ${resending ? "animate-spin" : ""}`} />
+              {resending ? "SENDING..." : "RESEND EMAIL"}
+            </Button>
+          </div>
 
           {/* Action Buttons */}
           <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 pt-2">

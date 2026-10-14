@@ -15,6 +15,7 @@ import {
   REGISTRATION_FEE_INR,
   REGISTRATION_FEE_PAISE,
 } from "../services/registration.service.js";
+import { sendRegistrationConfirmationEmail } from "../services/email.service.js";
 import { errorResponse, successResponse } from "../utils/response.js";
 
 const registrationSchema = z.object({
@@ -171,6 +172,11 @@ export async function verifyPayment(req: Request, res: Response) {
 
     console.log(`[Payment Controller] Payment VERIFIED and confirmed for Team ${team.team_name} (${team.player_id})`);
 
+    // 5. Trigger automated registration confirmation email
+    sendRegistrationConfirmationEmail(team.id || razorpay_order_id).catch((emailErr) => {
+      console.warn("[Payment Controller] Confirmation email trigger notice:", emailErr.message);
+    });
+
     return successResponse(res, {
       success: true,
       status: "paid",
@@ -278,6 +284,10 @@ export async function handleWebhook(req: Request, res: Response) {
           razorpay_order_id: orderId,
         });
         console.log(`[Razorpay Webhook] Order ${orderId} marked paid via webhook`);
+
+        sendRegistrationConfirmationEmail(orderId).catch((emailErr) => {
+          console.warn("[Razorpay Webhook] Confirmation email trigger notice:", emailErr.message);
+        });
       }
     }
 

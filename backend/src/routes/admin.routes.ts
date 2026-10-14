@@ -5,6 +5,7 @@ import {
   getSettings,
   getStats,
   getTeamPptSignedUrl,
+  sendAdminTeamEmail,
   updateSettings,
   updateTeam,
   updateTeamStatus,
@@ -17,6 +18,7 @@ adminRouter.use(authenticateAdmin);
 
 adminRouter.get("/registrations", getRegistrations);
 adminRouter.get("/registrations/:id/ppt-url", getTeamPptSignedUrl);
+adminRouter.post("/registrations/:id/send-email", sendAdminTeamEmail);
 adminRouter.get("/stats", getStats);
 adminRouter.patch("/teams/:id/status", updateTeamStatus);
 adminRouter.put("/teams/:id", updateTeam);
