@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabase } from "@/integrations/supabase/client";
+import { getAdminRegistrations, getAdminSettings, updateAdminSettings } from "@/lib/api";
 
 export const Route = createFileRoute("/admin/")({
   head: () => ({
@@ -46,24 +47,34 @@ function Overview() {
   const teams = useQuery({
     queryKey: ["admin", "teams"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("teams")
-        .select("id, status, team_size, preferred_domain, payment_status, payment_amount");
-      if (error) throw error;
-      return data ?? [];
+      try {
+        const data = await getAdminRegistrations();
+        return data ?? [];
+      } catch {
+        const { data, error } = await supabase
+          .from("teams")
+          .select("id, status, team_size, preferred_domain, payment_status, payment_amount");
+        if (error) throw error;
+        return data ?? [];
+      }
     },
   });
 
   const settings = useQuery({
     queryKey: ["admin", "settings"],
     queryFn: async (): Promise<Settings | null> => {
-      const { data, error } = await supabase
-        .from("event_settings")
-        .select("*")
-        .limit(1)
-        .maybeSingle();
-      if (error) throw error;
-      return data as Settings | null;
+      try {
+        const data = await getAdminSettings();
+        return (data && Object.keys(data).length > 0 ? data : null) as Settings | null;
+      } catch {
+        const { data, error } = await supabase
+          .from("event_settings")
+          .select("*")
+          .limit(1)
+          .maybeSingle();
+        if (error) throw error;
+        return data as Settings | null;
+      }
     },
   });
 
@@ -76,9 +87,13 @@ function Overview() {
 
   const save = useMutation({
     mutationFn: async (values: Settings) => {
-      const { id, ...rest } = values;
-      const { error } = await supabase.from("event_settings").update(rest).eq("id", id);
-      if (error) throw error;
+      try {
+        await updateAdminSettings(values);
+      } catch {
+        const { id, ...rest } = values;
+        const { error } = await supabase.from("event_settings").update(rest).eq("id", id);
+        if (error) throw error;
+      }
     },
     onSuccess: () => {
       toast.success("EVENT SETTINGS UPDATED");

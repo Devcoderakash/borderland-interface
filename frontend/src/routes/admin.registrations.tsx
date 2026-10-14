@@ -1,8 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { Check, Download, Pencil, Trash2, X } from "lucide-react";
+import { Check, Download, ExternalLink, Pencil, Trash2, X } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import {
+  getAdminPptSignedUrl,
+  getAdminRegistrations,
+  updateAdminTeamStatus,
+  updateAdminTeam,
+  deleteAdminTeam,
+} from "@/lib/api";
 
 import { AdminShell } from "@/components/admin/admin-shell";
 import { StatusChip, SystemLabel } from "@/components/site/bits";
@@ -43,6 +50,8 @@ type Team = {
   payment_order_id?: string;
   cashfree_order_id?: string;
   payment_amount?: number;
+  ppt_storage_path?: string | null;
+  ppt_file_name?: string | null;
 };
 
 export const Route = createFileRoute("/admin/registrations")({
@@ -73,12 +82,18 @@ function Registrations() {
   const { data, isLoading } = useQuery({
     queryKey: ["admin", "registrations"],
     queryFn: async (): Promise<Team[]> => {
-      const { data, error } = await supabase
-        .from("teams")
-        .select("*")
-        .order("created_at", { ascending: false });
-      if (error) throw error;
-      return (data ?? []) as Team[];
+      try {
+        const teams = await getAdminRegistrations();
+        return (teams ?? []) as Team[];
+      } catch (backendErr) {
+        // Fallback to direct supabase client
+        const { data, error } = await supabase
+          .from("teams")
+          .select("*")
+          .order("created_at", { ascending: false });
+        if (error) throw backendErr;
+        return (data ?? []) as Team[];
+      }
     },
   });
 
@@ -89,8 +104,12 @@ function Registrations() {
 
   const setStatusMutation = useMutation({
     mutationFn: async ({ id, next }: { id: string; next: Team["status"] }) => {
-      const { error } = await supabase.from("teams").update({ status: next }).eq("id", id);
-      if (error) throw error;
+      try {
+        await updateAdminTeamStatus(id, next);
+      } catch {
+        const { error } = await supabase.from("teams").update({ status: next }).eq("id", id);
+        if (error) throw error;
+      }
     },
     onSuccess: () => {
       toast.success("STATUS UPDATED");
@@ -101,9 +120,8 @@ function Registrations() {
 
   const saveEdit = useMutation({
     mutationFn: async (team: Team) => {
-      const { error } = await supabase
-        .from("teams")
-        .update({
+      try {
+        await updateAdminTeam(team.id, {
           team_name: team.team_name,
           leader_name: team.leader_name,
           email: team.email,
@@ -112,9 +130,23 @@ function Registrations() {
           team_size: team.team_size,
           status: team.status,
           preferred_domain: team.preferred_domain,
-        })
-        .eq("id", team.id);
-      if (error) throw error;
+        });
+      } catch {
+        const { error } = await supabase
+          .from("teams")
+          .update({
+            team_name: team.team_name,
+            leader_name: team.leader_name,
+            email: team.email,
+            phone: team.phone,
+            college: team.college,
+            team_size: team.team_size,
+            status: team.status,
+            preferred_domain: team.preferred_domain,
+          })
+          .eq("id", team.id);
+        if (error) throw error;
+      }
     },
     onSuccess: () => {
       toast.success("REGISTRATION UPDATED");
@@ -126,8 +158,12 @@ function Registrations() {
 
   const remove = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from("teams").delete().eq("id", id);
-      if (error) throw error;
+      try {
+        await deleteAdminTeam(id);
+      } catch {
+        const { error } = await supabase.from("teams").delete().eq("id", id);
+        if (error) throw error;
+      }
     },
     onSuccess: () => {
       toast.success("REGISTRATION DELETED");
@@ -248,6 +284,7 @@ function Registrations() {
                 "STATUS",
                 "PAYMENT",
                 "PAYMENT ID",
+                "PPT",
                 "REGISTERED AT",
                 "ACTIONS",
               ].map((h) => (
@@ -286,6 +323,33 @@ function Registrations() {
                   </td>
                   <td className="py-3 pr-4 font-mono text-xs text-muted-foreground">
                     {t.payment_id || "-"}
+                  </td>
+                  <td className="py-3 pr-4">
+                    {t.ppt_storage_path ? (
+                      <button
+                        type="button"
+                        title={t.ppt_file_name || "Download PPT"}
+                        aria-label={`Download PPT for ${t.team_name}`}
+                        className="inline-flex items-center gap-1 rounded-md border border-border/60 bg-card/40 px-2 py-1 font-mono text-xs text-muted-foreground transition hover:border-primary/50 hover:text-primary"
+                        onClick={async () => {
+                          try {
+                            const result = await getAdminPptSignedUrl(t.id);
+                            if (result?.signedUrl) {
+                              window.open(result.signedUrl, "_blank", "noopener,noreferrer");
+                            } else {
+                              toast.error("Could not generate download link");
+                            }
+                          } catch {
+                            toast.error("Failed to get download link");
+                          }
+                        }}
+                      >
+                        <ExternalLink className="h-3 w-3" />
+                        {t.ppt_file_name?.split(".").pop()?.toUpperCase() ?? "PPT"}
+                      </button>
+                    ) : (
+                      <span className="font-mono text-xs text-muted-foreground/40">—</span>
+                    )}
                   </td>
                   <td className="py-3 pr-4 font-mono text-[0.7rem] text-muted-foreground">
                     {new Date(t.created_at).toLocaleString()}

@@ -48,25 +48,68 @@ import { loadRazorpayScript } from "@/lib/razorpay";
 import { createOrder, verifyPayment, uploadPptFile } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
-const schema = z.object({
-  team_name: z.string().trim().min(2, "Team name is required").max(80),
-  leader_name: z.string().trim().min(2, "Leader name is required").max(80),
-  email: z.string().trim().email("Enter a valid email").max(255),
-  phone: z.string().trim().min(7, "Enter a valid phone number").max(20),
-  college: z.string().trim().min(2, "College or organization is required").max(120),
-  team_size: z.enum(["2", "3", "4"]),
-  member1: z.string().trim().min(2, "At least two members are required").max(80),
-  member2: z.string().trim().max(80).optional().or(z.literal("")),
-  member3: z.string().trim().max(80).optional().or(z.literal("")),
-  member4: z.string().trim().max(80).optional().or(z.literal("")),
-  preferred_domain: z.string().trim().max(120).optional().or(z.literal("")),
-  github_url: z.string().trim().url("Enter a valid URL").max(255).optional().or(z.literal("")),
-  linkedin_url: z.string().trim().url("Enter a valid URL").max(255).optional().or(z.literal("")),
-  ppt_url: z.string().trim().min(1, "Please upload your idea presentation (PPT or PDF)").max(500),
-  terms: z.literal(true, {
-    errorMap: () => ({ message: "You must accept the APEX 1.0 rules, terms, and privacy policy" }),
-  }),
-});
+const schema = z
+  .object({
+    team_name: z.string().trim().min(2, "Team name is required").max(80),
+    leader_name: z.string().trim().min(2, "Leader name is required").max(80),
+    email: z.string().trim().email("Enter a valid email").max(255),
+    phone: z.string().trim().min(7, "Enter a valid phone number").max(20),
+    college: z.string().trim().min(2, "College or organization is required").max(120),
+    team_size: z.enum(["1", "2", "3", "4"]),
+    member1: z.string().trim().max(80).optional().or(z.literal("")),
+    member2: z.string().trim().max(80).optional().or(z.literal("")),
+    member3: z.string().trim().max(80).optional().or(z.literal("")),
+    member4: z.string().trim().max(80).optional().or(z.literal("")),
+    preferred_domain: z.string().trim().max(120).optional().or(z.literal("")),
+    github_url: z
+      .string()
+      .trim()
+      .max(255)
+      .optional()
+      .or(z.literal(""))
+      .refine(
+        (val) => !val || /^https?:\/\//i.test(val),
+        "Enter a valid URL (starting with http:// or https://)",
+      ),
+    linkedin_url: z
+      .string()
+      .trim()
+      .max(255)
+      .optional()
+      .or(z.literal(""))
+      .refine(
+        (val) => !val || /^https?:\/\//i.test(val),
+        "Enter a valid URL (starting with http:// or https://)",
+      ),
+    ppt_url: z.string().trim().min(1, "Please upload your idea presentation (PPT or PDF)").max(500),
+    terms: z.literal(true, {
+      errorMap: () => ({ message: "You must accept the APEX 1.0 rules, terms, and privacy policy" }),
+    }),
+  })
+  .superRefine((data, ctx) => {
+    const size = Number(data.team_size);
+    if (size >= 2 && (!data.member1 || data.member1.trim().length < 2)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["member1"],
+        message: "Additional member 1 is required for team size of 2 or more",
+      });
+    }
+    if (size >= 3 && (!data.member2 || data.member2.trim().length < 2)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["member2"],
+        message: "Additional member 2 is required for team size of 3 or more",
+      });
+    }
+    if (size >= 4 && (!data.member3 || data.member3.trim().length < 2)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["member3"],
+        message: "Additional member 3 is required for team size of 4",
+      });
+    }
+  });
 
 type FormValues = z.infer<typeof schema>;
 
@@ -124,6 +167,8 @@ function RegisterPage() {
     name: string;
     size: number;
     url: string;
+    storagePath: string;
+    mimeType: string;
   } | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -163,8 +208,10 @@ function RegisterPage() {
         name: file.name,
         size: file.size,
         url: res.url,
+        storagePath: res.storagePath,
+        mimeType: file.type,
       });
-      form.setValue("ppt_url", res.url, { shouldValidate: true });
+      form.setValue("ppt_url", res.storagePath, { shouldValidate: true });
       toast.success("Presentation uploaded to Supabase Storage!", { id: "ppt_upload" });
     } catch (err: any) {
       console.error("Upload error:", err);
@@ -222,6 +269,10 @@ function RegisterPage() {
         college: values.college,
         team_size: Number(values.team_size),
         ppt_url: values.ppt_url,
+        ppt_storage_path: uploadedFile?.storagePath,
+        ppt_file_name: uploadedFile?.name,
+        ppt_file_type: uploadedFile?.mimeType,
+        ppt_file_size: uploadedFile?.size,
         ...(values.preferred_domain !== undefined && { preferred_domain: values.preferred_domain }),
         ...(values.github_url !== undefined && { github_url: values.github_url }),
         ...(values.linkedin_url !== undefined && { linkedin_url: values.linkedin_url }),
@@ -556,9 +607,9 @@ function RegisterPage() {
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                {["2", "3", "4"].map((s) => (
+                                {["1", "2", "3", "4"].map((s) => (
                                   <SelectItem key={s} value={s}>
-                                    {s} MEMBERS
+                                    {s} {s === "1" ? "MEMBER (SOLO)" : "MEMBERS"}
                                   </SelectItem>
                                 ))}
                               </SelectContent>
@@ -576,18 +627,25 @@ function RegisterPage() {
                       <SystemLabel className="text-primary text-[0.65rem] sm:text-xs">SECTION_02 / MEMBERS</SystemLabel>
                       <div className="h-px flex-1 bg-border/40" />
                     </div>
-                    <p className="mb-3 font-mono text-[0.6rem] sm:text-[0.65rem] tracking-wider text-muted-foreground/70">
-                      TEAM LEADER IS ALREADY COUNTED · ADD REMAINING MEMBERS BELOW
-                    </p>
-                    <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2">
-                      {/* size=2 → leader + 1 additional; size=3 → +2; size=4 → +3 */}
-                      <Field form={form} name="member1" label="ADDITIONAL MEMBER 1" />
-                      {size >= 3 ? <Field form={form} name="member2" label="ADDITIONAL MEMBER 2" /> : null}
-                      {size >= 4 ? <Field form={form} name="member3" label="ADDITIONAL MEMBER 3" /> : null}
-                    </div>
-                    <p className="mt-2.5 font-mono text-[0.6rem] sm:text-[0.65rem] tracking-wider text-muted-foreground/70">
-                      ↑ SLOTS ADJUST WITH TEAM SIZE · LEADER + ABOVE = TOTAL TEAM
-                    </p>
+                    {size === 1 ? (
+                      <div className="rounded-lg border border-primary/20 bg-primary/5 p-4 font-mono text-xs text-muted-foreground">
+                        <span className="font-semibold text-primary">SOLO PARTICIPANT ·</span> The team leader specified in Section 01 is registered as the sole participant. No additional team members are required.
+                      </div>
+                    ) : (
+                      <>
+                        <p className="mb-3 font-mono text-[0.6rem] sm:text-[0.65rem] tracking-wider text-muted-foreground/70">
+                          TEAM LEADER IS ALREADY COUNTED · ADD REMAINING MEMBERS BELOW
+                        </p>
+                        <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2">
+                          <Field form={form} name="member1" label="ADDITIONAL MEMBER 1" />
+                          {size >= 3 ? <Field form={form} name="member2" label="ADDITIONAL MEMBER 2" /> : null}
+                          {size >= 4 ? <Field form={form} name="member3" label="ADDITIONAL MEMBER 3" /> : null}
+                        </div>
+                        <p className="mt-2.5 font-mono text-[0.6rem] sm:text-[0.65rem] tracking-wider text-muted-foreground/70">
+                          ↑ SLOTS ADJUST WITH TEAM SIZE · LEADER + ABOVE = TOTAL TEAM
+                        </p>
+                      </>
+                    )}
                   </div>
 
                   {/* SECTION 03 – PROFILE */}

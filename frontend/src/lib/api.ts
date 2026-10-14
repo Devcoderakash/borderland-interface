@@ -13,6 +13,10 @@ export interface CreateOrderPayload {
   college: string;
   team_size: number;
   ppt_url: string;
+  ppt_storage_path?: string;
+  ppt_file_name?: string;
+  ppt_file_type?: string;
+  ppt_file_size?: number;
   preferred_domain?: string;
   github_url?: string;
   linkedin_url?: string;
@@ -128,6 +132,9 @@ export async function getRegistrationStatus(
 
 export interface UploadPptResponse {
   success: boolean;
+  /** Storage path in Supabase (e.g. "submissions/1234_file.pdf"). NOT a public URL. */
+  storagePath: string;
+  /** Short-lived signed URL for immediate browser preview (1 hour). */
   url: string;
   fileName: string;
   size: number;
@@ -150,4 +157,153 @@ export async function uploadPptFile(file: File): Promise<UploadPptResponse> {
   }
 
   return responseData;
+}
+
+/**
+ * Fetch a fresh 1-hour signed URL for a PPT stored in Supabase Storage.
+ * Used for admin preview; the storagePath comes from the database record.
+ */
+export async function getPptSignedUrl(storagePath: string): Promise<string | null> {
+  const response = await fetch(
+    `${API_BASE_URL}/api/upload/signed-url?path=${encodeURIComponent(storagePath)}`,
+  );
+  if (!response.ok) return null;
+  const json = await response.json();
+  return json.url ?? null;
+}
+
+/**
+ * Admin: get a signed download URL for a specific team's PPT.
+ */
+export async function getAdminPptSignedUrl(teamId: string): Promise<{
+  signedUrl: string;
+  fileName: string;
+  mimeType: string;
+} | null> {
+  const response = await fetch(
+    `${API_BASE_URL}/api/admin/registrations/${encodeURIComponent(teamId)}/ppt-url`,
+  );
+  if (!response.ok) return null;
+  const json = await response.json();
+  return json.data ?? json;
+}
+
+/**
+ * Admin: fetch all registrations from backend (bypasses browser RLS and connects to real DB).
+ */
+export async function getAdminRegistrations(): Promise<any[]> {
+  const response = await fetch(`${API_BASE_URL}/api/admin/registrations`);
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err.error || "Failed to fetch registrations");
+  }
+  const json = await response.json();
+  return json.data ?? json;
+}
+
+/**
+ * Admin: update a team's status (approved, pending, rejected).
+ */
+export async function updateAdminTeamStatus(id: string, status: string): Promise<any> {
+  const response = await fetch(
+    `${API_BASE_URL}/api/admin/teams/${encodeURIComponent(id)}/status`,
+    {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status }),
+    },
+  );
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err.error || "Failed to update team status");
+  }
+  const json = await response.json();
+  return json.data ?? json;
+}
+
+/**
+ * Admin: update full team details.
+ */
+export async function updateAdminTeam(id: string, teamData: any): Promise<any> {
+  const response = await fetch(
+    `${API_BASE_URL}/api/admin/teams/${encodeURIComponent(id)}`,
+    {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(teamData),
+    },
+  );
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err.error || "Failed to update team details");
+  }
+  const json = await response.json();
+  return json.data ?? json;
+}
+
+/**
+ * Admin: delete team registration.
+ */
+export async function deleteAdminTeam(id: string): Promise<any> {
+  const response = await fetch(
+    `${API_BASE_URL}/api/admin/teams/${encodeURIComponent(id)}`,
+    {
+      method: "DELETE",
+    },
+  );
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err.error || "Failed to delete team");
+  }
+  const json = await response.json();
+  return json.data ?? json;
+}
+
+/**
+ * Admin: get aggregate event stats.
+ */
+export async function getAdminStats(): Promise<{
+  totalTeams: number;
+  paidTeams: number;
+  approvedTeams: number;
+  pendingTeams: number;
+  totalParticipants: number;
+}> {
+  const response = await fetch(`${API_BASE_URL}/api/admin/stats`);
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err.error || "Failed to fetch stats");
+  }
+  const json = await response.json();
+  return json.data ?? json;
+}
+
+/**
+ * Admin: get event settings.
+ */
+export async function getAdminSettings(): Promise<any> {
+  const response = await fetch(`${API_BASE_URL}/api/admin/settings`);
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err.error || "Failed to fetch event settings");
+  }
+  const json = await response.json();
+  return json.data ?? json;
+}
+
+/**
+ * Admin: update event settings.
+ */
+export async function updateAdminSettings(settings: any): Promise<any> {
+  const response = await fetch(`${API_BASE_URL}/api/admin/settings`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(settings),
+  });
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err.error || "Failed to update event settings");
+  }
+  const json = await response.json();
+  return json.data ?? json;
 }

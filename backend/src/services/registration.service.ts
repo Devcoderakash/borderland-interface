@@ -12,6 +12,10 @@ export interface RegisterTeamInput {
   college: string;
   team_size: number;
   ppt_url: string;
+  ppt_storage_path?: string;
+  ppt_file_name?: string;
+  ppt_file_type?: string;
+  ppt_file_size?: number;
   preferred_domain?: string;
   github_url?: string;
   linkedin_url?: string;
@@ -20,6 +24,12 @@ export interface RegisterTeamInput {
 
 // Resilient memory cache (ensures app works smoothly even if Supabase schema cache is warming up or table is pending)
 const localTeamStore = new Map<string, any>();
+
+export function getAllStoredTeams(): any[] {
+  return Array.from(localTeamStore.values()).sort(
+    (a, b) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime(),
+  );
+}
 
 export async function createPendingRegistration(payload: RegisterTeamInput) {
   const normEmail = payload.email.trim().toLowerCase();
@@ -66,6 +76,10 @@ export async function createPendingRegistration(payload: RegisterTeamInput) {
       college: payload.college || "",
       team_size: Number(payload.team_size || 2),
       ppt_url: payload.ppt_url || "",
+      ppt_storage_path: payload.ppt_storage_path || null,
+      ppt_file_name: payload.ppt_file_name || null,
+      ppt_file_type: payload.ppt_file_type || null,
+      ppt_file_size: payload.ppt_file_size || null,
       preferred_domain: payload.preferred_domain || null,
       github_url: payload.github_url || null,
       linkedin_url: payload.linkedin_url || null,
@@ -88,6 +102,10 @@ export async function createPendingRegistration(payload: RegisterTeamInput) {
           college: payload.college || "",
           team_size: Number(payload.team_size || 2),
           ppt_url: payload.ppt_url || "",
+          ppt_storage_path: payload.ppt_storage_path || null,
+          ppt_file_name: payload.ppt_file_name || null,
+          ppt_file_type: payload.ppt_file_type || null,
+          ppt_file_size: payload.ppt_file_size || null,
           preferred_domain: payload.preferred_domain || null,
           github_url: payload.github_url || null,
           linkedin_url: payload.linkedin_url || null,
@@ -126,6 +144,10 @@ export async function createPendingRegistration(payload: RegisterTeamInput) {
     team_size: Number(payload.team_size || 2),
     suit: "spades",
     ppt_url: payload.ppt_url || "",
+    ppt_storage_path: payload.ppt_storage_path || null,
+    ppt_file_name: payload.ppt_file_name || null,
+    ppt_file_type: payload.ppt_file_type || null,
+    ppt_file_size: payload.ppt_file_size || null,
     preferred_domain: payload.preferred_domain || null,
     github_url: payload.github_url || null,
     linkedin_url: payload.linkedin_url || null,
@@ -154,6 +176,10 @@ export async function createPendingRegistration(payload: RegisterTeamInput) {
       team_size: Number(payload.team_size || 2),
       suit: "spades",
       ppt_url: payload.ppt_url || "",
+      ppt_storage_path: payload.ppt_storage_path || null,
+      ppt_file_name: payload.ppt_file_name || null,
+      ppt_file_type: payload.ppt_file_type || null,
+      ppt_file_size: payload.ppt_file_size || null,
       preferred_domain: payload.preferred_domain || null,
       github_url: payload.github_url || null,
       linkedin_url: payload.linkedin_url || null,
@@ -199,17 +225,24 @@ export async function attachRazorpayOrder(teamId: string, razorpayOrderId: strin
   }
 }
 
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 export async function getTeamByOrderId(orderId: string) {
   // 1. Try Supabase
   try {
-    const { data: team, error } = await supabase
-      .from("teams")
-      .select("*, team_members(*)")
-      .or(`razorpay_order_id.eq.${orderId},payment_order_id.eq.${orderId},id.eq.${orderId},player_id.eq.${orderId}`)
-      .maybeSingle();
+    const isUuid = UUID_REGEX.test(orderId);
+    let query = supabase.from("teams").select("*, team_members(*)");
+    let res;
+    if (isUuid) {
+      res = await query.or(`id.eq.${orderId},player_id.eq.${orderId}`).maybeSingle();
+    } else {
+      res = await query
+        .or(`razorpay_order_id.eq.${orderId},payment_order_id.eq.${orderId},player_id.eq.${orderId}`)
+        .maybeSingle();
+    }
 
-    if (!error && team) {
-      return team;
+    if (!res.error && res.data) {
+      return res.data;
     }
   } catch (err) {
     // Fall through to memory store
@@ -240,6 +273,7 @@ export async function markTeamPaid(
 ) {
   const now = new Date().toISOString();
   const paymentId = paymentDetails.razorpay_payment_id;
+  const isUuid = UUID_REGEX.test(orderId);
 
   // Update memory store
   for (const team of localTeamStore.values()) {
@@ -260,23 +294,33 @@ export async function markTeamPaid(
 
   // Update Supabase
   try {
-    await supabase
-      .from("teams")
-      .update({
-        payment_status: "paid",
-        payment_id: String(paymentId),
-        razorpay_order_id: paymentDetails.razorpay_order_id,
-        payment_signature: paymentDetails.razorpay_signature || null,
-        paid_at: now,
-        status: "approved",
-      })
-      .or(`razorpay_order_id.eq.${orderId},payment_order_id.eq.${orderId},id.eq.${orderId}`);
+    const updatePayload = {
+      payment_status: "paid",
+      payment_id: String(paymentId),
+      razorpay_order_id: paymentDetails.razorpay_order_id,
+      payment_signature: paymentDetails.razorpay_signature || null,
+      paid_at: now,
+      status: "approved" as const,
+    };
+
+    let query = supabase.from("teams").update(updatePayload);
+    if (isUuid) {
+      const { error } = await query.eq("id", orderId);
+      if (error) console.error("[Registration Service] markTeamPaid UUID error:", error.message);
+    } else {
+      const { error } = await query.or(
+        `razorpay_order_id.eq.${orderId},payment_order_id.eq.${orderId}`,
+      );
+      if (error) console.error("[Registration Service] markTeamPaid orderId error:", error.message);
+    }
   } catch (err: any) {
     console.warn("[Registration Service] markTeamPaid Supabase note:", err.message);
   }
 }
 
 export async function markTeamFailed(orderId: string) {
+  const isUuid = UUID_REGEX.test(orderId);
+
   for (const team of localTeamStore.values()) {
     if (
       team.razorpay_order_id === orderId ||
@@ -289,13 +333,34 @@ export async function markTeamFailed(orderId: string) {
   }
 
   try {
-    await supabase
-      .from("teams")
-      .update({
-        payment_status: "failed",
-      })
-      .or(`razorpay_order_id.eq.${orderId},payment_order_id.eq.${orderId},id.eq.${orderId}`);
+    let query = supabase.from("teams").update({ payment_status: "failed" });
+    if (isUuid) {
+      await query.eq("id", orderId);
+    } else {
+      await query.or(`razorpay_order_id.eq.${orderId},payment_order_id.eq.${orderId}`);
+    }
   } catch (err: any) {
     console.warn("[Registration Service] markTeamFailed note:", err.message);
   }
+}
+
+export function updateStoredTeam(id: string, updates: any): any | null {
+  for (const [key, team] of localTeamStore.entries()) {
+    if (team.id === id || team.player_id === id) {
+      const updated = { ...team, ...updates, updated_at: new Date().toISOString() };
+      localTeamStore.set(key, updated);
+      return updated;
+    }
+  }
+  return null;
+}
+
+export function deleteStoredTeam(id: string): boolean {
+  for (const [key, team] of localTeamStore.entries()) {
+    if (team.id === id || team.player_id === id) {
+      localTeamStore.delete(key);
+      return true;
+    }
+  }
+  return false;
 }

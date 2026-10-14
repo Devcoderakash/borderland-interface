@@ -25,6 +25,10 @@ const registrationSchema = z.object({
   college: z.string().optional().default(""),
   team_size: z.coerce.number().min(1).max(5).default(2),
   ppt_url: z.string().optional().default(""),
+  ppt_storage_path: z.string().optional(),
+  ppt_file_name: z.string().optional(),
+  ppt_file_type: z.string().optional(),
+  ppt_file_size: z.coerce.number().optional(),
   preferred_domain: z.string().optional(),
   github_url: z.string().optional(),
   linkedin_url: z.string().optional(),
@@ -60,7 +64,13 @@ export async function createOrder(req: Request, res: Response) {
     const payload = parseResult.data;
 
     // 1. Create or retrieve pending record in Supabase
-    const { teamId, playerId, cleanId } = await createPendingRegistration(payload);
+    const { teamId, playerId, cleanId } = await createPendingRegistration({
+      ...payload,
+      ppt_storage_path: payload.ppt_storage_path,
+      ppt_file_name: payload.ppt_file_name,
+      ppt_file_type: payload.ppt_file_type,
+      ppt_file_size: payload.ppt_file_size,
+    });
 
     // 2. Generate Razorpay order on server (amount always calculated server-side)
     const receipt = `rcpt_${cleanId.slice(0, 10)}_${Date.now().toString().slice(-4)}`;
