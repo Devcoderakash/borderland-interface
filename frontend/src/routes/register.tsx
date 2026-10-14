@@ -287,7 +287,10 @@ function RegisterPage() {
         throw new Error("Unable to load Razorpay payment SDK. Please check your internet connection.");
       }
 
-      const keyId = orderData.keyId || import.meta.env.VITE_RAZORPAY_KEY_ID;
+      const keyId =
+        orderData.keyId ||
+        import.meta.env.VITE_RAZORPAY_KEY_ID ||
+        "rzp_test_TkxgPDyek4ZYAe";
 
       if (!keyId || !window.Razorpay) {
         // Fallback simulation if no test key configured yet

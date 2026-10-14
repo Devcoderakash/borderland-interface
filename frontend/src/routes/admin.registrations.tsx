@@ -333,7 +333,7 @@ function Registrations() {
                         className="inline-flex items-center gap-1 rounded-md border border-border/60 bg-card/40 px-2 py-1 font-mono text-xs text-muted-foreground transition hover:border-primary/50 hover:text-primary"
                         onClick={async () => {
                           try {
-                            const result = await getAdminPptSignedUrl(t.id);
+                            const result = await getAdminPptSignedUrl(t.id, t.ppt_storage_path || t.ppt_url);
                             if (result?.signedUrl) {
                               window.open(result.signedUrl, "_blank", "noopener,noreferrer");
                             } else {
