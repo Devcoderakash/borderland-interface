@@ -67,7 +67,7 @@ export async function createOrder(
   }
 
   // Direct Supabase Registration
-  const keyId = import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_TkxgPDyek4ZYAe";
+  const keyId = (import.meta.env.VITE_RAZORPAY_KEY_ID as string) || "rzp_test_TkxgPDyek4ZYAe";
   const orderId = `order_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
   const randomSuffix = Math.floor(1000 + Math.random() * 9000);
   const playerIdFallback = `APEX-${randomSuffix}`;
@@ -370,7 +370,7 @@ export async function getPptSignedUrl(storagePath: string): Promise<string | nul
  */
 export async function getAdminPptSignedUrl(
   teamId: string,
-  storagePath?: string,
+  storagePath?: string | null,
 ): Promise<{
   signedUrl: string;
   fileName: string;

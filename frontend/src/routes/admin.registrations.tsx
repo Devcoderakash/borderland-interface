@@ -53,6 +53,7 @@ type Team = {
   payment_amount?: number;
   ppt_storage_path?: string | null;
   ppt_file_name?: string | null;
+  ppt_url?: string | null;
 };
 
 export const Route = createFileRoute("/admin/registrations")({
