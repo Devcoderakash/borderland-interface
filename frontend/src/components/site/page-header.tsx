@@ -14,7 +14,7 @@ export function PageHeader({
   children?: ReactNode;
 }) {
   return (
-    <section className="scanlines relative overflow-x-clip void-bg px-4 pt-20 pb-6 sm:px-8 sm:pt-32 md:pt-36">
+    <section className="scanlines relative overflow-hidden w-full max-w-full void-bg px-4 pt-20 pb-6 sm:px-8 sm:pt-32 md:pt-36">
       <div className="grid-veil pointer-events-none absolute inset-0" aria-hidden />
       <div className="grain pointer-events-none absolute inset-0" aria-hidden />
 

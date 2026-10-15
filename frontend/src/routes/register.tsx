@@ -442,13 +442,13 @@ function RegisterPage() {
         subtitle="Form your 1–4 member team and upload your idea presentation (PPT/PDF). ₹199 entry fee applies for Round 1."
       />
 
-      <Section className="pt-4 pb-14 sm:py-20 md:py-28 px-3 sm:px-8">
-        <Reveal>
+      <Section className="pt-4 pb-14 sm:py-20 md:py-28 px-3 sm:px-8 max-w-full overflow-hidden">
+        <Reveal className="w-full min-w-0 max-w-full">
           {/* ── two-column layout: form on top on mobile (order-1), instructions below (order-2) ── */}
-          <div className="grid gap-8 lg:gap-10 lg:grid-cols-[1fr_2fr]">
+          <div className="flex flex-col lg:grid lg:grid-cols-[1fr_2fr] gap-8 lg:gap-10 w-full min-w-0 max-w-full">
 
             {/* ── INSTRUCTIONS SIDEBAR: on mobile placed below form (order-2); on desktop left column (lg:order-1) ── */}
-            <aside className="order-2 lg:order-1 flex flex-col gap-4 sm:gap-6 mt-4 lg:mt-0">
+            <aside className="order-2 lg:order-1 flex flex-col gap-4 sm:gap-6 mt-4 lg:mt-0 w-full min-w-0 max-w-full">
 
               {/* Mobile divider heading */}
               <div className="lg:hidden flex items-center gap-3 pt-2">
@@ -475,11 +475,11 @@ function RegisterPage() {
                 <SystemLabel className="mb-3 sm:mb-4 text-primary">EVENT DETAILS</SystemLabel>
                 <div className="grid grid-cols-2 gap-2 sm:gap-3">
                   {QUICK_FACTS.map((f) => (
-                    <div key={f.label} className="rounded-lg border border-border/40 bg-muted/20 p-2.5 sm:p-3">
-                      <p className="font-mono text-[0.55rem] sm:text-[0.6rem] tracking-[0.15em] text-muted-foreground">
+                    <div key={f.label} className="rounded-lg border border-border/40 bg-muted/20 p-2.5 sm:p-3 min-w-0">
+                      <p className="font-mono text-[0.55rem] sm:text-[0.6rem] tracking-[0.15em] text-muted-foreground truncate">
                         {f.label}
                       </p>
-                      <p className="mt-1 font-mono text-[0.7rem] sm:text-xs font-semibold text-foreground">
+                      <p className="mt-1 font-mono text-[0.7rem] sm:text-xs font-semibold text-foreground truncate">
                         {f.value}
                       </p>
                     </div>
@@ -494,7 +494,7 @@ function RegisterPage() {
                   {CHECKLIST.map(({ icon: Icon, text }) => (
                     <li key={text} className="flex items-start gap-2.5 sm:gap-3">
                       <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-primary" />
-                      <span className="text-xs sm:text-sm text-muted-foreground">{text}</span>
+                      <span className="text-xs sm:text-sm text-muted-foreground break-words">{text}</span>
                     </li>
                   ))}
                 </ul>
@@ -504,13 +504,13 @@ function RegisterPage() {
               <div className="glass-panel rounded-xl p-4 sm:p-5">
                 <SystemLabel className="mb-2.5 sm:mb-3 text-primary">OPTIONAL BUT RECOMMENDED</SystemLabel>
                 <div className="flex flex-col gap-2">
-                  <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
+                  <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground min-w-0">
                     <Github className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary/70 shrink-0" />
-                    <span>Add your GitHub to showcase prior work</span>
+                    <span className="truncate">Add your GitHub to showcase prior work</span>
                   </div>
-                  <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
+                  <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground min-w-0">
                     <Linkedin className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary/70 shrink-0" />
-                    <span>Add LinkedIn for post-event networking</span>
+                    <span className="truncate">Add LinkedIn for post-event networking</span>
                   </div>
                 </div>
               </div>
@@ -523,7 +523,7 @@ function RegisterPage() {
                     <p className="font-mono text-xs font-semibold tracking-widest text-amber-400">
                       ENTRY FEE — ₹199
                     </p>
-                    <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
+                    <p className="mt-1 text-xs text-muted-foreground leading-relaxed break-words">
                       Instant online payment via Razorpay upon clicking register. Your team ID
                       and entry are verified immediately.
                     </p>
@@ -539,40 +539,40 @@ function RegisterPage() {
                     href="/rules"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-between hover:text-primary transition-colors py-1 border-b border-border/40"
+                    className="flex items-center justify-between hover:text-primary transition-colors py-1 border-b border-border/40 min-w-0"
                   >
-                    <span>Hackathon Rules & Scoring</span>
-                    <ExternalLink className="h-3.5 w-3.5" />
+                    <span className="truncate">Hackathon Rules & Scoring</span>
+                    <ExternalLink className="h-3.5 w-3.5 shrink-0" />
                   </a>
                   <a
                     href="/terms"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-between hover:text-primary transition-colors py-1 border-b border-border/40"
+                    className="flex items-center justify-between hover:text-primary transition-colors py-1 border-b border-border/40 min-w-0"
                   >
-                    <span>Terms & Conditions</span>
-                    <ExternalLink className="h-3.5 w-3.5" />
+                    <span className="truncate">Terms & Conditions</span>
+                    <ExternalLink className="h-3.5 w-3.5 shrink-0" />
                   </a>
                   <a
                     href="/privacy"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-between hover:text-primary transition-colors py-1"
+                    className="flex items-center justify-between hover:text-primary transition-colors py-1 min-w-0"
                   >
-                    <span>Privacy Policy</span>
-                    <ExternalLink className="h-3.5 w-3.5" />
+                    <span className="truncate">Privacy Policy</span>
+                    <ExternalLink className="h-3.5 w-3.5 shrink-0" />
                   </a>
                 </div>
               </div>
             </aside>
 
             {/* ── REGISTRATION FORM: on mobile placed at the TOP (order-1); on desktop right column (lg:order-2) ── */}
-            <div className="order-1 lg:order-2 min-w-0">
+            <div className="order-1 lg:order-2 w-full min-w-0 max-w-full">
               {/* Steps indicator */}
-              <div className="mb-5 sm:mb-6 flex items-center justify-between w-full max-w-sm sm:max-w-md mx-auto sm:mx-0 px-1">
+              <div className="mb-5 sm:mb-6 flex items-center justify-between w-full max-w-sm sm:max-w-md mx-auto sm:mx-0 px-1 min-w-0">
                 {FORM_STEPS.map((step, i) => (
-                  <div key={step.id} className="flex items-center flex-1 last:flex-none">
-                    <div className="flex flex-col items-center">
+                  <div key={step.id} className="flex items-center flex-1 last:flex-none min-w-0">
+                    <div className="flex flex-col items-center shrink-0">
                       <div className="flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full border border-primary/60 bg-primary/10">
                         <span className="font-mono text-[0.55rem] sm:text-[0.6rem] text-primary">{step.id}</span>
                       </div>
@@ -590,11 +590,11 @@ function RegisterPage() {
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="glass-panel grid gap-5 sm:gap-8 rounded-xl p-3.5 sm:p-6 md:p-8"
+                  className="glass-panel grid gap-5 sm:gap-8 rounded-xl p-3 sm:p-6 md:p-8 w-full min-w-0 max-w-full overflow-hidden"
                   noValidate
                 >
                   {/* SECTION 01 – TEAM */}
-                  <div>
+                  <div className="w-full min-w-0 max-w-full">
                     <div className="mb-3.5 sm:mb-4 flex items-center gap-2.5 sm:gap-3">
                       <SystemLabel className="text-primary text-[0.65rem] sm:text-xs shrink-0">SECTION_01 / TEAM</SystemLabel>
                       <div className="h-px flex-1 bg-border/40" />
@@ -609,11 +609,11 @@ function RegisterPage() {
                         control={form.control}
                         name="team_size"
                         render={({ field }) => (
-                          <FormItem>
+                          <FormItem className="min-w-0 w-full">
                             <FormLabel className="system-label text-[0.65rem] sm:text-xs">TEAM SIZE</FormLabel>
                             <Select onValueChange={field.onChange} value={field.value}>
                               <FormControl>
-                                <SelectTrigger className="h-10 text-sm">
+                                <SelectTrigger className="h-10 text-sm min-w-0 w-full">
                                   <SelectValue />
                                 </SelectTrigger>
                               </FormControl>
@@ -625,7 +625,7 @@ function RegisterPage() {
                                 ))}
                               </SelectContent>
                             </Select>
-                            <FormMessage />
+                            <FormMessage className="text-xs break-words" />
                           </FormItem>
                         )}
                       />
@@ -633,18 +633,18 @@ function RegisterPage() {
                   </div>
 
                   {/* SECTION 02 – MEMBERS */}
-                  <div>
+                  <div className="w-full min-w-0 max-w-full">
                     <div className="mb-3.5 sm:mb-4 flex items-center gap-2.5 sm:gap-3">
                       <SystemLabel className="text-primary text-[0.65rem] sm:text-xs shrink-0">SECTION_02 / MEMBERS</SystemLabel>
                       <div className="h-px flex-1 bg-border/40" />
                     </div>
                     {size === 1 ? (
-                      <div className="rounded-lg border border-primary/20 bg-primary/5 p-3.5 sm:p-4 font-mono text-xs text-muted-foreground leading-relaxed">
+                      <div className="rounded-lg border border-primary/20 bg-primary/5 p-3.5 sm:p-4 font-mono text-xs text-muted-foreground leading-relaxed break-words">
                         <span className="font-semibold text-primary">SOLO PARTICIPANT ·</span> The team leader specified in Section 01 is registered as the sole participant. No additional team members are required.
                       </div>
                     ) : (
                       <>
-                        <p className="mb-3 font-mono text-[0.6rem] sm:text-[0.65rem] tracking-wider text-muted-foreground/70">
+                        <p className="mb-3 font-mono text-[0.6rem] sm:text-[0.65rem] tracking-wider text-muted-foreground/70 break-words">
                           TEAM LEADER IS ALREADY COUNTED · ADD REMAINING MEMBERS BELOW
                         </p>
                         <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2">
@@ -652,7 +652,7 @@ function RegisterPage() {
                           {size >= 3 ? <Field form={form} name="member2" label="ADDITIONAL MEMBER 2" placeholder="Member name" /> : null}
                           {size >= 4 ? <Field form={form} name="member3" label="ADDITIONAL MEMBER 3" placeholder="Member name" /> : null}
                         </div>
-                        <p className="mt-2.5 font-mono text-[0.6rem] sm:text-[0.65rem] tracking-wider text-muted-foreground/70">
+                        <p className="mt-2.5 font-mono text-[0.6rem] sm:text-[0.65rem] tracking-wider text-muted-foreground/70 break-words">
                           ↑ SLOTS ADJUST WITH TEAM SIZE · LEADER + ABOVE = TOTAL TEAM
                         </p>
                       </>
@@ -660,7 +660,7 @@ function RegisterPage() {
                   </div>
 
                   {/* SECTION 03 – PROFILE */}
-                  <div>
+                  <div className="w-full min-w-0 max-w-full">
                     <div className="mb-3.5 sm:mb-4 flex items-center gap-2.5 sm:gap-3">
                       <SystemLabel className="text-primary text-[0.65rem] sm:text-xs shrink-0">SECTION_03 / PROFILE</SystemLabel>
                       <div className="h-px flex-1 bg-border/40" />
@@ -676,7 +676,7 @@ function RegisterPage() {
                   </div>
 
                   {/* SECTION 04 – IDEA SUBMISSION (UPLOAD) */}
-                  <div>
+                  <div className="w-full min-w-0 max-w-full">
                     <div className="mb-3.5 sm:mb-4 flex items-center gap-2.5 sm:gap-3">
                       <SystemLabel className="text-primary text-[0.65rem] sm:text-xs shrink-0">
                         SECTION_04 / IDEA UPLOAD
@@ -688,21 +688,21 @@ function RegisterPage() {
                       control={form.control}
                       name="ppt_url"
                       render={() => (
-                        <FormItem>
-                          <FormLabel className="font-mono text-[0.7rem] sm:text-xs tracking-wider text-muted-foreground uppercase flex flex-wrap items-center justify-between gap-1">
-                            <span>UPLOAD PPT / PDF PRESENTATION *</span>
-                            <span className="text-[0.65rem] text-primary/80 lowercase">
+                        <FormItem className="w-full min-w-0 max-w-full">
+                          <FormLabel className="font-mono text-[0.7rem] sm:text-xs tracking-wider text-muted-foreground uppercase flex flex-col sm:flex-row sm:items-center justify-between gap-1 w-full min-w-0">
+                            <span className="break-words">UPLOAD PPT / PDF PRESENTATION *</span>
+                            <span className="text-[0.65rem] text-primary/80 lowercase shrink-0">
                               .pdf, .ppt, .pptx (max 20mb)
                             </span>
                           </FormLabel>
 
                           <FormControl>
-                            <div className="mt-2">
+                            <div className="mt-2 w-full min-w-0 max-w-full">
                               {!uploadedFile ? (
                                 <label
                                   htmlFor="ppt-file-input"
                                   className={cn(
-                                    "relative flex flex-col items-center justify-center rounded-xl border border-dashed border-border/80 bg-card/40 p-5 sm:p-8 text-center cursor-pointer transition-all duration-200 hover:border-primary/60 hover:bg-card/70 group active:scale-[0.99]",
+                                    "relative flex flex-col items-center justify-center rounded-xl border border-dashed border-border/80 bg-card/40 p-4 sm:p-8 text-center cursor-pointer transition-all duration-200 hover:border-primary/60 hover:bg-card/70 group active:scale-[0.99] w-full min-w-0 max-w-full overflow-hidden",
                                     isUploading && "pointer-events-none opacity-60",
                                     form.formState.errors.ppt_url && "border-destructive/60"
                                   )}
@@ -715,35 +715,35 @@ function RegisterPage() {
                                     disabled={isUploading}
                                     onChange={handleFileSelect}
                                   />
-                                  <div className="grid h-11 w-11 sm:h-12 sm:w-12 place-items-center rounded-full border border-primary/30 bg-primary/10 text-primary transition-transform duration-200 group-hover:scale-110">
+                                  <div className="grid h-10 w-10 sm:h-12 sm:w-12 place-items-center rounded-full border border-primary/30 bg-primary/10 text-primary transition-transform duration-200 group-hover:scale-110">
                                     {isUploading ? (
                                       <Loader2 className="h-5 w-5 sm:h-6 sm:w-6 animate-spin text-primary" />
                                     ) : (
                                       <UploadCloud className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                                     )}
                                   </div>
-                                  <p className="mt-2.5 sm:mt-3 text-xs sm:text-sm font-medium text-foreground">
+                                  <p className="mt-2.5 sm:mt-3 text-xs sm:text-sm font-medium text-foreground px-2 break-words">
                                     {isUploading ? "Uploading presentation to Supabase Storage..." : "Tap to select or drop presentation"}
                                   </p>
-                                  <p className="mt-1 text-[0.7rem] sm:text-xs text-muted-foreground">
+                                  <p className="mt-1 text-[0.7rem] sm:text-xs text-muted-foreground px-2 break-words">
                                     Accepted formats: PPT, PPTX, or PDF · Max file size: 20MB
                                   </p>
-                                  <div className="mt-2.5 sm:mt-3 inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/50 px-2.5 sm:px-3 py-1 font-mono text-[0.6rem] sm:text-[0.65rem] text-muted-foreground">
+                                  <div className="mt-2.5 sm:mt-3 inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/50 px-2.5 sm:px-3 py-1 font-mono text-[0.6rem] sm:text-[0.65rem] text-muted-foreground max-w-full">
                                     <Database className="h-3 w-3 text-primary shrink-0" />
-                                    <span>Stored securely in Supabase Cloud Storage</span>
+                                    <span className="truncate">Stored securely in Supabase Cloud Storage</span>
                                   </div>
                                 </label>
                               ) : (
-                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl border border-primary/40 bg-card/60 p-3.5 sm:p-4">
-                                  <div className="flex items-center gap-3 min-w-0">
-                                    <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-primary/40 bg-primary/15 text-primary">
-                                      <FileCheck className="h-5 w-5" />
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl border border-primary/40 bg-card/60 p-3 sm:p-4 w-full min-w-0 max-w-full overflow-hidden">
+                                  <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1 overflow-hidden">
+                                    <div className="grid h-9 w-9 sm:h-10 sm:w-10 shrink-0 place-items-center rounded-lg border border-primary/40 bg-primary/15 text-primary">
+                                      <FileCheck className="h-4 w-4 sm:h-5 sm:w-5" />
                                     </div>
-                                    <div className="min-w-0 flex-1">
-                                      <p className="truncate text-xs sm:text-sm font-semibold text-foreground">
+                                    <div className="min-w-0 flex-1 overflow-hidden">
+                                      <p className="truncate text-xs sm:text-sm font-semibold text-foreground block max-w-full" title={uploadedFile.name}>
                                         {uploadedFile.name}
                                       </p>
-                                      <p className="font-mono text-[0.65rem] sm:text-xs text-muted-foreground truncate">
+                                      <p className="font-mono text-[0.65rem] sm:text-xs text-muted-foreground truncate block">
                                         {formatBytes(uploadedFile.size)} · Saved to Supabase
                                       </p>
                                     </div>
@@ -754,7 +754,7 @@ function RegisterPage() {
                                       href={uploadedFile.url}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="inline-flex items-center gap-1 rounded-md border border-border/60 bg-card/40 px-2.5 py-1.5 font-mono text-xs text-muted-foreground transition hover:border-primary/50 hover:text-primary min-h-[36px]"
+                                      className="inline-flex items-center justify-center gap-1 rounded-md border border-border/60 bg-card/40 px-2.5 py-1.5 font-mono text-xs text-muted-foreground transition hover:border-primary/50 hover:text-primary min-h-[36px] flex-1 sm:flex-none"
                                     >
                                       <ExternalLink className="h-3 w-3" />
                                       Preview
@@ -764,7 +764,7 @@ function RegisterPage() {
                                       variant="ghost"
                                       size="sm"
                                       onClick={handleRemoveFile}
-                                      className="h-9 px-2.5 font-mono text-xs text-destructive hover:bg-destructive/10"
+                                      className="h-9 px-2.5 font-mono text-xs text-destructive hover:bg-destructive/10 flex-1 sm:flex-none"
                                     >
                                       <X className="h-3.5 w-3.5 mr-1" />
                                       Change
@@ -774,18 +774,18 @@ function RegisterPage() {
                               )}
 
                               {uploadError && (
-                                <p className="mt-2 font-mono text-xs text-destructive flex items-center gap-1.5">
+                                <p className="mt-2 font-mono text-xs text-destructive flex items-center gap-1.5 break-words">
                                   <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
-                                  {uploadError}
+                                  <span>{uploadError}</span>
                                 </p>
                               )}
                             </div>
                           </FormControl>
-                          <FormMessage className="font-mono text-[0.7rem]" />
+                          <FormMessage className="font-mono text-[0.7rem] break-words" />
                         </FormItem>
                       )}
                     />
-                    <p className="mt-2 text-[0.7rem] sm:text-xs text-muted-foreground leading-relaxed">
+                    <p className="mt-2 text-[0.7rem] sm:text-xs text-muted-foreground leading-relaxed break-words">
                       Upload your idea presentation (PPT or PDF). It will be securely stored in Supabase and evaluated by the official judging panel for Round 1 shortlisting.
                     </p>
                   </div>
@@ -794,11 +794,11 @@ function RegisterPage() {
                   <div className="h-px bg-border/40" />
 
                   {/* Rules & Guidelines Summary Card */}
-                  <div className="rounded-xl border border-primary/30 bg-card/40 p-3.5 sm:p-5">
+                  <div className="rounded-xl border border-primary/30 bg-card/40 p-3 sm:p-5 w-full min-w-0 max-w-full overflow-hidden">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-2 mb-3">
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 min-w-0">
                         <Shield className="h-4 w-4 text-primary shrink-0" />
-                        <span className="font-mono text-[0.7rem] sm:text-xs font-bold tracking-wider text-foreground">
+                        <span className="font-mono text-[0.7rem] sm:text-xs font-bold tracking-wider text-foreground truncate">
                           APEX 1.0 PROTOCOL & RULES SUMMARY
                         </span>
                       </div>
@@ -806,33 +806,33 @@ function RegisterPage() {
                         href="/rules"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-mono text-[0.65rem] text-primary hover:underline flex items-center gap-1 self-start sm:self-auto"
+                        className="font-mono text-[0.65rem] text-primary hover:underline flex items-center gap-1 self-start sm:self-auto shrink-0"
                       >
                         FULL GUIDELINES & SCORING <ExternalLink className="h-3 w-3" />
                       </a>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5 text-xs text-muted-foreground">
-                      <div className="flex items-start gap-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5 text-xs text-muted-foreground break-words">
+                      <div className="flex items-start gap-2 min-w-0">
                         <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
-                        <span><strong className="text-foreground">Team Size:</strong> 1–4 members (Leader + up to 3).</span>
+                        <span className="break-words"><strong className="text-foreground">Team Size:</strong> 1–4 members (Leader + up to 3).</span>
                       </div>
-                      <div className="flex items-start gap-2">
+                      <div className="flex items-start gap-2 min-w-0">
                         <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
-                        <span><strong className="text-foreground">Round 1 Online:</strong> PPT/PDF idea review. ₹199 per team.</span>
+                        <span className="break-words"><strong className="text-foreground">Round 1 Online:</strong> PPT/PDF idea review. ₹199 per team.</span>
                       </div>
-                      <div className="flex items-start gap-2">
+                      <div className="flex items-start gap-2 min-w-0">
                         <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
-                        <span><strong className="text-foreground">Round 2 Offline:</strong> Shortlisted teams pitch in Bhopal.</span>
+                        <span className="break-words"><strong className="text-foreground">Round 2 Offline:</strong> Shortlisted teams pitch in Bhopal.</span>
                       </div>
-                      <div className="flex items-start gap-2">
+                      <div className="flex items-start gap-2 min-w-0">
                         <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
-                        <span><strong className="text-foreground">Technology & AI:</strong> Open tools; solution must be original.</span>
+                        <span className="break-words"><strong className="text-foreground">Technology & AI:</strong> Open tools; solution must be original.</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Terms & Policies Acceptance */}
-                  <div className="flex items-start gap-3">
+                  <div className="flex items-start gap-3 w-full min-w-0">
                     <Checkbox
                       id="terms"
                       checked={terms === true}
@@ -842,8 +842,8 @@ function RegisterPage() {
                       aria-label="Accept terms and conditions"
                       className="mt-1 shrink-0"
                     />
-                    <div>
-                      <label htmlFor="terms" className="text-xs sm:text-sm text-muted-foreground cursor-pointer leading-relaxed">
+                    <div className="min-w-0 flex-1">
+                      <label htmlFor="terms" className="text-xs sm:text-sm text-muted-foreground cursor-pointer leading-relaxed break-words block">
                         I and my team members have read and agree to the{" "}
                         <a href="/rules" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2 hover:text-primary/80 font-medium">
                           Official Rules
@@ -859,7 +859,7 @@ function RegisterPage() {
                         .
                       </label>
                       {form.formState.errors.terms ? (
-                        <p className="mt-1 font-mono text-[0.7rem] text-destructive">
+                        <p className="mt-1 font-mono text-[0.7rem] text-destructive break-words">
                           {form.formState.errors.terms.message}
                         </p>
                       ) : null}
@@ -867,24 +867,26 @@ function RegisterPage() {
                   </div>
 
                   {/* Submit */}
-                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pt-2">
-                    <p className="font-mono text-[0.6rem] sm:text-[0.65rem] tracking-wider text-muted-foreground/70 order-2 sm:order-1 text-center sm:text-left">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pt-2 w-full min-w-0">
+                    <p className="font-mono text-[0.6rem] sm:text-[0.65rem] tracking-wider text-muted-foreground/70 order-2 sm:order-1 text-center sm:text-left break-words">
                       ALL FIELDS MARKED ARE REQUIRED · REVIEW BEFORE SUBMITTING
                     </p>
                     <Button
                       type="submit"
                       size="lg"
                       disabled={submitting}
-                      className="group glow-primary font-mono text-xs sm:text-sm tracking-[0.2em] w-full sm:w-auto min-h-[48px] sm:min-h-[44px] order-1 sm:order-2 transition-all duration-200"
+                      className="group glow-primary font-mono text-xs sm:text-sm tracking-wider sm:tracking-[0.2em] w-full sm:w-auto min-h-[48px] sm:min-h-[44px] px-4 sm:px-8 whitespace-normal sm:whitespace-nowrap order-1 sm:order-2 transition-all duration-200"
                     >
                       {submitting ? (
-                        <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" /> PROCESSING…
-                        </>
+                        <span className="flex items-center justify-center gap-2">
+                          <Loader2 className="h-4 w-4 animate-spin shrink-0" />
+                          <span>PROCESSING…</span>
+                        </span>
                       ) : (
-                        <>
-                          REGISTER & PAY ₹199 <span className="inline-block transition-transform duration-200 group-hover:translate-x-1">&rarr;</span>
-                        </>
+                        <span className="flex items-center justify-center gap-1.5 sm:gap-2 text-center">
+                          <span>REGISTER & PAY ₹199</span>
+                          <span className="inline-block transition-transform duration-200 group-hover:translate-x-1 shrink-0">&rarr;</span>
+                        </span>
                       )}
                     </Button>
                   </div>
@@ -916,18 +918,18 @@ function Field({
       control={form.control}
       name={name}
       render={({ field }) => (
-        <FormItem>
-          <FormLabel className="system-label text-[0.65rem] sm:text-xs">{label}</FormLabel>
+        <FormItem className="min-w-0 w-full">
+          <FormLabel className="system-label text-[0.65rem] sm:text-xs truncate block">{label}</FormLabel>
           <FormControl>
             <Input
               {...field}
               value={typeof field.value === "string" ? field.value : ""}
               type={type}
               placeholder={placeholder}
-              className="h-10 text-sm"
+              className="h-10 text-sm min-w-0 w-full"
             />
           </FormControl>
-          <FormMessage className="text-xs" />
+          <FormMessage className="text-xs break-words" />
         </FormItem>
       )}
     />

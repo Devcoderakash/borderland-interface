@@ -25,7 +25,7 @@ export function Reveal({
   const reduced = useReducedMotion();
   return (
     <motion.div
-      className={className}
+      className={cn("w-full min-w-0", className)}
       initial={reduced ? { opacity: 1, y: 0 } : { opacity: 0, y: 22 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
@@ -73,8 +73,8 @@ export function Section({
   className?: string;
 }) {
   return (
-    <section id={id} className={cn("relative px-4 py-12 sm:px-8 sm:py-20 md:py-28 overflow-x-clip scroll-mt-20 sm:scroll-mt-24", className)}>
-      <div className="mx-auto w-full max-w-6xl">{children}</div>
+    <section id={id} className={cn("relative px-4 py-12 sm:px-8 sm:py-20 md:py-28 overflow-x-hidden w-full max-w-full min-w-0 scroll-mt-20 sm:scroll-mt-24", className)}>
+      <div className="mx-auto w-full max-w-6xl min-w-0">{children}</div>
     </section>
   );
 }
